@@ -9,7 +9,7 @@ namespace Targil0
         {
             Welcome6181();
             Welcome8941();
-
+            
         }
         static partial void Welcome8941();
         private static void Welcome6181()
