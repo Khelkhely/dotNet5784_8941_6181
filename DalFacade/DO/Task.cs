@@ -1,13 +1,21 @@
 ﻿namespace DO;
 /// <summary>
-/// task entity represents a task and information about it
+/// 
 /// </summary>
-/// <param name="Id">
-/// <param name="Alias">unique id of task</param>
+/// <param name="Id"></param>
+/// <param name="Alias"></param>
 /// <param name="Description"></param>
 /// <param name="CreatedAtDate"></param>
 /// <param name="RequiredEffortTime"></param>
-/// ...
+/// <param name="IsMilestone"></param>
+/// <param name="Complexity"></param>
+/// <param name="StartDate"></param>
+/// <param name="ScheduledDate"></param>
+/// <param name="DeadlineDate"></param>
+/// <param name="CompleteDate"></param>
+/// <param name="Deliverables"></param>
+/// <param name="Remarks"></param>
+/// <param name="EngineerId"></param>
 public record Task
 (
     int Id,
