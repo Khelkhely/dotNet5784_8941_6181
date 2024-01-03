@@ -16,6 +16,3 @@ public enum Status
     InJeopardy,
     Done
 }
-
-
-
