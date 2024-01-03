@@ -16,9 +16,3 @@ public enum Status
     InJeopardy,
     Done
 }
-public enum EngineerExperience
-{
-    Expert
-}
-
-
