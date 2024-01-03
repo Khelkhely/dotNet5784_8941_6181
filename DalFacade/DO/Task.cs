@@ -31,7 +31,7 @@ public record Task
     string? Deliverables = null,
     string? Remarks = null,
     int EngineerId = 0,
-    DO.EngineerExperience Complexity = Beginner
+    DO.EngineerExperience Complexity = EngineerExperience.Beginner
 )
 {
     public Task() : this(0) { } //empty ctor
