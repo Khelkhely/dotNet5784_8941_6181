@@ -9,7 +9,7 @@
 /// <param name="CreatedAtDate">Date when the task was added to the system</param>
 /// <param name="ScheduledDate">planned date to start the task</param>
 /// <param name="StartDate">actual starting date</param>
-/// <param name="RequiredEffortTime">how much time is needed for the task</param>
+/// <param name="RequiredEffortTime">number of work days needed for the task</param>
 /// <param name="DeadlineDate">last possible completion date</param>
 /// <param name="CompleteDate">actual completion date</param>
 /// <param name="Deliverables">product of the task</param>
@@ -25,7 +25,7 @@ public record Task
     DateTime? CreatedAtDate = null,
     DateTime? ScheduledDate = null,
     DateTime? StartDate = null,
-    TimeSpan? RequiredEffortTime = null,
+    int? RequiredEffortTime = null,
     DateTime? DeadlineDate = null,
     DateTime? CompleteDate = null,
     string? Deliverables = null,
