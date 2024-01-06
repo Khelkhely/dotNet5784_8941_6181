@@ -10,7 +10,29 @@ public static class Initialization
     private static readonly Random s_rand = new();
     private static void createTasks()
     {
-        string[] TaskDescriptions = { };
+        string[] TaskDescriptions =
+        {
+            "תכנון וחלוקת משימות בין צוותים",
+            "הכנת ממשקים לשכבה 1",
+            "מימוש הממשקים של שכבה 1",
+            "כתיבת תוכנית ראשית לבדיקת שכבה 1",
+            "בדיקת שכבה 1",
+            "תיקון באגים בשכבה 1",
+            "כתיבת תיעוד לשכבה 1",
+            "הכנת ממשקים לשכבה 2",
+            "מימוש הממשקים של שכבה 2",
+            "כתיבת תוכנית ראשית לבדיקת שכבה 2",
+            "בדיקת שכבה 2",
+            "תיקון באגים בשכבה 2",
+            "כתיבת תיעוד לשכבה 2",
+            "הכנת ממשקים לשכבה 3",
+            "מימוש הממשקים של שכבה 3",
+            "כתיבת תוכנית ראשית לבדיקת שכבה 3",
+            "בדיקת שכבה 3",
+            "תיקון באגים בשכבה 3",
+            "כתיבת תיעוד לשכבה 3",
+            "בדיקה של כל השכבות ביחד"            
+        };
         string[] TaskDeliverables = { };
         string[] TaskRemarks = { };
         for (int i = 0; i < 20; i++) 
@@ -19,25 +41,9 @@ public static class Initialization
             DateTime earliest = new DateTime(1995, 1, 1);
             int range = (DateTime.Today - earliest).Days;
             DateTime created = earliest.AddDays(s_rand.Next(range));
-            range = (DateTime.Today - created).Days;
-            DateTime scheduled = created.AddDays(s_rand.Next(range));
-            range = (DateTime.Today - scheduled).Days;
-            DateTime started = scheduled.AddDays(s_rand.Next(range));
-            range = (DateTime.Today - started).Days;
-            DateTime completed = started.AddDays(s_rand.Next(range));
-            range = (DateTime.Today - completed).Days;
-            DateTime deadline = completed.AddDays(s_rand.Next(range));
-            int required = (deadline - created).Days;
            
             EngineerExperience complexity = (EngineerExperience)(s_rand.Next() % 5);
-            int id = 0;
-            if (s_dalEngineer!.ReadAll().Count != 0)
-            {
-                while (s_dalEngineer!.ReadAll().Find(x => x.Level >= complexity) is null)
-                    complexity--;
-                id = s_dalEngineer!.ReadAll().Find(x => x.Level >= complexity)!.Id;
-            }
-            Task newTask = new Task(0, alias, TaskDescriptions[i], false, created, scheduled, started, required, deadline, completed, TaskDeliverables[i], TaskRemarks[i], id, complexity);
+            Task newTask = new Task(0, alias, TaskDescriptions[i], false, created, null, null, null, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);
             s_dalTask!.Create(newTask);
         }
     }
@@ -45,16 +51,30 @@ public static class Initialization
     {
         if (s_dalTask!.ReadAll().Count != 0)
         {
-            for (int i = 0; i < 40; i++)
+            for (int i = 1; i < 20; i++) 
             {
-                int range = s_dalTask!.ReadAll().Count;
-                int dependent = s_dalTask!.ReadAll()[s_rand.Next(range)].Id;
-                int dependsOn = s_dalTask!.ReadAll()[s_rand.Next(range)].Id;
-                while ((dependsOn == dependent) || s_dalDependency!.ReadAll().Exists(x => (x.DependentTask == dependent) && (x.DependsOnTask == dependsOn)))
-                    dependsOn = s_dalTask!.ReadAll()[s_rand.Next(range)].Id;
-                Dependency newDependency = new Dependency(0, dependent, dependsOn);
-                s_dalDependency.Create(newDependency);
-
+                Dependency newDependency = new Dependency(0, i, 0);
+                s_dalDependency!.Create(newDependency);
+            }
+            for (int i = 0; i < 19; i++)
+            {
+                Dependency newDependency = new Dependency(0, 19, i);
+                s_dalDependency!.Create(newDependency);
+            }
+            for(int i=4;i<19;i+=6)
+            {
+                for(int j=1;j<4;j++)
+                {
+                    Dependency newDependency = new Dependency(0, i, i-j);
+                    s_dalDependency!.Create(newDependency);
+                }
+            }
+            for (int i=4;i<19;i+=6)
+            {
+                Dependency newDependency = new Dependency(0, i+1, i);
+                s_dalDependency!.Create(newDependency);
+                newDependency = new Dependency(0, i + 2, i);
+                s_dalDependency!.Create(newDependency);
             }
         }
         else
