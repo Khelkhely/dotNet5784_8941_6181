@@ -3,8 +3,6 @@
 using DO;
 using DalApi;
 using Dal;
-//using System.ComponentModel.Design;
-//using System.Xml.Serialization;
 
 internal class Program
 {
@@ -29,11 +27,12 @@ internal class Program
         catch (Exception ex) { Console.WriteLine(ex); }
     }
 
-    static void MainMenu()
+    static void MainMenu() //print main menu and send to sub menu according to the input
     {
         Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency");
-        int choice = Console.Read();
-        while(choice != 0)
+        int choice;
+        int.TryParse(Console.ReadLine(), out choice);
+        while (choice != 0)
         { 
             switch(choice)
             {
@@ -50,19 +49,22 @@ internal class Program
                     Console.WriteLine("There is no such option in the main menu.");
                     break;
             }
-            choice = Console.Read();
+            Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency");
+            int.TryParse(Console.ReadLine(), out choice);
         }
         
     }
 
-    private static int SubMenuPrint(Objects obj)
+    private static int SubMenuPrint(Objects obj) //print a sub menu for the object received and return the user's choice
     {
         Console.WriteLine("Choose a method you want to perform:");
         Console.WriteLine($"0- exit main menu\n1- add a new {obj}\n2- show a {obj}\n3- show all {obj}s\n4- update an existing {obj}\n5- delete an {obj} from the list");
-        return Console.Read();
+        int temp;
+        int.TryParse(Console.ReadLine(), out temp);
+        return temp;
     }
 
-    private static void TaskSubMenu() 
+    private static void TaskSubMenu() //sub menu for Task. calls the function chosen
     {
         int x = SubMenuPrint((Objects)0);
         while (x != 0)
@@ -88,14 +90,14 @@ internal class Program
                     Console.WriteLine("There is no such option in the menu.");
                     break;
             }
-            x = Console.Read();
+            x = SubMenuPrint((Objects)0);
         }
     }
-    private static void AddTask()
+    private static void AddTask() //adds a task and prints its ID
     {
         Console.WriteLine(s_dalTask!.Create(InputTask()));
     }
-    private static Task InputTask() 
+    private static Task InputTask() //receives data for a Task and returns a new Task with the data
     {
         Console.Write("Enter task alias:    ");
         string? alias = Console.ReadLine();
@@ -112,7 +114,8 @@ internal class Program
         tmp = Console.ReadLine();
         DateTime.TryParse(tmp, out started);
         Console.Write("Enter task required effort time:    ");
-        int? effort = Console.Read();
+        int effort;
+        int.TryParse(Console.ReadLine(), out effort);
         Console.Write("Enter task deadline date:    ");
         tmp = Console.ReadLine();
         DateTime.TryParse(tmp, out deadline);
@@ -124,30 +127,36 @@ internal class Program
         Console.Write("Enter task remarks:    ");
         string? remarks = Console.ReadLine();
         Console.Write("Enter task engineer ID:    ");
-        int id = Console.Read();//nullable
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Console.Write("Enter task complexity:    ");
         string stringComplexity = Console.ReadLine()!;
         EngineerExperience complexity = StringToEnum(stringComplexity);
         return new Task(0, alias, description, false, created, scheduled, started, effort, deadline, complete, deliverables, remarks, id, complexity);
     }
-    private static void ShowTask()
+    private static void ShowTask() //print the task with the Id received from the user
     {
         Console.WriteLine("Enter Task Id:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         try
         {
             Console.WriteLine(s_dalTask!.Read(id));
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static void ShowAllTasks()
+    private static void ShowAllTasks() //prints all tasks
     {
-        Console.WriteLine(s_dalTask!.ReadAll());
+        foreach (Task item in s_dalTask!.ReadAll())
+        {
+            Console.Write(item + "\n");
+        }
     }
-    private static void UpdateTask()
+    private static void UpdateTask() //receives an Id and data for a task and if a task with that Id exists updates it to the new data
     {
         Console.WriteLine("Enter Task Id:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Console.WriteLine(s_dalTask!.Read(id));
         Console.WriteLine("Enter the updated information of the task:");
         Task newTask = InputTask() with { Id = id };
@@ -157,10 +166,11 @@ internal class Program
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static void DeleteTask()
+    private static void DeleteTask() //removes the task with the received Id from the list of tasks
     {
         Console.WriteLine("Enter Task Id:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         try
         {
             s_dalTask!.Delete(id);
@@ -168,7 +178,7 @@ internal class Program
         catch (Exception ex) { Console.WriteLine(ex); }
     }
 
-    private static void EngineerSubMenu()
+    private static void EngineerSubMenu() //sub menu for Engineer. calls the function chosen
     {
         int x = SubMenuPrint((Objects)1);
         while (x != 0)
@@ -194,42 +204,48 @@ internal class Program
                     Console.WriteLine("There is no such option in the menu.");
                     break;
             }
-            x = Console.Read();
+            x = SubMenuPrint((Objects)1);
         }
     }
-    private static void AddEngineer()
+    private static void AddEngineer() //adds an Engineer and prints his Id
     {
         try { Console.WriteLine(s_dalEngineer!.Create(inputEngineer())); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static void ShowEngineer()
+    private static void ShowEngineer() //print the Engineer with the Id received from the user
     {
         Console.Write("Enter engineer's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Engineer? myEng = s_dalEngineer!.Read(id);
         Console.Write(myEng);
-    }
-    private static void ShowAllEngineers()
+    } 
+    private static void ShowAllEngineers() //prints all Engineers
     {
-        Console.Write(s_dalEngineer!.ReadAll());
+        foreach (Engineer item in s_dalEngineer!.ReadAll())
+        {
+            Console.Write(item + "\n");
+        }
     }
-    private static void UpdateEngineer()
+    private static void UpdateEngineer() //receives an Id and data for an Engineer and if an Engineer with that Id exists updates it to the new data 
     {
         Console.Write("Enter engineer's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Console.Write(s_dalEngineer!.Read(id));           
         try { s_dalEngineer.Update(inputEngineer()!); }
         catch (Exception ex) { Console.WriteLine(ex); }
 
     }
-    private static void DeleteEngineer()
+    private static void DeleteEngineer() //removes the engineer with the received Id from the list of engineers
     {
         Console.Write("Enter engineer's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         try { s_dalEngineer!.Delete(id); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static EngineerExperience StringToEnum(string level)
+    private static EngineerExperience StringToEnum(string level) //receieves a string with an EngineerExperience and returns the matching enum
     {
         switch (level)
         {
@@ -247,10 +263,11 @@ internal class Program
                 throw new Exception("There is no such engineer's experience.");
         }
     }
-    private static Engineer inputEngineer()
+    private static Engineer inputEngineer() //receives data for an Engineer and returns a new Engineer with the data
     {
         Console.Write("Enter engineer's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Console.Write("Enter engineer's name:   ");
         string? name = Console.ReadLine();
         Console.Write("Enter engineer's email:   ");
@@ -259,12 +276,14 @@ internal class Program
         string stringLevel = Console.ReadLine()!;
         EngineerExperience level = StringToEnum(stringLevel);
         Console.Write("Enter engineer's cost:   ");
-        double? cost = Console.Read();
+        double cost;
+        double.TryParse(Console.ReadLine(), out cost);
+
         Engineer item = new Engineer(id, name, email, level, cost);
         return item;
     }
 
-    private static void DependencySubMenu()
+    private static void DependencySubMenu()//sub menu for Dependency. calls the function chosen
     {
         int x = SubMenuPrint((Objects)2);
         while (x != 0)
@@ -290,45 +309,54 @@ internal class Program
                     Console.WriteLine("There is no such option in the menu.");
                     break;
             }
-            x = Console.Read();
+            x = SubMenuPrint((Objects)2);
         }
     }
-    private static void AddDependency()
+    private static void AddDependency()//adds a Dependency and prints his Id
     {
         Console.Write(s_dalDependency!.Create(inputDependency()));
     }
-    private static void ShowDependency()
+    private static void ShowDependency()//print the Dependency with the Id received from the user
     {
         Console.Write("Enter deppendency's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Dependency? myDep = s_dalDependency!.Read(id);
         Console.Write(myDep);
     }
-    private static void ShowAllDependencies()
+    private static void ShowAllDependencies()//prints all Dependencies
     {
-        Console.Write(s_dalDependency!.ReadAll());
+        foreach (Dependency item in s_dalDependency!.ReadAll())
+        {
+            Console.Write(item + "\n");
+        }
     }
-    private static void UpdateDependency()
+    private static void UpdateDependency()//receives an Id and data for a Dependency and if a Dependency with that Id exists updates it to the new data
     {
         Console.Write("Enter dependency's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         Console.Write(s_dalDependency!.Read(id));
         try { s_dalDependency.Update(inputDependency()!); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static void DeleteDependency()
+    private static void DeleteDependency()//removes the dependency with the received Id from the list of Dependencies
     {
         Console.Write("Enter dependency's ID:   ");
-        int id = Console.Read();
+        int id;
+        int.TryParse(Console.ReadLine(), out id);
         try { s_dalDependency!.Delete(id); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static Dependency inputDependency()
+    private static Dependency inputDependency()//receives data for a Dependency and returns a new Dependency with the data
     {
         Console.Write("Enter the number of the dependent task:   ");
-        int dependentTask = Console.Read();
+        int dependentTask;
+        int.TryParse(Console.ReadLine(), out dependentTask);
+
         Console.Write("Enter the number of the task that it depends on:   ");
-        int DependsOnTask = Console.Read();
+        int DependsOnTask;
+        int.TryParse(Console.ReadLine(), out DependsOnTask);
         Dependency item = new Dependency(dependentTask, DependsOnTask);
         return item;
     }
