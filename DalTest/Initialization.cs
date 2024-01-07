@@ -12,26 +12,26 @@ public static class Initialization
     {
         string[] TaskDescriptions =
         {
-            "תכנון וחלוקת משימות בין צוותים",
-            "הכנת ממשקים לשכבה 1",
-            "מימוש הממשקים של שכבה 1",
-            "כתיבת תוכנית ראשית לבדיקת שכבה 1",
-            "בדיקת שכבה 1",
-            "תיקון באגים בשכבה 1",
-            "כתיבת תיעוד לשכבה 1",
-            "הכנת ממשקים לשכבה 2",
-            "מימוש הממשקים של שכבה 2",
-            "כתיבת תוכנית ראשית לבדיקת שכבה 2",
-            "בדיקת שכבה 2",
-            "תיקון באגים בשכבה 2",
-            "כתיבת תיעוד לשכבה 2",
-            "הכנת ממשקים לשכבה 3",
-            "מימוש הממשקים של שכבה 3",
-            "כתיבת תוכנית ראשית לבדיקת שכבה 3",
-            "בדיקת שכבה 3",
-            "תיקון באגים בשכבה 3",
-            "כתיבת תיעוד לשכבה 3",
-            "בדיקה של כל השכבות ביחד"            
+            "Planning and distribution of tasks between teams",
+            "Writing interfaces for layer 1",
+            "Implement the Layer 1 interfaces",
+            "Writing a main program for layer 1 testing",
+            "Layer 1 testing",
+            "Fix bugs in layer 1",
+            "Writing documentation for layer 1",
+            "Writing interfaces for layer 2",
+            "Implement the Layer 2 interfaces",
+            "Writing a main program for layer 2 testing",
+            "Layer 2 testing",
+            "Fix bugs in layer 2",
+            "Writing documentation for layer 2",
+            "Writing interfaces for layer 3",
+            "Implement the Layer 3 interfaces",
+            "Writing a main program for layer 3 testing",
+            "Layer 3 testing",
+            "Fix bugs in layer 3",
+            "Writing documentation for layer 3",
+            "Testing all layers together"
         };
         string[] TaskDeliverables = { };
         string[] TaskRemarks = { };
