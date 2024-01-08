@@ -22,12 +22,13 @@ namespace DalTest
             try 
             {
                 Initialization.Do(s_dalTask, s_dalEngineer, s_dalDependency);
+                MainMenu();
 
             }
             catch (Exception ex) { Console.WriteLine(ex); }
         }
 
-        void MainMenu()
+        private void MainMenu()
         {
             Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency");
             int choice = Console.Read();
@@ -165,35 +166,31 @@ namespace DalTest
 
         private void EngineerSubMenu()
         {
-            int x = SubMenuPrint(task);
+            int x = SubMenuPrint(engineer);
             while (x != 0)
             {
                 switch (x)
                 {
                     case 1:
-                        AddTask();
+                        AddEngineer();
                         break;
                     case 2:
-                        ShowTask();
+                        ShowEngineer();
                         break;
                     case 3:
-                        PrintAllTAsks();
+                        ShowAllEngineers();
                         break;
                     case 4:
-                        UpadteTask();
+                        UpdateEngineer();
                         break;
                     case 5:
-                        DeleteTask();
+                        DeleteEngineer();
                         break;
                     default:
                         Console.WriteLine("There is no such option in the menu.");
                 }
                 x = Console.Read();
             }
-        }
-        private void DependencySubMenu()
-        {
-
         }
         private void AddEngineer()
         {
@@ -227,7 +224,7 @@ namespace DalTest
             try { s_dalEngineer!.Delete(id); }
             catch (Exception ex) { Console.WriteLine(ex); }
         }
-        private static EngineerExperience StringToEnum(string level)
+        private EngineerExperience StringToEnum(string level)
         {
             switch (level)
             {
@@ -245,7 +242,7 @@ namespace DalTest
                     throw new Exception("There is no such engineer's experience.");
             }
         }
-        private static Engineer inputEngineer()
+        private Engineer inputEngineer()
         {
             Console.Write("Enter engineer's ID:   ");
             int id = Console.Read();
@@ -262,6 +259,34 @@ namespace DalTest
             return item;
         }
 
+        private void DependencySubMenu()
+        {
+            int x = SubMenuPrint(dependency);
+            while (x != 0)
+            {
+                switch (x)
+                {
+                    case 1:
+                        AddDependency();
+                        break;
+                    case 2:
+                        ShowDependency();
+                        break;
+                    case 3:
+                        ShowAllDependencies();
+                        break;
+                    case 4:
+                        UpdateDependency();
+                        break;
+                    case 5:
+                        DeleteDependency();
+                        break;
+                    default:
+                        Console.WriteLine("There is no such option in the menu.");
+                }
+                x = Console.Read();
+            }
+        }
         private void AddDependency()
         {
             Console.Write("The dependency's ID is " + s_dalDependency!.Create(inputDependency()));
@@ -292,17 +317,15 @@ namespace DalTest
             try { s_dalDependency!.Delete(id); }
             catch (Exception ex) { Console.WriteLine(ex); }
         }
-        private static Dependency inputDependency()
+        private Dependency inputDependency()
         {
             Console.Write("Enter the number of the dependent task:   ");
             int dependentTask = Console.Read();
             Console.Write("Enter the number of the task that it depends on:   ");
             int DependsOnTask = Console.Read();
-            Dependency item = new Dependency(dependentTask, DependsOnTask);
+            Dependency item = new Dependency(0, dependentTask, DependsOnTask);
             return item;
         }
-
-
     }
 
  
