@@ -1,8 +1,8 @@
 ﻿namespace DalTest;
 
-using DO;
-using DalApi;
 using Dal;
+using DalApi;
+using DO;
 
 internal class Program
 {
@@ -104,24 +104,19 @@ internal class Program
         Console.Write("Enter task description:    ");
         string? description = Console.ReadLine();
         Console.Write("Enter task creation date:    ");
-        string? tmp = Console.ReadLine();
         DateTime created, scheduled, started, deadline, complete;//nullble?
-        DateTime.TryParse(tmp, out created);
+        DateTime.TryParse(Console.ReadLine(), out created);
         Console.Write("Enter task scheduled starting date:    ");
-        tmp = Console.ReadLine();
-        DateTime.TryParse(tmp, out scheduled);
+        DateTime.TryParse(Console.ReadLine(), out scheduled);
         Console.Write("Enter task starting date:    ");
-        tmp = Console.ReadLine();
-        DateTime.TryParse(tmp, out started);
+        DateTime.TryParse(Console.ReadLine(), out started);
         Console.Write("Enter task required effort time:    ");
         int effort;
         int.TryParse(Console.ReadLine(), out effort);
         Console.Write("Enter task deadline date:    ");
-        tmp = Console.ReadLine();
-        DateTime.TryParse(tmp, out deadline);
+        DateTime.TryParse(Console.ReadLine(), out deadline);
         Console.Write("Enter task completion date:    ");
-        tmp = Console.ReadLine();
-        DateTime.TryParse(tmp, out complete);
+        DateTime.TryParse(Console.ReadLine(), out complete);
         Console.Write("Enter task deliverables:    ");
         string? deliverables = Console.ReadLine();
         Console.Write("Enter task remarks:    ");
