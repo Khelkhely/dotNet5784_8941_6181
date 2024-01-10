@@ -6,9 +6,7 @@ using DO;
 
 internal class Program
 {
-    private static ITask? s_dalTask = new TaskImplementation(); //stage 1
-    private static IEngineer? s_dalEngineer = new EngineerImplementation(); //stage 1
-    private static IDependency? s_dalDependency = new DependencyImplementation(); //stage 1
+    static readonly IDal s_dal = new DalList(); //stage 2
 
     enum Objects
     {
@@ -21,7 +19,7 @@ internal class Program
     {
         try 
         {
-            Initialization.Do(s_dalTask!, s_dalEngineer!, s_dalDependency!);
+            Initialization.Do(s_dal);
             MainMenu();
         }
         catch (Exception ex) { Console.WriteLine(ex); }
@@ -95,7 +93,7 @@ internal class Program
     }
     private static void AddTask() //adds a task and prints its ID
     {
-        Console.WriteLine(s_dalTask!.Create(InputTask()));
+        Console.WriteLine(s_dal!.Task.Create(InputTask()));
     }
     private static Task InputTask() //receives data for a Task and returns a new Task with the data
     {
@@ -136,13 +134,13 @@ internal class Program
         int.TryParse(Console.ReadLine(), out id);
         try
         {
-            Console.WriteLine(s_dalTask!.Read(id));
+            Console.WriteLine(s_dal!.Task.Read(id));
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
     private static void ShowAllTasks() //prints all tasks
     {
-        foreach (Task item in s_dalTask!.ReadAll())
+        foreach (Task? item in s_dal!.Task.ReadAll())
         {
             Console.Write(item + "\n");
         }
@@ -152,12 +150,12 @@ internal class Program
         Console.WriteLine("Enter Task Id:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        Console.WriteLine(s_dalTask!.Read(id));
+        Console.WriteLine(s_dal!.Task.Read(id));
         Console.WriteLine("Enter the updated information of the task:");
         Task newTask = InputTask() with { Id = id };
         try
         {
-            s_dalTask!.Update(newTask);
+            s_dal!.Task.Update(newTask);
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
@@ -168,7 +166,7 @@ internal class Program
         int.TryParse(Console.ReadLine(), out id);
         try
         {
-            s_dalTask!.Delete(id);
+            s_dal!.Task.Delete(id);
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
@@ -204,7 +202,7 @@ internal class Program
     }
     private static void AddEngineer() //adds an Engineer and prints his Id
     {
-        try { Console.WriteLine(s_dalEngineer!.Create(inputEngineer())); }
+        try { Console.WriteLine(s_dal!.Engineer.Create(inputEngineer())); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
     private static void ShowEngineer() //print the Engineer with the Id received from the user
@@ -212,12 +210,12 @@ internal class Program
         Console.Write("Enter engineer's ID:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        Engineer? myEng = s_dalEngineer!.Read(id);
+        Engineer? myEng = s_dal!.Engineer.Read(id);
         Console.Write(myEng);
     } 
     private static void ShowAllEngineers() //prints all Engineers
     {
-        foreach (Engineer item in s_dalEngineer!.ReadAll())
+        foreach (Engineer? item in s_dal!.Engineer.ReadAll())
         {
             Console.Write(item + "\n");
         }
@@ -227,8 +225,8 @@ internal class Program
         Console.Write("Enter engineer's ID:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        Console.Write(s_dalEngineer!.Read(id));           
-        try { s_dalEngineer.Update(inputEngineer()!); }
+        Console.Write(s_dal!.Engineer.Read(id));           
+        try { s_dal!.Engineer.Update(inputEngineer()!); }
         catch (Exception ex) { Console.WriteLine(ex); }
 
     }
@@ -237,7 +235,7 @@ internal class Program
         Console.Write("Enter engineer's ID:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        try { s_dalEngineer!.Delete(id); }
+        try { s_dal!.Engineer.Delete(id); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
     private static EngineerExperience StringToEnum(string level) //receieves a string with an EngineerExperience and returns the matching enum
@@ -255,7 +253,7 @@ internal class Program
             case "Expert":
                 return (EngineerExperience)4;
             default:
-                throw new Exception("There is no such engineer's experience.");
+                throw new DalNoSuchEnumExistsException("There is no such engineer's experience.");
         }
     }
     private static Engineer inputEngineer() //receives data for an Engineer and returns a new Engineer with the data
@@ -309,19 +307,19 @@ internal class Program
     }
     private static void AddDependency()//adds a Dependency and prints his Id
     {
-        Console.Write(s_dalDependency!.Create(inputDependency()));
+        Console.Write(s_dal!.Dependency.Create(inputDependency()));
     }
     private static void ShowDependency()//print the Dependency with the Id received from the user
     {
         Console.Write("Enter deppendency's ID:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        Dependency? myDep = s_dalDependency!.Read(id);
+        Dependency? myDep = s_dal!.Dependency.Read(id);
         Console.Write(myDep);
     }
     private static void ShowAllDependencies()//prints all Dependencies
     {
-        foreach (Dependency item in s_dalDependency!.ReadAll())
+        foreach (Dependency? item in s_dal!.Dependency.ReadAll())
         {
             Console.Write(item + "\n");
         }
@@ -331,8 +329,8 @@ internal class Program
         Console.Write("Enter dependency's ID:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        Console.Write(s_dalDependency!.Read(id));
-        try { s_dalDependency.Update(inputDependency()!); }
+        Console.Write(s_dal!.Dependency.Read(id));
+        try { s_dal!.Dependency.Update(inputDependency()!); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
     private static void DeleteDependency()//removes the dependency with the received Id from the list of Dependencies
@@ -340,7 +338,7 @@ internal class Program
         Console.Write("Enter dependency's ID:   ");
         int id;
         int.TryParse(Console.ReadLine(), out id);
-        try { s_dalDependency!.Delete(id); }
+        try { s_dal!.Dependency.Delete(id); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
     private static Dependency inputDependency()//receives data for a Dependency and returns a new Dependency with the data

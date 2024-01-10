@@ -4,9 +4,8 @@ using DO;
 
 public static class Initialization
 {
-    private static ITask? s_dalTask; //stage 1
-    private static IEngineer? s_dalEngineer; //stage 1
-    private static IDependency? s_dalDependency; //stage 1
+    private static IDal? s_dal;//stage2
+ 
     private static readonly Random s_rand = new();
     private static void createTasks()
     {
@@ -86,44 +85,39 @@ public static class Initialization
            
             EngineerExperience complexity = (EngineerExperience)(s_rand.Next() % 5); //choose a random numer from 0-4 and convert to EngineerExperience
             Task newTask = new Task(0, alias, TaskDescriptions[i], false, created, null, null, null, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);
-            s_dalTask!.Create(newTask);
+            s_dal!.Task.Create(newTask);
         }
     }
     private static void createDependency()
     {
-        if (s_dalTask!.ReadAll().Count != 0)
+        //for each task number i, the id is i +1000, so added 1000 to each task in the dependency
+        for (int i = 1; i < 20; i++) //all tasks depend on the first task because it plans the work
         {
-            //for each task number i, the id is i +1000, so added 1000 to each task in the dependency
-            for (int i = 1; i < 20; i++) //all tasks depend on the first task because it plans the work
+            Dependency newDependency = new Dependency(0, i + 1000, 0 + 1000);
+            s_dal!.Dependency.Create(newDependency);
+        }
+        for (int i = 0; i < 19; i++) //the last task depends on all of the previos ones because its checking the entire project
+        {
+            Dependency newDependency = new Dependency(0, 19 + 1000, i + 1000);
+            s_dal!.Dependency.Create(newDependency);
+        }
+        for (int i = 4; i < 19; i += 6) //every testing of a layer depends on the completion of the layer
+        {
+            for (int j = 1; j < 4; j++)
             {
-                Dependency newDependency = new Dependency(0, i+1000, 0 + 1000);
-                s_dalDependency!.Create(newDependency);
-            }
-            for (int i = 0; i < 19; i++) //the last task depends on all of the previos ones because its checking the entire project
-            {
-                Dependency newDependency = new Dependency(0, 19 + 1000, i + 1000);
-                s_dalDependency!.Create(newDependency);
-            }
-            for(int i=4;i<19;i+=6) //every testing of a layer depends on the completion of the layer
-            {
-                for(int j=1;j<4;j++)
-                {
-                    Dependency newDependency = new Dependency(0, i + 1000, i-j + 1000);
-                    s_dalDependency!.Create(newDependency);
-                }
-            }
-            for (int i=4;i<19;i+=6) //the documentation and the bug fixing depend on the testing of each layer
-            {
-                Dependency newDependency = new Dependency(0, i+1 + 1000, i + 1000);
-                s_dalDependency!.Create(newDependency);
-                newDependency = new Dependency(0, i + 2 + 1000, i + 1000);
-                s_dalDependency!.Create(newDependency);
+                Dependency newDependency = new Dependency(0, i + 1000, i - j + 1000);
+                s_dal!.Dependency.Create(newDependency);
             }
         }
-        else
-            throw new Exception("There are no Tasks to creat Dependency for");
-          
+        for (int i = 4; i < 19; i += 6) //the documentation and the bug fixing depend on the testing of each layer
+        {
+            Dependency newDependency = new Dependency(0, i + 1 + 1000, i + 1000);
+            s_dal!.Dependency.Create(newDependency);
+            newDependency = new Dependency(0, i + 2 + 1000, i + 1000);
+            s_dal!.Dependency.Create(newDependency);
+        }
     }
+
     private static void createEngineer()
     {
         string[] EngineerNames = 
@@ -139,18 +133,16 @@ public static class Initialization
             int id;
             do
                 id = s_rand.Next(200000000, 400000000); //creates a random 9 digit id that isn't already used
-            while (s_dalEngineer!.Read(id)!=null);
+            while (s_dal!.Engineer.Read(id)!=null);
             EngineerExperience level = (EngineerExperience)(s_rand.Next() % 5); //choose a random numer from 0-4 and convert to EngineerExperience
             double cost = s_rand.Next(90,200); //choose a random amount of money for the salary between 90 and 200
             Engineer newEng = new Engineer(id, EngineerNames[i], EngineerEmails[i], level, cost);
-            s_dalEngineer.Create(newEng);
+            s_dal!.Engineer.Create(newEng);
         }
     }
-    public static void Do(ITask dalTask, IEngineer dalEngineer, IDependency dalDependency)
+    public static void Do(IDal dal)
     {
-        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
         createEngineer();
         createTasks();
         createDependency();

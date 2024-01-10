@@ -2,7 +2,7 @@
 using DalApi;
 using DO;
 
-public class TaskImplementation : ITask
+internal class TaskImplementation : ITask
 {
     public int Create(Task item)
     {
@@ -16,19 +16,24 @@ public class TaskImplementation : ITask
         if (DataSource.Tasks.Exists(x => x.Id == id))
             DataSource.Tasks.RemoveAll(x => x.Id == id);
         else
-            throw new Exception($"Task with ID={id} doesn't exist");
+            throw new DalDoesNotExistException($"Task with ID={id} doesn't exist");
     }
 
     public Task? Read(int id)
     {
-        if(DataSource.Tasks.Exists(x => x.Id == id))
-            return DataSource.Tasks.Find(x => x.Id == id);
-        return null;
+        return DataSource.Tasks.FirstOrDefault(item => item.Id == id);
+    }
+    public Task? Read(Func<Task, bool> filter)
+    {
+        return DataSource.Tasks.FirstOrDefault(filter);
     }
 
-    public List<Task> ReadAll()
+    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null) //stage 2
     {
-        return new List<Task>(DataSource.Tasks);
+        if (filter == null)
+            return DataSource.Tasks.Select(item => item);
+        else
+            return DataSource.Tasks.Where(filter);
     }
 
     public void Update(Task item)
@@ -39,6 +44,6 @@ public class TaskImplementation : ITask
             DataSource.Tasks.Add(item);
         }
         else
-            throw new Exception($"Task with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistException($"Task with ID={item.Id} doesn't exist");
     }
 }
