@@ -2,12 +2,12 @@
 using DalApi;
 using DO;
 
-public class EngineerImplementation : IEngineer
+internal class EngineerImplementation : IEngineer
 {
     public int Create(Engineer item)
     {
         if (DataSource.Engineers.Exists(x => x.Id == item.Id))
-            throw new Exception($"Student with ID={item.Id} already exists");
+            throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exists");
         DataSource.Engineers.Add(item);
         return item.Id;
     }
@@ -17,19 +17,25 @@ public class EngineerImplementation : IEngineer
         if (DataSource.Engineers.Exists(x => x.Id == id))
             DataSource.Engineers.RemoveAll(x => x.Id == id);
         else
-            throw new Exception($"Engineer with ID={id} doesn't exist");
+            throw new DalDoesNotExistException($"Engineer with ID={id} doesn't exist");
     }
 
     public Engineer? Read(int id)
     {
-        if (DataSource.Engineers.Exists(x => x.Id == id))
-            return DataSource.Engineers.Find(x => x.Id == id);
-        return null;
+        return DataSource.Engineers.FirstOrDefault(item => item.Id == id);
     }
 
-    public List<Engineer> ReadAll()
+    public Engineer? Read(Func<Engineer,bool> filter) 
     {
-        return new List<Engineer>(DataSource.Engineers);
+        return DataSource.Engineers.FirstOrDefault(filter);
+    }
+
+    public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null) //stage 2
+    {
+        if (filter == null)
+            return DataSource.Engineers.Select(item => item);
+        else
+            return DataSource.Engineers.Where(filter);
     }
 
     public void Update(Engineer item)
@@ -40,6 +46,6 @@ public class EngineerImplementation : IEngineer
             DataSource.Engineers.Add(item);
         }
         else
-            throw new Exception($"Engineer with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistException($"Engineer with ID={item.Id} doesn't exist");
     }
 }

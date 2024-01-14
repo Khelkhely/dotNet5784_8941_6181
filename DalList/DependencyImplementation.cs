@@ -2,7 +2,7 @@
 using DalApi;
 using DO;
 
-public class DependencyImplementation : IDependency
+internal class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)
     {
@@ -16,20 +16,26 @@ public class DependencyImplementation : IDependency
         if (DataSource.Dependencies.Exists(x => x.Id == id))
             DataSource.Dependencies.RemoveAll(x => x.Id == id);
         else
-            throw new Exception($"Dependency with ID={id} doesn't exist");
+            throw new DalDoesNotExistException($"Dependency with ID={id} doesn't exist");
     }
 
     public Dependency? Read(int id)
     {
-        if (DataSource.Dependencies.Exists(x => x.Id == id))
-            return DataSource.Dependencies.Find(x => x.Id == id);
-        return null;
+        return DataSource.Dependencies.FirstOrDefault(item => item.Id == id);
+    }
+    public Dependency? Read(Func<Dependency, bool> filter)
+    {
+        return DataSource.Dependencies.FirstOrDefault(filter);
     }
 
-    public List<Dependency> ReadAll()
+    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null) //stage 2
     {
-        return new List<Dependency>(DataSource.Dependencies);
+        if (filter == null)
+            return DataSource.Dependencies.Select(item => item);
+        else
+            return DataSource.Dependencies.Where(filter);
     }
+
 
     public void Update(Dependency item)
     {
@@ -39,6 +45,6 @@ public class DependencyImplementation : IDependency
             DataSource.Dependencies.Add(item);
         }
         else
-            throw new Exception($"Dependency with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistException($"Dependency with ID={item.Id} doesn't exist");
     }
 }
