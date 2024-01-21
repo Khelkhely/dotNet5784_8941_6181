@@ -1,12 +1,11 @@
 ﻿namespace DalTest;
-
 using Dal;
 using DalApi;
 using DO;
 
 internal class Program
 {
-    static readonly IDal s_dal = new DalList(); //stage 2
+    static readonly IDal s_dal = new DalXml(); //stage 2
 
     enum Objects
     {
@@ -19,7 +18,6 @@ internal class Program
     {
         try 
         {
-            Initialization.Do(s_dal);
             MainMenu();
         }
         catch (Exception ex) { Console.WriteLine(ex); }
@@ -27,7 +25,7 @@ internal class Program
 
     static void MainMenu() //print main menu and send to sub menu according to the input
     {
-        Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency");
+        Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency\n4- Initialize data");
         int choice;
         int.TryParse(Console.ReadLine(), out choice);
         while (choice != 0)
@@ -43,11 +41,17 @@ internal class Program
                 case 3:
                     DependencySubMenu();
                     break;
+                case 4:
+                    Console.Write("Would you like to create Initial data? (Yes/No)"); //stage 3
+                    string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
+                    if (ans == "Yes") //stage 3
+                        Initialization.Do(s_dal); //stage 2
+                    break;
                 default:
                     Console.WriteLine("There is no such option in the main menu.");
                     break;
             }
-            Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency");
+            Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency\n4-  Initialize data");
             int.TryParse(Console.ReadLine(), out choice);
         }
         

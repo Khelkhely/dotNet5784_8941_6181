@@ -10,10 +10,16 @@ internal class DependencyImplementation : IDependency
     readonly string s_dependencies_xml = "dependencies";
     public int Create(Dependency item)
     {
-        Dependency newItem = item with { Id = Config.NextDependencyId };
+        int id = Config.NextDependencyId;
+        XElement newItem = new XElement("Dependency",
+            new XElement ("Id", id),
+            new XElement ("DependentTask", item.DependentTask),
+            new XElement ("DependsOnTask", item.DependsOnTask)
+            );
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
         root.Add(newItem);
-        return newItem.Id;
+        XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
+        return id;
     }
 
     public void Delete(int id)
@@ -23,6 +29,7 @@ internal class DependencyImplementation : IDependency
         if(item == null)
             throw new DalDoesNotExistException($"Task with ID={id} doesn't exist");
         item.Remove();
+        XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
     }
 
     public Dependency? Read(int id)
@@ -70,10 +77,16 @@ internal class DependencyImplementation : IDependency
 
     public void Update(Dependency item)
     {
+        XElement newItem = new XElement("Dependency",
+            new XElement("Id", item.Id),
+            new XElement("DependentTask", item.DependentTask),
+            new XElement("DependsOnTask", item.DependsOnTask)
+            );
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
         XElement? t = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id").Value) == item.Id);
         if (t == null)
             throw new DalDoesNotExistException($"Task with ID={item.Id} doesn't exist");
-        t.ReplaceWith(item);
+        t.ReplaceWith(newItem);
+        XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
     }
 }

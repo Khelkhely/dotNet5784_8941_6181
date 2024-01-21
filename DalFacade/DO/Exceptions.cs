@@ -18,7 +18,7 @@ public class DalNoSuchEnumExistsException : Exception
 }
 
 [Serializable]
-internal class DalXMLFileLoadCreateException : Exception
+public class DalXMLFileLoadCreateException : Exception
 {
     public DalXMLFileLoadCreateException(string? message) : base(message)  { }
 
