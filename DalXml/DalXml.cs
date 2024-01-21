@@ -1,9 +1,18 @@
 ﻿using DalApi;
-namespace Dal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-sealed public class DalXml
+namespace Dal
 {
-    public IEngineer Engineer => new EngineerImplementation();
-    public ITask Task => new TaskImlementation();
-    public IDependency Dependency => new DependencyImplementation();
+    public sealed class DalXml : IDal
+    {
+        public ITask Task =>  new TaskImplementation();
+
+        public IDependency Dependency => new DependencyImplementation();
+
+        public IEngineer Engineer => throw new NotImplementedException();
+    }
 }
