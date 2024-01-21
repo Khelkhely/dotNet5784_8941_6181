@@ -99,7 +99,7 @@ internal class Program
     {
         Console.WriteLine(s_dal!.Task.Create(InputTask()));
     }
-    private static Task InputTask() //receives data for a Task and returns a new Task with the data
+    private static Task InputTask(int taskId = 0) //receives data for a Task and returns a new Task with the data
     {
         Console.Write("Enter task alias:    ");
         string? alias = Console.ReadLine();
@@ -129,7 +129,7 @@ internal class Program
         Console.Write("Enter task complexity:    ");
         string stringComplexity = Console.ReadLine()!;
         EngineerExperience complexity = StringToEnum(stringComplexity);
-        return new Task(0, alias, description, false, created, scheduled, started, effort, deadline, complete, deliverables, remarks, id, complexity);
+        return new Task(taskId, alias, description, false, created, scheduled, started, effort, deadline, complete, deliverables, remarks, id, complexity);
     }
 
     private static void ShowTask() //print the task with the Id received from the user
@@ -157,7 +157,7 @@ internal class Program
         int.TryParse(Console.ReadLine(), out id);
         Console.WriteLine(s_dal!.Task.Read(id));
         Console.WriteLine("Enter the updated information of the task:");
-        Task newTask = InputTask() with { Id = id };
+        Task newTask = InputTask(id);
         try
         {
             s_dal!.Task.Update(newTask);
@@ -334,7 +334,7 @@ internal class Program
         int id;
         int.TryParse(Console.ReadLine(), out id);
         Console.Write(s_dal!.Dependency.Read(id));
-        try { s_dal!.Dependency.Update(inputDependency()!); }
+        try { s_dal!.Dependency.Update(inputDependency(id)!); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
     private static void DeleteDependency()//removes the dependency with the received Id from the list of Dependencies
@@ -345,7 +345,7 @@ internal class Program
         try { s_dal!.Dependency.Delete(id); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static Dependency inputDependency()//receives data for a Dependency and returns a new Dependency with the data
+    private static Dependency inputDependency(int id = 0)//receives data for a Dependency and returns a new Dependency with the data
     {
         Console.Write("Enter the number of the dependent task:   ");
         int dependentTask;
@@ -354,7 +354,7 @@ internal class Program
         Console.Write("Enter the number of the task that it depends on:   ");
         int DependsOnTask;
         int.TryParse(Console.ReadLine(), out DependsOnTask);
-        Dependency item = new Dependency(dependentTask, DependsOnTask);
+        Dependency item = new Dependency(id, dependentTask, DependsOnTask);
         return item;
     }
 }

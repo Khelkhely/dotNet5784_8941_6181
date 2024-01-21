@@ -76,6 +76,7 @@ public static class Initialization
             "give the employees their salary",
             "don't forget to pay the instelator",
             "invite everyone to a party for finishing the project"};
+        
         for (int i = 0; i < 20; i++) 
         {
             string? alias = $"T{i}";
@@ -143,6 +144,7 @@ public static class Initialization
     public static void Do(IDal dal)
     {
         s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
+
         createEngineer();
         createTasks();
         createDependency();
