@@ -8,14 +8,17 @@ using System.Xml.Linq;
 internal class DependencyImplementation : IDependency
 {
     readonly string s_dependencies_xml = "dependencies";
+    public void Clear()
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
+        root.RemoveAll();
+        XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
+    }
+        
     public int Create(Dependency item)
     {
         int id = Config.NextDependencyId;
-        XElement newItem = new XElement("Dependency",
-            new XElement ("Id", id),
-            new XElement ("DependentTask", item.DependentTask),
-            new XElement ("DependsOnTask", item.DependsOnTask)
-            );
+        XElement newItem = DependencyToXelement(item with { Id = id });
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
         root.Add(newItem);
         XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
@@ -38,9 +41,7 @@ internal class DependencyImplementation : IDependency
         XElement? item = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id").Value) == id);
         if (item == null)
             return null;
-        return new Dependency(int.Parse(item.Element("Id").Value),
-                    int.Parse(item.Element("DependentTask").Value),
-                    int.Parse(item.Element("DependsOnTask").Value)); 
+        return XelementToDependency(item);
     }
 
     public Dependency? Read(Func<Dependency, bool> filter)
@@ -48,9 +49,7 @@ internal class DependencyImplementation : IDependency
         Dependency t;
         foreach (XElement x in XMLTools.LoadListFromXMLElement(s_dependencies_xml).Elements()) 
         {
-            t = new Dependency(int.Parse(x.Element("Id").Value),
-                    int.Parse(x.Element("DependentTask").Value),
-                    int.Parse(x.Element("DependsOnTask").Value));
+            t = XelementToDependency(x);
             if (filter(t)) return t;
         }
         return null;
@@ -61,32 +60,36 @@ internal class DependencyImplementation : IDependency
         if(filter == null)
         {
             return from x in XMLTools.LoadListFromXMLElement(s_dependencies_xml).Elements()
-                   select new Dependency(int.Parse(x.Element("Id").Value),
-                        int.Parse(x.Element("DependentTask").Value),
-                        int.Parse(x.Element("DependsOnTask").Value));
+                   select XelementToDependency(x);
         }
         return from x in XMLTools.LoadListFromXMLElement(s_dependencies_xml).Elements()
-               where filter(new Dependency(int.Parse(x.Element("Id").Value),
-                    int.Parse(x.Element("DependentTask").Value),
-                    int.Parse(x.Element("DependsOnTask").Value)))
-               select new Dependency(int.Parse(x.Element("Id").Value),
-                    int.Parse(x.Element("DependentTask").Value),
-                    int.Parse(x.Element("DependsOnTask").Value));
+               where filter(XelementToDependency(x))
+               select XelementToDependency(x);
 
     }
 
     public void Update(Dependency item)
     {
-        XElement newItem = new XElement("Dependency",
-            new XElement("Id", item.Id),
-            new XElement("DependentTask", item.DependentTask),
-            new XElement("DependsOnTask", item.DependsOnTask)
-            );
+        XElement newItem = DependencyToXelement(item);
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
-        XElement? t = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id").Value) == item.Id);
+        XElement? t = root.Elements().FirstOrDefault(x => XMLTools.ToIntNullable(x, "Id") == item.Id);
         if (t == null)
             throw new DalDoesNotExistException($"Dependency with ID={item.Id} doesn't exist");
         t.ReplaceWith(newItem);
         XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
+    }
+    static Dependency XelementToDependency(XElement x)
+    {
+        return new Dependency(XMLTools.ToIntNullable(x, "Id") ?? 0,
+                        XMLTools.ToIntNullable(x, "DependentTask"),
+                        XMLTools.ToIntNullable(x, "DependsOnTask"));
+    }
+    static XElement DependencyToXelement (Dependency item)
+    {
+        return new XElement("Dependency",
+            new XElement("Id", item.Id),
+            new XElement("DependentTask", item.DependentTask),
+            new XElement("DependsOnTask", item.DependsOnTask)
+            );
     }
 }

@@ -1,11 +1,17 @@
 ﻿namespace Dal;
 using DalApi;
 using DO;
+using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 
 internal class EngineerImplementation : IEngineer
 {
     readonly string s_engineers_xml = "engineers";
+    public void Clear()
+    {
+        XMLTools.SaveListToXMLSerializer<Engineer>(new List<Engineer>(), s_engineers_xml);
+    }
 
     public int Create(Engineer item)
     {

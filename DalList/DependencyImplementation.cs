@@ -4,6 +4,11 @@ using DO;
 
 internal class DependencyImplementation : IDependency
 {
+    public void Clear()
+    {
+        DataSource.Dependencies.Clear();
+    }
+
     public int Create(Dependency item)
     {
         Dependency newItem = item with { Id = DataSource.Config.NextDependencyId };

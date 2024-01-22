@@ -4,6 +4,10 @@ using DO;
 
 internal class TaskImplementation : ITask
 {
+    public void Clear()
+    {
+        DataSource.Tasks.Clear();
+    }
     public int Create(Task item)
     {
         Task newItem = item with { Id = DataSource.Config.NextTaskId };

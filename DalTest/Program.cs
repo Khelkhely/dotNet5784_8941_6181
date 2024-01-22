@@ -45,7 +45,12 @@ internal class Program
                     Console.Write("Would you like to create Initial data? (Yes/No)"); //stage 3
                     string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
                     if (ans == "Yes") //stage 3
+                    {
+                        s_dal.Task.Clear();
+                        s_dal.Engineer.Clear();
+                        s_dal.Dependency.Clear();
                         Initialization.Do(s_dal); //stage 2
+                    }
                     break;
                 default:
                     Console.WriteLine("There is no such option in the main menu.");

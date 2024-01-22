@@ -4,6 +4,10 @@ using DO;
 
 internal class EngineerImplementation : IEngineer
 {
+    public void Clear()
+    {
+        DataSource.Engineers.Clear();
+    }
     public int Create(Engineer item)
     {
         if (DataSource.Engineers.Exists(x => x.Id == item.Id))
