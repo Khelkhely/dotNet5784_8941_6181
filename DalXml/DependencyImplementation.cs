@@ -85,7 +85,7 @@ internal class DependencyImplementation : IDependency
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
         XElement? t = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id").Value) == item.Id);
         if (t == null)
-            throw new DalDoesNotExistException($"Task with ID={item.Id} doesn't exist");
+            throw new DalDoesNotExistException($"Dependency with ID={item.Id} doesn't exist");
         t.ReplaceWith(newItem);
         XMLTools.SaveListToXMLElement(root, s_dependencies_xml);
     }
