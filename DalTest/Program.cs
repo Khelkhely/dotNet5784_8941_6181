@@ -51,7 +51,7 @@ internal class Program
                     Console.WriteLine("There is no such option in the main menu.");
                     break;
             }
-            Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency\n4-  Initialize data");
+            Console.WriteLine("Choose an entity you want to check:\n0- exit main menu\n1- Tasks\n2- Engineer\n3- Dependency\n4- Initialize data");
             int.TryParse(Console.ReadLine(), out choice);
         }
         
