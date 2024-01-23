@@ -85,36 +85,37 @@ public static class Initialization
             DateTime created = earliest.AddDays(s_rand.Next(range)); //chooses a random date from 2020 until today
            
             EngineerExperience complexity = (EngineerExperience)(s_rand.Next() % 5); //choose a random numer from 0-4 and convert to EngineerExperience
-            Task newTask = new Task(0, alias, TaskDescriptions[i], false, created, null, null, null, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);
+            Task newTask = new Task(0, alias, TaskDescriptions[i], false, created, null, null, 0, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);
             s_dal!.Task.Create(newTask);
         }
     }
     private static void createDependency()
     {
-        //for each task number i, the id is i +1000, so added 1000 to each task in the dependency
+        int firstTaskid = s_dal!.Task.ReadAll().ElementAt(0)!.Id; // the id of the first task
+        //for each task number i, the id is i + firstTaskid, so added firstTaskid to each task in the dependency
         for (int i = 1; i < 20; i++) //all tasks depend on the first task because it plans the work
         {
-            Dependency newDependency = new Dependency(0, i + 1000, 0 + 1000);
+            Dependency newDependency = new Dependency(0, i + firstTaskid, 0 + firstTaskid);
             s_dal!.Dependency.Create(newDependency);
         }
         for (int i = 0; i < 19; i++) //the last task depends on all of the previos ones because its checking the entire project
         {
-            Dependency newDependency = new Dependency(0, 19 + 1000, i + 1000);
+            Dependency newDependency = new Dependency(0, 19 + firstTaskid, i + firstTaskid);
             s_dal!.Dependency.Create(newDependency);
         }
         for (int i = 4; i < 19; i += 6) //every testing of a layer depends on the completion of the layer
         {
             for (int j = 1; j < 4; j++)
             {
-                Dependency newDependency = new Dependency(0, i + 1000, i - j + 1000);
+                Dependency newDependency = new Dependency(0, i + firstTaskid, i - j + firstTaskid);
                 s_dal!.Dependency.Create(newDependency);
             }
         }
         for (int i = 4; i < 19; i += 6) //the documentation and the bug fixing depend on the testing of each layer
         {
-            Dependency newDependency = new Dependency(0, i + 1 + 1000, i + 1000);
+            Dependency newDependency = new Dependency(0, i + 1 + firstTaskid, i + firstTaskid);
             s_dal!.Dependency.Create(newDependency);
-            newDependency = new Dependency(0, i + 2 + 1000, i + 1000);
+            newDependency = new Dependency(0, i + 2 + firstTaskid, i + firstTaskid);
             s_dal!.Dependency.Create(newDependency);
         }
     }
@@ -144,7 +145,9 @@ public static class Initialization
     public static void Do(IDal dal)
     {
         s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
-
+        s_dal.Dependency.Clear();
+        s_dal.Engineer.Clear();
+        s_dal.Task.Clear();
         createEngineer();
         createTasks();
         createDependency();

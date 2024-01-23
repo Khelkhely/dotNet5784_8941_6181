@@ -25,7 +25,7 @@ public record Task
     DateTime? CreatedAtDate = null,
     DateTime? ScheduledDate = null,
     DateTime? StartDate = null,
-    int? RequiredEffortTime = null,
+    int RequiredEffortTime = 0,
     DateTime? DeadlineDate = null,
     DateTime? CompleteDate = null,
     string? Deliverables = null,
