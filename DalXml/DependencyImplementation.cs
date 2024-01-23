@@ -28,7 +28,7 @@ internal class DependencyImplementation : IDependency
     public void Delete(int id)
     {
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
-        XElement? item = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id").Value) == id);
+        XElement? item = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id")!.Value) == id);
         if(item == null)
             throw new DalDoesNotExistException($"Task with ID={id} doesn't exist");
         item.Remove();
@@ -38,7 +38,7 @@ internal class DependencyImplementation : IDependency
     public Dependency? Read(int id)
     {
         XElement root = XMLTools.LoadListFromXMLElement(s_dependencies_xml);
-        XElement? item = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id").Value) == id);
+        XElement? item = root.Elements().FirstOrDefault(x => int.Parse(x.Element("Id")!.Value) == id);
         if (item == null)
             return null;
         return XelementToDependency(item);
@@ -81,8 +81,8 @@ internal class DependencyImplementation : IDependency
     static Dependency XelementToDependency(XElement x)
     {
         return new Dependency(XMLTools.ToIntNullable(x, "Id") ?? 0,
-                        XMLTools.ToIntNullable(x, "DependentTask"),
-                        XMLTools.ToIntNullable(x, "DependsOnTask"));
+                        XMLTools.ToIntNullable(x, "DependentTask") ?? 0,
+                        XMLTools.ToIntNullable(x, "DependsOnTask") ?? 0);
     }
     static XElement DependencyToXelement (Dependency item)
     {

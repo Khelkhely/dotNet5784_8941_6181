@@ -8,8 +8,8 @@
 public record Dependency
 (
     int Id,
-    int? DependentTask = null,
-    int? DependsOnTask = null
+    int DependentTask = 0,
+    int DependsOnTask = 0
 )
 {
     public Dependency() : this(0) { } //empty ctor
