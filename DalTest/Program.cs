@@ -5,7 +5,7 @@ using DO;
 
 internal class Program
 {
-    static readonly IDal s_dal = new DalXml(); //stage 2
+    static readonly IDal s_dal = new DalXml(); 
 
     enum Objects
     {
