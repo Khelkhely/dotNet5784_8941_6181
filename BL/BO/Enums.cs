@@ -1,4 +1,6 @@
-﻿namespace BO;
+﻿using System.Diagnostics.Contracts;
+
+namespace BO;
 
 public enum EngineerExperience
 {
@@ -7,4 +9,12 @@ public enum EngineerExperience
     Intermediate,
     Advanced,
     Expert
+}
+public enum Status
+{
+  Unscheduled,
+  Scheduled,
+  OnTrack,
+  InJeopardy,
+  Done
 }

@@ -1,29 +1,45 @@
 ﻿using System;
 
 namespace BO;
+/// <summary>
+/// task and information about it in the project
+/// </summary>
+/// <param name="Id">unique Id number</param>
+/// <param name="Alias">how the task is called</param>
+/// <param name="Description">description of the task</param>
+/// <param name="Status">the status of the task (calculated)</param>
+/// <param name="Dependencies">list of dependencies (relevant only before schedule is built)</param>
+/// <param name="Milestone">related milestone (id and alias) if exists (otherwise null)</param>
+/// <param name="CreatedAtDate">Date when the task was added to the system</param>
+/// <param name="ScheduledDate">planned date to start the task</param>
+/// <param name="StartDate">actual starting date</param>
+/// <param name="ForecastDate">calcualed planned completion date</param>
+/// <param name="DeadlineDate">last possible completion date</param>
+/// <param name="CompleteDate">actual completion date</param>
+/// <param name="RequiredEffortTime">number of work days needed for the task</param>
+/// <param name="Deliverables">description of deliverables for MS copmletion</param>
+/// <param name="Remarks">free remarks from project meetings</param>
+/// <param name="Engineer">if exists, the ID and name of the engineer assigned to the task</param>
+/// <param name="Copmlexity">minimum expirience for engineer to assign</param>
 
 public class Task
 {
-/*
-  CreatedAtDate datetime[not null, note: 'Date when the task was added to the system']
-  Status BO.Status[note: 'calculated']
-  Dependencies "List<BO.TaskInList>" [ref: > BOTIL.Id, note: 'relevant only before schedule is built']
-    Milestone BO.MilestoneInTask [ref: > BOMIT.Id, note: 'calculated when building schedule, populated if there is milestone in dependency, relevant only after schedule is built']
-  RequiredEffortTime TimeSpan [note: 'how many men-days needed for the task']
-  StartDate datetime [note: 'the real start date']
-  ScheduledDate datetime [note: 'the planned start date']
-  ForecastDate datetime [note: 'calcualed planned completion date']
-  DeadlineDate datetime [note: 'the latest complete date']
-  CompleteDate datetime [note: 'real completion date']
-  Deliverables string[note: 'description of deliverables for MS copmletion']
-  Remarks string[note: 'free remarks from project meetings']
-  Engineer BO.EngineerInTask[ref: -BOEIT.Id]
-  Copmlexity BO.EngineerExperience[note: 'minimum expirience for engineer to assign']
-    
-    */
     public int Id { get; init; }
     public string? Alias { get; set; }
     public string? Description { get; set; }
-    public status Status { get; set; }
-    
+    public Status Status { get; set; }
+    public List<TaskInList> Dependencies { get; set; }
+    public MilestoneInTask? Milestone { get; set; }
+    public DateTime CreatedAtDate { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime ScheduledDate { get; set; }
+    public DateTime ForecastDate { get; set; }
+    public DateTime DeadlineDate { get; set; }
+    public DateTime CompleteDate { get; set; }
+    public TimeSpan RequiredEffortTime { get; set; }
+    public string? Deliverables { get; set; }
+    public string? Remarks { get; set; }
+    public EngineerInTask Engineer { get; set; }
+    public EngineerExperience Copmlexity  { get; set;}
+
 }
