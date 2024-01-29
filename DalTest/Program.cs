@@ -2,10 +2,13 @@
 using Dal;
 using DalApi;
 using DO;
+using System.Diagnostics;
 
 internal class Program
 {
-    static readonly IDal s_dal = new DalXml(); 
+    //static readonly IDal s_dal = new DalList(); //stage 2
+    //static readonly IDal s_dal = new DalXml(); //stage 3
+    static readonly IDal s_dal = Factory.Get; //stage 4
 
     enum Objects
     {
@@ -50,7 +53,7 @@ internal class Program
                         string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
                         if (ans == "Yes") //stage 3
                         {
-                            Initialization.Do(s_dal); //stage 2
+                            Initialization.Do(); //stage 2
                         }
                         break;
                     default:

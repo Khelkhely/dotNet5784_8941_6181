@@ -142,9 +142,10 @@ public static class Initialization
             s_dal!.Engineer.Create(newEng);
         }
     }
-    public static void Do(IDal dal)
+    public static void Do()
     {
-        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
+        //s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
+        s_dal = Factory.Get;
         s_dal.Dependency.Clear();
         s_dal.Engineer.Clear();
         s_dal.Task.Clear();
