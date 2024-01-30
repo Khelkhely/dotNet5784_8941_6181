@@ -4,9 +4,9 @@
 /// Information about a task that is presented inside a list
 /// </summary>
 /// <param name="Id">Unique ID number</param>
-/// <param name="Alias">how the task is called</param>
-/// <param name="Description"></param>
-/// <param name="Status"></param>
+/// <param name="Alias">How the task is called</param>
+/// <param name="Description">Description of the task</param>
+/// <param name="Status">The status of the task</param>
 public class TaskInList
 {
     public int Id { get; init; }

@@ -4,23 +4,23 @@ namespace BO;
 /// <summary>
 /// task and information about it in the project
 /// </summary>
-/// <param name="Id">unique Id number</param>
-/// <param name="Alias">how the task is called</param>
-/// <param name="Description">description of the task</param>
-/// <param name="Status">the status of the task (calculated)</param>
-/// <param name="Dependencies">list of dependencies (relevant only before schedule is built)</param>
-/// <param name="Milestone">related milestone (id and alias) if exists (otherwise null)</param>
+/// <param name="Id">Unique Id number</param>
+/// <param name="Alias">How the task is called</param>
+/// <param name="Description">Description of the task</param>
+/// <param name="Status">The status of the task (calculated)</param>
+/// <param name="Dependencies">List of dependencies (relevant only before schedule is built)</param>
+/// <param name="Milestone">Related milestone (id and alias) if exists (otherwise null)</param>
 /// <param name="CreatedAtDate">Date when the task was added to the system</param>
-/// <param name="ScheduledDate">planned date to start the task</param>
-/// <param name="StartDate">actual starting date</param>
-/// <param name="ForecastDate">calcualed planned completion date</param>
-/// <param name="DeadlineDate">last possible completion date</param>
-/// <param name="CompleteDate">actual completion date</param>
-/// <param name="RequiredEffortTime">number of work days needed for the task</param>
-/// <param name="Deliverables">description of deliverables for MS copmletion</param>
-/// <param name="Remarks">free remarks from project meetings</param>
-/// <param name="Engineer">if exists, the ID and name of the engineer assigned to the task</param>
-/// <param name="Copmlexity">minimum expirience for engineer to assign</param>
+/// <param name="ScheduledDate">Planned date to start the task</param>
+/// <param name="StartDate">Actual starting date</param>
+/// <param name="ForecastDate">Calcualed planned completion date</param>
+/// <param name="DeadlineDate">Last possible completion date</param>
+/// <param name="CompleteDate">Actual completion date</param>
+/// <param name="RequiredEffortTime">Number of work days needed for the task</param>
+/// <param name="Deliverables">Description of deliverables for MS copmletion</param>
+/// <param name="Remarks">Free remarks from project meetings</param>
+/// <param name="Engineer">If exists, the ID and name of the engineer assigned to the task</param>
+/// <param name="Copmlexity">Minimum expirience for engineer to assign</param>
 
 public class Task
 {
