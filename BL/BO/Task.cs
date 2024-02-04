@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BO;
+﻿namespace BO;
 /// <summary>
 /// task and information about it in the project
 /// </summary>
