@@ -133,7 +133,7 @@ internal class Program
         Console.Write("Enter task starting date:    ");
         started = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.StartDate;
         Console.Write("Enter task required effort time:    ");
-        int effort = int.TryParse(Console.ReadLine(), out var num) ? num : task.RequiredEffortTime;
+        TimeSpan? effort = TimeSpan.TryParse(Console.ReadLine(), out var time) ? time : task.RequiredEffortTime;
         Console.Write("Enter task deadline date:    ");
         deadline = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.DeadlineDate;
         Console.Write("Enter task completion date:    ");
@@ -145,7 +145,7 @@ internal class Program
         string? remarks = Console.ReadLine();
         if (remarks == "") remarks = task.Remarks;
         Console.Write("Enter task engineer ID:    ");
-        int id = int.TryParse(Console.ReadLine(), out num) ? num : task.EngineerId;
+        int id = int.TryParse(Console.ReadLine(), out var num) ? num : task.EngineerId;
         Console.Write("Enter task complexity:    ");
         EngineerExperience complexity = StringToEnum(Console.ReadLine()) ?? task.Complexity;
         return new Task(task.Id, alias, description, task.IsMilestone, created, scheduled, started, effort, 

@@ -10,8 +10,6 @@ static class Tools
         string str = "";
         foreach (PropertyInfo item in t.GetType().GetProperties())
         {
-            //Type type = item.Name.GetType();
-            //if(type==List<T>)
             str += "\n" + item.Name + ": " + item.GetValue(t, null);
         }
         return str;
