@@ -169,8 +169,11 @@ internal class TaskImplementation : ITask
     /// <returns>a DO task that has the properties of the BO task</returns>
     public DO.Task BoToDo (BO.Task task) 
     {
+        int engineerId = (task.Engineer == null) ? 0 : task.Engineer.Id;
+        if (engineerId != 0 && !_dal.Engineer.ReadAll().Any(x => x.Id == engineerId)) //check if the given id exists
+            throw new BlDoesNotExistException($"Engineer with ID={engineerId} doesn't exist");
         return new DO.Task(task.Id, task.Alias, task.Description, false, task.CreatedAtDate,
                 task.ScheduledDate, task.StartDate, task.RequiredEffortTime, task.DeadlineDate, task.CompleteDate,
-                task.Deliverables, task.Remarks, task.Engineer.Id, (DO.EngineerExperience)task.Copmlexity);
+                task.Deliverables, task.Remarks, engineerId, (DO.EngineerExperience)task.Copmlexity);
     }
 }
