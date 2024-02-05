@@ -53,18 +53,11 @@ internal class TaskImplementation : ITask
             RequiredEffortTime = d.RequiredEffortTime, 
             Deliverables = d.Deliverables, 
             Remarks = d.Remarks, Copmlexity = (BO.EngineerExperience)d.Complexity};
-        b.Status = CalculateStatus(d);
+        b.Status = Tools.CalculateStatus(d);
+        b.ForecastDate = Tools.CalculateForcast(d);
         DO.Engineer? engineer = _dal.Engineer.Read(d.EngineerId);
         b.Engineer = (engineer == null) ? null : new BO.EngineerInTask { Id = engineer.Id, Name = engineer.Name };
-        if (b.ScheduledDate != null)
-        {
-            if (b.StartDate != null && b.StartDate > b.ScheduledDate)
-                b.ForecastDate = b.StartDate + b.RequiredEffortTime;
-            else
-                b.ForecastDate = b.ScheduledDate + b.RequiredEffortTime;
-        }
-        else
-            b.ForecastDate = null;
+        
         IEnumerable<DO.Dependency> dependencies = _dal.Dependency.ReadAll();
         b.Dependencies = (from item in dependencies
                           where item.DependentTask == id
@@ -75,7 +68,7 @@ internal class TaskImplementation : ITask
                               Id = task.Id,
                               Alias = task.Alias,
                               Description = task.Description,
-                              Status = CalculateStatus(task)
+                              Status = Tools.CalculateStatus(task)
 
                           }).ToList();
                          
@@ -145,22 +138,7 @@ internal class TaskImplementation : ITask
         }
     }
 
-    /// <summary>
-    /// caculates the Status of the task received according to its dates
-    /// </summary>
-    /// <param name="b">the DO task that the status of is calculated</param>
-    /// <returns>the status of the task</returns>
-    public Status CalculateStatus (DO.Task b)
-    {
-        //InJeopardy?
-        if (b.ScheduledDate == null)
-            return Status.Unscheduled;
-        if (b.StartDate == null)
-            return Status.Scheduled;
-        if (b.CompleteDate == null)
-            return Status.OnTrack;
-        return Status.Done;
-    }
+    
 
     /// <summary>
     /// turns a BO task into a DO task
