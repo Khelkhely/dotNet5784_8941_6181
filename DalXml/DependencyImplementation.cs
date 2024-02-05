@@ -55,7 +55,7 @@ internal class DependencyImplementation : IDependency
         return null;
     }
 
-    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
+    public IEnumerable<Dependency> ReadAll(Func<Dependency, bool>? filter = null)
     {
         if(filter == null)
         {
