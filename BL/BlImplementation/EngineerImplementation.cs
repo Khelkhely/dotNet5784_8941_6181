@@ -54,10 +54,10 @@ internal class EngineerImplementation : IEngineer
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
         if (doEngineer == null) { throw new BO.BlDoesNotExistException($"Engineer with Id = {id} does not exist."); }
 
-        IEnumerable<DO.Task?> doTasks = _dal.Task.ReadAll();
-        DO.Task? doTask = doTasks.FirstOrDefault<DO.Task?>(item => (item!.EngineerId == id
-                                                                   && item!.StartDate != null
-                                                                   && item!.CompleteDate == null));
+        IEnumerable<DO.Task> doTasks = _dal.Task.ReadAll();
+        DO.Task? doTask = doTasks.FirstOrDefault(item => (item.EngineerId == id
+                                                          && item.StartDate != null
+                                                          && item.CompleteDate == null)); //task the engineer is still working on
         if (doTask == null)
             return new BO.Engineer
             {
@@ -86,6 +86,7 @@ internal class EngineerImplementation : IEngineer
         
     
 
+    public IEnumerable<BO.Engineer> ReadAll()
     public IEnumerable<BO.Engineer?> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
         /* if (filter == null)
@@ -101,9 +102,9 @@ internal class EngineerImplementation : IEngineer
         if (doEngineers == null)
             throw new BO.BlDoesNotExistException("No engineer exist in the list.");
 
-        IEnumerable<DO.Task?> doTasks = _dal.Task.ReadAll();
+        IEnumerable<DO.Task> doTasks = _dal.Task.ReadAll();
 
-        IEnumerable<BO.Engineer?> boEngineers = from DO.Engineer doEngineer in doEngineers
+        IEnumerable<BO.Engineer> boEngineers = from DO.Engineer doEngineer in doEngineers
                                                 where doTasks.FirstOrDefault<DO.Task?>
                                                                    (item => (item!.EngineerId == doEngineer.Id
                                                                    && item!.StartDate != null

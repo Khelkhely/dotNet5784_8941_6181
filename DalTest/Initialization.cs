@@ -85,7 +85,7 @@ public static class Initialization
             DateTime created = earliest.AddDays(s_rand.Next(range)); //chooses a random date from 2020 until today
            
             EngineerExperience complexity = (EngineerExperience)(s_rand.Next() % 5); //choose a random numer from 0-4 and convert to EngineerExperience
-            Task newTask = new Task(0, alias, TaskDescriptions[i], false, created, null, null, null, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);
+            Task newTask = new Task(0, alias, TaskDescriptions[i], created, null, null, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);
             s_dal!.Task.Create(newTask);
         }
     }

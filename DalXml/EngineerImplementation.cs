@@ -16,6 +16,8 @@ internal class EngineerImplementation : IEngineer
     public int Create(Engineer item)
     {
         List<Engineer> engineers = XMLTools.LoadListFromXMLSerializer<Engineer>(s_engineers_xml);
+        if (engineers.Exists(x => x.Id == item.Id))
+            throw new DalAlreadyExistsException($"Engineer with ID={item.Id} already exists");
         engineers.Add(item);
         XMLTools.SaveListToXMLSerializer(engineers, s_engineers_xml);
         return item.Id;
@@ -47,7 +49,7 @@ internal class EngineerImplementation : IEngineer
         return result;
     }
 
-    public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
+    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null)
     {
         List<Engineer> engineers = XMLTools.LoadListFromXMLSerializer<Engineer>(s_engineers_xml);
         if (filter == null)
