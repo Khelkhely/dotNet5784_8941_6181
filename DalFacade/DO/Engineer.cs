@@ -1,6 +1,4 @@
-﻿//using System.ComponentModel.DataAnnotations;
-
-namespace DO;
+﻿namespace DO;
 /// <summary>
 /// Information about the engineer
 /// </summary>
@@ -16,7 +14,6 @@ public record Engineer
     string? Email=null,
     DO.EngineerExperience Level = EngineerExperience.Beginner,
     double? Cost = null
-    
 )
 {
     public Engineer() : this(0) { }//empty ctor

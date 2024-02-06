@@ -1,5 +1,4 @@
 ﻿namespace BO;
-
 /// <summary>
 /// Information about a milestone in the project
 /// </summary>

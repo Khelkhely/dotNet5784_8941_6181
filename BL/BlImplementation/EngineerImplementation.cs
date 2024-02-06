@@ -1,12 +1,11 @@
 ﻿using BlApi;
-using DalApi;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlImplementation;
 
-internal class EngineerImplementation : BlApi.IEngineer
+internal class EngineerImplementation : IEngineer
 {
     private DalApi.IDal _dal = Factory.Get;
     public void Create(BO.Engineer engineer)
@@ -39,7 +38,7 @@ internal class EngineerImplementation : BlApi.IEngineer
             if (item!.EngineerId == id &&
                (item!.StartDate != null && item!.CompleteDate == null) ||
                (item!.CompleteDate > DateTime.Now))
-                throw new BO.BlEngineerDeletionFailedException("The engineer is in the middle of working on a task, so he couldn't be deleted");
+                throw new BO.BlCanNotDeleteException("The engineer is in the middle of working on a task, so he couldn't be deleted");
         try
         {
             _dal.Engineer.Delete(id);
@@ -87,9 +86,18 @@ internal class EngineerImplementation : BlApi.IEngineer
         
     
 
-    public IEnumerable<BO.Engineer?> ReadAll()
+    public IEnumerable<BO.Engineer?> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
-        IEnumerable <DO.Engineer?> doEngineers = _dal.Engineer.ReadAll(item => item.Level == DO.EngineerExperience.Beginner);
+        /* if (filter == null)
+            return from d in _dal.Engineer.ReadAll()
+                   select Read(d.Id);
+        return from d in _dal.Engineer.ReadAll()
+               let b = Read(d.Id)
+               where filter(b)
+               select b;*/
+
+        //filter!
+        IEnumerable<DO.Engineer?> doEngineers = _dal.Engineer.ReadAll(item => item.Level == DO.EngineerExperience.Beginner);
         if (doEngineers == null)
             throw new BO.BlDoesNotExistException("No engineer exist in the list.");
 
@@ -115,12 +123,6 @@ internal class EngineerImplementation : BlApi.IEngineer
                                                     }
 
                                                 };
-        //מה קורה אם אין טאסק כזה?
-                                                        
-        //foreach (var item in doEngineers)  doEngineers.Select<DO.Engineer?>(item => item.Id == 123456)
-       // Where<DO.Engineer?>(item => item.Id == 123456)
-
-
         return boEngineers;
     }
 

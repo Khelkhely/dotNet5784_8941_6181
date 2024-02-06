@@ -1,5 +1,4 @@
 ﻿using BlApi;
-using BO;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 
@@ -11,15 +10,15 @@ internal class TaskImplementation : ITask
     public void Create(BO.Task task)
     {
         if (task.Id <= 0)
-            throw new BlInvalidInputException("Id isn't a positive number");
+            throw new BO.BlInvalidDataException("Id isn't a positive number");
         if (task.Alias == "")
-            throw new BlInvalidInputException("Alias can't be empty");
+            throw new BO.BlInvalidDataException("Alias can't be empty");
         try
         {
             _dal.Task.Create(BoToDo(task));
             if(task.Dependencies != null)
             {
-                foreach (TaskInList x in task.Dependencies)
+                foreach (BO.TaskInList x in task.Dependencies)
                 {
                     _dal.Dependency.Create(new DO.Dependency(0, task.Id, x.Id));
                 }
@@ -33,15 +32,15 @@ internal class TaskImplementation : ITask
 
     public void Delete(int id)
     {
-        DO.Task d = _dal.Task.Read(id) ?? throw new BlDoesNotExistException($"Task with id: {id} doesn't exist");
+        DO.Task d = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
         if (_dal.Dependency.ReadAll(x => x.DependsOnTask == id).Any()) //if there are tasks that depend on it
-            throw new BlCanNotDeleteException("task can't be deleted because there are tasks dependent it");
+            throw new BO.BlCanNotDeleteException("task can't be deleted because there are tasks dependent it");
         _dal.Task.Delete(id);
     }
 
     public BO.Task Read(int id)
     {
-        DO.Task d = _dal.Task.Read(id) ?? throw new BlDoesNotExistException($"Task with id: {id} doesn't exist");
+        DO.Task d = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
         BO.Task b = new BO.Task() { Id = id,
             Alias = d.Alias,
             Description = d.Description,
@@ -69,7 +68,7 @@ internal class TaskImplementation : ITask
         b.Dependencies = (from item in dependencies
                           where item.DependentTask == id
                           let task = _dal.Task.Read(item.DependsOnTask) ?? 
-                               throw new BlDoesNotExistException($"Task with ID={item.DependsOnTask} doesn't exist")
+                               throw new BO.BlDoesNotExistException($"Task with ID={item.DependsOnTask} doesn't exist")
                           select new BO.TaskInList
                           {
                               Id = task.Id,
@@ -99,14 +98,14 @@ internal class TaskImplementation : ITask
         try
         {
             if (task.Id <= 0)
-                throw new BlInvalidInputException("Id isn't a positive number");
+                throw new BO.BlInvalidDataException("Id isn't a positive number");
             if (task.Alias == "")
-                throw new BlInvalidInputException("Alias can't be empty");
+                throw new BO.BlInvalidDataException("Alias can't be empty");
             if (_dal.Task.Read(task.Id) == null)
-                throw new BlDoesNotExistException($"Task with id: {task.Id} doesn't exist");
+                throw new BO.BlDoesNotExistException($"Task with id: {task.Id} doesn't exist");
             _dal.Task.Update(BoToDo(task));
             List<DO.Dependency> dependencies = _dal.Dependency.ReadAll(x => x.DependentTask == task.Id).ToList();
-            foreach (TaskInList item in task.Dependencies) //add all new dependencies
+            foreach (BO.TaskInList item in task.Dependencies) //add all new dependencies
             {
                 if (!dependencies.Exists(x => x.DependsOnTask == item.Id))
                     _dal.Dependency.Create(new DO.Dependency(0, task.Id, item.Id));
@@ -127,15 +126,15 @@ internal class TaskImplementation : ITask
     {
         try
         {
-            DO.Task task = _dal.Task.Read(id) ?? throw new BlDoesNotExistException($"Task with id: {id} doesn't exist");
+            DO.Task task = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
 
             IEnumerable<BO.Task> previous = from item in _dal.Dependency.ReadAll()
                                             where item.DependentTask == id
                                             select Read(item.DependsOnTask); //get all previous tasks
             if (previous.Any(x => x.ScheduledDate == null))
-                throw new BlTaskDateException("previous tasks don't have a scheduled date");
+                throw new BO.BlTaskDateException("previous tasks don't have a scheduled date");
             if (previous.Any(x => x.ForecastDate > date))
-                throw new BlTaskDateException("previous tasks' forcast date is later than the given date");
+                throw new BO.BlTaskDateException("previous tasks' forcast date is later than the given date");
 
             _dal.Task.Update(task with { ScheduledDate = date });
         }
@@ -150,16 +149,16 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="b">the DO task that the status of is calculated</param>
     /// <returns>the status of the task</returns>
-    public Status CalculateStatus (DO.Task b)
+    public BO.Status CalculateStatus (DO.Task b)
     {
         //InJeopardy?
         if (b.ScheduledDate == null)
-            return Status.Unscheduled;
+            return BO.Status.Unscheduled;
         if (b.StartDate == null)
-            return Status.Scheduled;
+            return BO.Status.Scheduled;
         if (b.CompleteDate == null)
-            return Status.OnTrack;
-        return Status.Done;
+            return BO.Status.OnTrack;
+        return BO.Status.Done;
     }
 
     /// <summary>
@@ -171,7 +170,7 @@ internal class TaskImplementation : ITask
     {
         int engineerId = (task.Engineer == null) ? 0 : task.Engineer.Id;
         if (engineerId != 0 && !_dal.Engineer.ReadAll().Any(x => x.Id == engineerId)) //check if the given id exists
-            throw new BlDoesNotExistException($"Engineer with ID={engineerId} doesn't exist");
+            throw new BO.BlDoesNotExistException($"Engineer with ID={engineerId} doesn't exist");
         return new DO.Task(task.Id, task.Alias, task.Description, false, task.CreatedAtDate,
                 task.ScheduledDate, task.StartDate, task.RequiredEffortTime, task.DeadlineDate, task.CompleteDate,
                 task.Deliverables, task.Remarks, engineerId, (DO.EngineerExperience)task.Copmlexity);

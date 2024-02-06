@@ -9,14 +9,6 @@ public class BlDoesNotExistException : Exception
 }
 
 [Serializable]
-public class BlInvalidInputException : Exception
-{
-    public BlInvalidInputException(string? message) : base(message) { }
-    public BlInvalidInputException(string message, Exception innerException)
-                : base(message, innerException) { }
-}
-
-[Serializable]
 public class BlCanNotDeleteException : Exception
 {
     public BlCanNotDeleteException(string? message) : base(message) { }
@@ -44,12 +36,5 @@ public class BlInvalidDataException : Exception
 {
     public BlInvalidDataException(string? message) : base(message) { }
     public BlInvalidDataException(string message, Exception innerException)
-                : base(message, innerException) { }
-}
-[Serializable]
-public class BlEngineerDeletionFailedException : Exception
-{
-    public BlEngineerDeletionFailedException(string? message) : base(message) { }
-    public BlEngineerDeletionFailedException(string message, Exception innerException)
                 : base(message, innerException) { }
 }

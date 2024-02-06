@@ -1,13 +1,9 @@
-﻿using System;
-
-namespace Targil0
+﻿namespace Targil0;
+partial class Program
 {
-    partial class Program
+    static partial void Welcome8941()
     {
-        static partial void Welcome8941()
-        {
-            Console.WriteLine("I am also here!");
-        }
+        Console.WriteLine("I am also here!");
     }
 }
 
