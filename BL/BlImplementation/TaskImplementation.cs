@@ -11,9 +11,9 @@ internal class TaskImplementation : ITask
     public void Create(BO.Task task)
     {
         if (task.Id <= 0)
-            throw new BO.BlInvalidInputException("Id isn't a positive number");
+            throw new BO.BlInvalidDataException("Id isn't a positive number");
         if (task.Alias == "")
-            throw new BO.BlInvalidInputException("Alias can't be empty");
+            throw new BO.BlInvalidDataException("Alias can't be empty");
 
         //automated id or not??
         _dal.Task.Create(BoToDo(task)); //doesn't throw exceptions
@@ -83,9 +83,9 @@ internal class TaskImplementation : ITask
     public void Update(BO.Task task)
     {
         if (task.Id <= 0)
-            throw new BO.BlInvalidInputException("Id isn't a positive number");
+            throw new BO.BlInvalidDataException("Id isn't a positive number");
         if (task.Alias == "")
-            throw new BO.BlInvalidInputException("Alias can't be empty");
+            throw new BO.BlInvalidDataException("Alias can't be empty");
         try
         {
             _dal.Task.Update(BoToDo(task));
