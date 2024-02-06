@@ -126,7 +126,7 @@ internal class Program
         string? description = Console.ReadLine();
         if (description == "") description = task.Description;
         Console.Write("Enter task creation date:    ");
-        DateTime? created, scheduled, started, deadline, complete;
+        DateTime? created, scheduled, started, complete;
         created = DateTime.TryParse(Console.ReadLine(), out var temp) ? temp : task.CreatedAtDate;
         Console.Write("Enter task scheduled starting date:    "); 
         scheduled = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.ScheduledDate;
@@ -134,8 +134,8 @@ internal class Program
         started = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.StartDate;
         Console.Write("Enter task required effort time:    ");
         TimeSpan? effort = TimeSpan.TryParse(Console.ReadLine(), out var time) ? time : task.RequiredEffortTime;
-        Console.Write("Enter task deadline date:    ");
-        deadline = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.DeadlineDate;
+        //Console.Write("Enter task deadline date:    "); //deadline date irrelevant in BL without milestones?
+        //deadline = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.DeadlineDate;
         Console.Write("Enter task completion date:    ");
         complete = DateTime.TryParse(Console.ReadLine(), out temp) ? temp : task.CompleteDate;
         Console.Write("Enter task deliverables:    ");
@@ -148,8 +148,8 @@ internal class Program
         int id = int.TryParse(Console.ReadLine(), out var num) ? num : task.EngineerId;
         Console.Write("Enter task complexity:    ");
         EngineerExperience complexity = StringToEnum(Console.ReadLine()) ?? task.Complexity;
-        return new Task(task.Id, alias, description, task.IsMilestone, created, scheduled, started, effort, 
-                        deadline, complete, deliverables, remarks, id, complexity);
+        return new Task(task.Id, alias, description, created, scheduled, started, effort, 
+                         complete, deliverables, remarks, id, complexity);
     }
 
     private static void ShowTask() //print the task with the Id received from the user

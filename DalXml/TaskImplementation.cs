@@ -39,7 +39,7 @@ internal class TaskImplementation : ITask
     {
         IEnumerable<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
 
-        Task? result = tasks.FirstOrDefault(x => filter(x));
+        Task? result = tasks.FirstOrDefault(filter);
 
         return result;
     }
