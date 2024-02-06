@@ -48,8 +48,8 @@ internal class TaskImplementation : ITask
             RequiredEffortTime = d.RequiredEffortTime, 
             Deliverables = d.Deliverables, 
             Remarks = d.Remarks, Copmlexity = (BO.EngineerExperience)d.Complexity};
-        b.Status = Tools.CalculateStatus(d);
-        b.ForecastDate = Tools.CalculateForcast(d);
+        b.Status = BO.Tools.CalculateStatus(d);
+        b.ForecastDate = BO.Tools.CalculateForcast(d);
         DO.Engineer? engineer = _dal.Engineer.Read(d.EngineerId);
         b.Engineer = (engineer == null) ? null : new BO.EngineerInTask { Id = engineer.Id, Name = engineer.Name };
         
@@ -57,13 +57,13 @@ internal class TaskImplementation : ITask
         b.Dependencies = (from item in dependencies
                           where item.DependentTask == id
                           let task = _dal.Task.Read(item.DependsOnTask) ?? 
-                               throw new BlDoesNotExistException($"Task with ID={item.DependsOnTask} doesn't exist")
+                               throw new BO.BlDoesNotExistException($"Task with ID={item.DependsOnTask} doesn't exist")
                           select new BO.TaskInList
                           {
                               Id = task.Id,
                               Alias = task.Alias,
                               Description = task.Description,
-                              Status = Tools.CalculateStatus(task)
+                              Status = BO.Tools.CalculateStatus(task)
 
                           }).ToList();
         return b;
