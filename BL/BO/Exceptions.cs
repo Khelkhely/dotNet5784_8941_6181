@@ -38,3 +38,19 @@ public class BlInvalidDataException : Exception
     public BlInvalidDataException(string message, Exception innerException)
                 : base(message, innerException) { }
 }
+
+[Serializable]
+public class BlTryParseFailedException : Exception
+{
+    public BlTryParseFailedException(string? message) : base(message) { }
+    public BlTryParseFailedException(string message, Exception innerException)
+                : base(message, innerException) { }
+}
+
+[Serializable]
+public class BlOptionDoesntExistException : Exception
+{
+    public BlOptionDoesntExistException(string? message) : base(message) { }
+    public BlOptionDoesntExistException(string message, Exception innerException)
+                : base(message, innerException) { }
+}
