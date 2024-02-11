@@ -65,7 +65,7 @@ internal class TaskImplementation : ITask
                               Description = task.Description,
                               Status = BO.Tools.CalculateStatus(task)
 
-                          }).ToList();
+                          }).OrderBy(x => x.Id).ToList();
         return b;
     }
 
