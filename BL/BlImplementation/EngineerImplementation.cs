@@ -34,11 +34,14 @@ internal class EngineerImplementation : IEngineer
     public void Delete(int id)
     {
         IEnumerable<DO.Task?> doTasks = _dal.Task.ReadAll();
-        foreach (var item in doTasks)
-            if (item!.EngineerId == id &&
+        var groups = from task in doTasks
+                     group task by task.EngineerId into gs
+                     select gs;
+        var matching = groups.FirstOrDefault(x => x.Key == id);
+        if (matching != null && matching.Any(item =>
                (item!.StartDate != null && item!.CompleteDate == null) ||
-               (item!.CompleteDate > DateTime.Now))
-                throw new BO.BlCanNotDeleteException("The engineer is in the middle of working on a task, so he couldn't be deleted");
+               (item!.CompleteDate > DateTime.Now)))
+            throw new BO.BlCanNotDeleteException("The engineer is in the middle of working on a task, so he couldn't be deleted");
         try
         {
             _dal.Engineer.Delete(id);
@@ -84,36 +87,15 @@ internal class EngineerImplementation : IEngineer
         };
     }
 
-    public IEnumerable<BO.Engineer?> ReadAll(Func<BO.Engineer, bool>? filter = null)
+    public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
-        //filter?
-        IEnumerable<DO.Engineer?> doEngineers = _dal.Engineer.ReadAll((Func<DO.Engineer, bool>?)filter);
-        if (doEngineers == null)
-            throw new BO.BlDoesNotExistException("No engineer exist in the list.");
-
-        IEnumerable<DO.Task> doTasks = _dal.Task.ReadAll()!;
-
-        IEnumerable<BO.Engineer> boEngineers = from DO.Engineer doEngineer in doEngineers
-                                                where doTasks.FirstOrDefault<DO.Task?>
-                                                                   (item => (item!.EngineerId == doEngineer.Id
-                                                                   && item!.StartDate != null
-                                                                   && item!.CompleteDate == null))
-                                                                   != null
-                                                select new BO.Engineer 
-                                                {
-                                                    Id = doEngineer!.Id,
-                                                    Name = doEngineer!.Name,
-                                                    Email = doEngineer!.Email,
-                                                    Level = (BO.EngineerExperience)doEngineer!.Level,
-                                                    Cost = doEngineer!.Cost,
-                                                    Task = new BO.TaskInEngineer
-                                                    {
-                                                        Id = _dal.Task.Read(doEngineer!.Id)!.Id,
-                                                        Alias = _dal.Task.Read(doEngineer!.Id)!.Alias
-                                                    }
-
-                                                };
-        return boEngineers;
+        if (filter == null)
+            return from engineer in _dal.Task.ReadAll()
+                   select Read(engineer.Id);
+        return from doEngineer in _dal.Task.ReadAll()
+               let boEngineer = Read(doEngineer.Id)
+               where filter(boEngineer)
+               select boEngineer;
     }
 
     public void Update(BO.Engineer engineer)
