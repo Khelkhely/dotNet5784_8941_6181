@@ -371,6 +371,6 @@ internal class Program
         }
 
         //save the project starting date to the configuration data
-        //how? \_(T-T)_/
+
     }
 }

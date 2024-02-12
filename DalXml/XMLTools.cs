@@ -34,6 +34,13 @@ static class XMLTools
         XMLTools.SaveListToXMLElement(root, data_config_xml);
         return nextId;
     }
+
+    public static DateTime? GetScheduledDate(string data_config_xml, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
+        DateTime? date = root.ToDateTimeNullable(elemName) ?? null; //throw new FormatException($"can't convert id.  {data_config_xml}, {elemName}");
+        return date;
+    }
     #endregion
 
     #region SaveLoadWithXElement
