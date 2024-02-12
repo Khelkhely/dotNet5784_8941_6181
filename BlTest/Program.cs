@@ -98,7 +98,7 @@ internal class Program
             choice = int.TryParse(Console.ReadLine(), out value) ? value :
                 throw new BO.BlTryParseFailedException("Parsing failed");
         }
-        
+
     }
     private static void TaskMenuAfter()
     {
@@ -152,7 +152,7 @@ internal class Program
     }
     private static void AddTask()
     {
-        BO.Task task = new BO.Task() { CreatedAtDate =  DateTime.Now };
+        BO.Task task = new BO.Task() { CreatedAtDate = DateTime.Now };
         Console.WriteLine("Enter task alias:");
         task.Alias = Console.ReadLine();
         Console.WriteLine("Enter task description:");
@@ -176,7 +176,7 @@ internal class Program
         Console.WriteLine("Enter task complexity (0-4):");
         task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ? (BO.EngineerExperience)value : 0;
         Console.WriteLine("Enter task Engineer Id:");
-        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? new EngineerInTask() { Id = value} : null;
+        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? new EngineerInTask() { Id = value } : null;
 
         s_bl.Task.Create(task);
     }
@@ -205,15 +205,15 @@ internal class Program
         }
 
         Console.WriteLine("Enter task required effort time:");
-        task.RequiredEffortTime = TimeSpan.TryParse(Console.ReadLine(), out var time) ? 
+        task.RequiredEffortTime = TimeSpan.TryParse(Console.ReadLine(), out var time) ?
             time : task.RequiredEffortTime;
 
         Console.WriteLine("Enter task complexity (0-4):");
-        task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ? 
+        task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ?
             (BO.EngineerExperience)value : task.Copmlexity;
 
         Console.WriteLine("Enter task Engineer Id:");
-        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? 
+        task.Engineer = int.TryParse(Console.ReadLine(), out value) ?
             new EngineerInTask() { Id = value } : task.Engineer;
 
         s_bl.Task.Update(task);
@@ -283,7 +283,7 @@ internal class Program
         Console.WriteLine("Enter engineer's level (0-4): \t");
         engineer.Level = (BO.EngineerExperience)(int.TryParse(Console.ReadLine(), out int level) ? level : 0);//(int)BO.EngineerExperience.Beginner);
         Console.WriteLine("Enter engineer's cost: \t");
-        engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;       
+        engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;
         try
         {
             s_bl.Engineer.Create(engineer);
