@@ -1,6 +1,5 @@
-﻿using BO;
-using System.Security.Cryptography.X509Certificates;
-
+﻿using System.Security.Cryptography.X509Certificates;
+using BO;//?
 namespace BlTest;
 
 internal class Program
@@ -27,6 +26,7 @@ internal class Program
                     TaskMenu();
                     break;
                 case 2:
+                    EngineerMenu();
                     break;
                 case 0:
                     break;
@@ -73,17 +73,17 @@ internal class Program
 
     private static void AddTask()
     {
-        BO.Task task = new BO.Task() { CreatedAtDate =  DateTime.Now };
+        BO.Task task = new BO.Task() { CreatedAtDate = DateTime.Now };
         Console.WriteLine("Enter task alias:\t");
         task.Alias = Console.ReadLine();
         Console.WriteLine("Enter task description: \t");
         task.Description = Console.ReadLine();
-        task.Dependencies = new List<TaskInList>();
+        task.Dependencies = new List<BO.TaskInList>();
         Console.WriteLine("Enter Id of previous tasks the task is dependant on. Enter 0 to stop.\n");
         int id = int.TryParse(Console.ReadLine(), out int value) ? value : 0;
         while (id != 0)
         {
-            task.Dependencies.Add(new BO.TaskInList() { Id = id});
+            task.Dependencies.Add(new BO.TaskInList() { Id = id });
             id = int.TryParse(Console.ReadLine(), out value) ? value : 0;
         }
 
@@ -104,7 +104,7 @@ internal class Program
         Console.WriteLine("Enter task complexity (0-4): \t");
         task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ? (EngineerExperience)value : 0;
         Console.WriteLine("Enter task Engineer Id: \t");
-        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? new EngineerInTask() { Id = value} : null;
+        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? new EngineerInTask() { Id = value } : null;
 
         s_bl.Task.Create(task);
     }
@@ -126,4 +126,109 @@ internal class Program
 
 
     }
+
+    private static void EngineerMenu()
+    {
+        int choice;
+        do
+        {
+            Console.WriteLine("Choose an action:" +
+                       "0: return to main menu" +
+                       "1: add new engineer" +
+                       "2: delete engineer" +
+                       "3: show all engineers" +
+                       "4: show the tasks that the engineer works on" +
+                       "5: update an engineer");
+            choice = int.TryParse(Console.ReadLine(), out int value) ? value :
+                    throw new BO.BlTryParseFailedException("Parsing failed");
+            switch (choice)
+            {
+                case 1:
+                    AddEngineer();
+                    break;
+                case 2:
+                    DeleteEngineer();
+                    break;
+                case 3:
+                    ShowAllEngineers();
+                    break;
+                case 4:
+                    ShowTasks();
+                    break;
+                case 5:
+                    UpdateEngineer();
+                    break;
+                default:
+                    throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
+            }
+        }
+        while (choice != 0);
+    }
+    private static void AddEngineer()
+    {
+        Console.WriteLine("Enter engineer's Id: \t");
+        if (int.TryParse(Console.ReadLine(), out var id) == false)
+            throw new BO.BlTryParseFailedException("parsing failed");
+        BO.Engineer engineer = new BO.Engineer() { Id = id };
+        Console.WriteLine("Enter engineer's name: \t");
+        engineer.Name = Console.ReadLine();
+        Console.WriteLine("Enter engineer's email: \t");
+        engineer.Email = Console.ReadLine();
+        Console.WriteLine("Enter engineer's level (0-4): \t");
+        engineer.Level = (BO.EngineerExperience)(int.TryParse(Console.ReadLine(), out int level) ? level : 0);//(int)BO.EngineerExperience.Beginner);
+        Console.WriteLine("Enter engineer's cost: \t");
+        engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;       
+        try
+        {
+            s_bl.Engineer.Create(engineer);
+
+        }
+        catch (Exception ex) { Console.WriteLine(ex); }
+    }
+    private static void DeleteEngineer()
+    {
+        Console.WriteLine("Enter engineer's Id: \t");
+        if (int.TryParse(Console.ReadLine(), out int id) == false)
+            throw new BO.BlTryParseFailedException("parsing failed");
+        try { s_bl.Engineer.Delete(id); }
+        catch (Exception ex) { Console.WriteLine(ex); }
+    }
+    private static void ShowAllEngineers()
+    {
+        foreach (Engineer? item in s_bl.Engineer.ReadAll())
+        {
+            Console.WriteLine(item);
+        }
+    }
+    private static void ShowTasks()
+    {
+        Console.WriteLine("Enter engineer's Id: \t");
+        if (int.TryParse(Console.ReadLine(), out int id) == false)
+            throw new BO.BlTryParseFailedException("parsing failed");
+        foreach (BO.Task item in s_bl.Task.ReadAll())
+            if (item.Engineer!.Id == id)
+                Console.WriteLine(item);
+    }
+    private static void UpdateEngineer()
+    {
+        Console.WriteLine("Enter engineer's Id to update: \t");
+        if (int.TryParse(Console.ReadLine(), out int id) == false)
+            throw new BO.BlTryParseFailedException("parsing failed");
+        Engineer original = s_bl.Engineer.Read(id);
+        Console.Write(original);
+
+        BO.Engineer engineer = new BO.Engineer() { Id = id };
+        Console.WriteLine("Enter engineer's new name: \t");
+        engineer.Name = Console.ReadLine();
+        Console.WriteLine("Enter engineer's new email: \t");
+        engineer.Email = Console.ReadLine();
+        Console.WriteLine("Enter engineer's new level (as number): \t");
+        engineer.Level = (BO.EngineerExperience)(int.TryParse(Console.ReadLine(), out int level) ? level : 0);
+        Console.WriteLine("Enter engineer's cost: \t");
+        engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;
+        try { s_bl!.Engineer.Update(engineer); }
+        catch (Exception ex) { Console.WriteLine(ex); }
+    }
+
+
 }

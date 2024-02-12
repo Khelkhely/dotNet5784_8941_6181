@@ -10,10 +10,10 @@ internal class EngineerImplementation : IEngineer
     private DalApi.IDal _dal = Factory.Get;
     public void Create(BO.Engineer engineer)
     {
-        if ((engineer.Id < 0) ||
+        if ((engineer.Id <= 0) ||
             (engineer.Name == null) || (engineer.Name == "") ||
             (engineer.Email == null) || !(engineer.Email.EndsWith("@gmail.com")) ||
-            (engineer.Cost == null) || (engineer.Cost < 0)) 
+            (engineer.Cost == null) || (engineer.Cost < 0))
             throw new BO.BlInvalidDataException($"The data of the engineer with the ID={engineer.Id} is invalid");
         try
         {
@@ -23,14 +23,14 @@ internal class EngineerImplementation : IEngineer
                 engineer.Email,
                 (DO.EngineerExperience)engineer.Level,
                 engineer.Cost);
-        
+            _dal.Engineer.Create(doEngineer);
+
         }
         catch (DO.DalAlreadyExistsException ex)
         {
             throw new BO.BlAlreadyExistsException($"Engineer with ID={engineer.Id} already exists", ex);
         }
     }
-
     public void Delete(int id)
     {
         IEnumerable<DO.Task?> doTasks = _dal.Task.ReadAll();
@@ -103,11 +103,23 @@ internal class EngineerImplementation : IEngineer
         if ((engineer.Id < 0) ||
             (engineer.Name == null) || (engineer.Name == "") ||
             (engineer.Email == null) || !(engineer.Email.EndsWith("@gmail.com")) ||
-            (engineer.Cost == null) || (engineer.Cost < 0)) 
+            (engineer.Cost == null) || (engineer.Cost < 0))
             throw new BO.BlInvalidDataException($"The data of the engineer with the ID={engineer.Id} is invalid");
 
-        DO.Task? doTask = _dal.Task.ReadAll().FirstOrDefault<DO.Task?>(item => item!.Id == engineer.Task!.Id)! with { EngineerId = engineer.Id };
-        _dal.Task.Update(doTask);
+        if (engineer.Task != null)
+        {
+            DO.Task? doTask = _dal.Task.ReadAll().FirstOrDefault<DO.Task?>(item => item!.Id == engineer.Task!.Id)! with { EngineerId = engineer.Id };
+            try
+            {
+                _dal.Task.Update(doTask);
+
+            }
+            catch (DO.DalDoesNotExistException ex)
+            {
+                throw new BO.BlDoesNotExistException($"Task with ID={engineer.Task!.Id} does not exists", ex);
+            }
+        }
+
 
         DO.Engineer doEngineer = new DO.Engineer();
         if ((_dal.Engineer.Read(engineer.Id) != null) &&
@@ -120,7 +132,7 @@ internal class EngineerImplementation : IEngineer
                 Cost = engineer.Cost
             };
         }
-         else
+        else
         {
             doEngineer = new DO.Engineer
             {
@@ -133,7 +145,7 @@ internal class EngineerImplementation : IEngineer
         BO.Engineer en = new BO.Engineer();
         try
         {
-        _dal.Engineer.Update(doEngineer);
+            _dal.Engineer.Update(doEngineer);
 
         }
         catch (DO.DalDoesNotExistException ex)
