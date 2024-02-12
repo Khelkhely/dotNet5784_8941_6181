@@ -9,5 +9,5 @@ public interface ITask
     public void Create(BO.Task task);  
     public void Delete(int id);
     public void Update(BO.Task task);
-    public void UpdateTaskDate(int id, DateTime date);
+    public void UpdateTaskDate(int id, DateTime date, DateTime projectStartDate);
 }

@@ -25,12 +25,12 @@ internal class TaskImplementation : ITask
                 t.Status = BO.Tools.CalculateStatus(dTask);
             }
         //check if the engineer exists
-        if (task.Engineer != null && _dal.Engineer.ReadAll().All(x => x.Id != task.Engineer.Id))
+        if (task.Engineer != null && _dal.Engineer.Read(task.Engineer.Id) == null)
             throw new BO.BlDoesNotExistException($"Engineer with id: {task.Engineer.Id} doesn't exist");
         int newId  = _dal.Task.Create(BoToDo(task)); //doesn't throw exceptions
         if (task.Dependencies != null)
         {
-            foreach (var item in task.Dependencies) //check that all the the dependent on tasks exist
+            foreach (var item in task.Dependencies) //check that all the the dependent-on tasks exist
             {
                 if (_dal.Task.Read(item.Id) == null)
                     throw new BO.BlDoesNotExistException($"Task with id: {item.Id} doesn't exist");
@@ -109,6 +109,8 @@ internal class TaskImplementation : ITask
             throw new BO.BlInvalidDataException("Id isn't a positive number");
         if (task.Alias == "")
             throw new BO.BlInvalidDataException("Alias can't be empty");
+        if (task.Engineer != null && !BO.Tools.EngineerIsAvailabe(task.Engineer.Id, _dal))
+            throw new Exception(); //make a fitting exception
         try
         {
             _dal.Task.Update(BoToDo(task));
@@ -140,16 +142,27 @@ internal class TaskImplementation : ITask
         }
     }
 
-    public void UpdateTaskDate(int id, DateTime date)
+    public void UpdateTaskDate(int id, DateTime date, DateTime projectStartDate)
     {
         DO.Task task = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
-        IEnumerable<BO.Task> previous = from item in _dal.Dependency.ReadAll()
+        //get all previous tasks (DO)
+        IEnumerable<DO.Task> previous = from item in _dal.Dependency.ReadAll()
                                         where item.DependentTask == id
-                                        select Read(item.DependsOnTask); //get all previous tasks
-        if (previous.Any(x => x.ScheduledDate == null))
-            throw new BO.BlTaskDateException("previous tasks don't have a scheduled date");
-        if (previous.Any(x => x.ForecastDate > date))
-            throw new BO.BlTaskDateException("previous tasks' forcast date is later than the given date");
+                                        select _dal.Task.Read(item.DependsOnTask) ??
+                                            throw new BO.BlDoesNotExistException
+                                            ($"Task with id: {item.DependsOnTask} doesn't exist"); 
+        if (previous.Count() == 0) //if there are no previous tasks
+        {
+            if (date < projectStartDate)
+                throw new BO.BlTaskDateException("scheduled date is earlier than the project's scheduled date");
+        }
+        else //if there are previous tasks
+        {
+            if (previous.Any(x => x.ScheduledDate == null))
+                throw new BO.BlTaskDateException("previous tasks don't have a scheduled date");
+            if (previous.Any(x => BO.Tools.CalculateForcast(x) > date))
+                throw new BO.BlTaskDateException("previous tasks' forcast date is later than the given date");
+        }
         try
         {
             _dal.Task.Update(task with { ScheduledDate = date });
@@ -176,4 +189,5 @@ internal class TaskImplementation : ITask
                 task.ScheduledDate, task.StartDate, task.RequiredEffortTime, task.CompleteDate,
                 task.Deliverables, task.Remarks, engineerId, (DO.EngineerExperience)task.Copmlexity);
     }
+
 }
