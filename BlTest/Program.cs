@@ -19,7 +19,7 @@ internal class Program
                 "2: Engineer" +
                 "3: create schedule");
             choice = int.TryParse(Console.ReadLine(), out int value) ? value :
-                throw new BO.BlTryParseFailedException("Parsing failed");
+                throw new BlTryParseFailedException("Parsing failed");
             switch (choice)
             {
                 case 0:
@@ -34,7 +34,7 @@ internal class Program
                     CreateSchedule();
                     break;
                 default:
-                    throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
+                    throw new BlOptionDoesntExistException("There is no such option in the menu");
             }
         }
         while (choice != 0);
@@ -51,7 +51,7 @@ internal class Program
             "5: assign a task to an engineer" +
             "6: delete a task");
         int choice = int.TryParse(Console.ReadLine(), out int value) ? value :
-                throw new BO.BlTryParseFailedException("Parsing failed");
+                throw new BlTryParseFailedException("Parsing failed");
         int tmp;
         while (choice != 0)
         {
@@ -98,7 +98,7 @@ internal class Program
             choice = int.TryParse(Console.ReadLine(), out value) ? value :
                 throw new BO.BlTryParseFailedException("Parsing failed");
         }
-        
+
     }
     private static void TaskMenuAfter()
     {
@@ -150,10 +150,9 @@ internal class Program
         }
 
     }
-
     private static void AddTask()
     {
-        BO.Task task = new BO.Task() { CreatedAtDate =  DateTime.Now };
+        BO.Task task = new BO.Task() { CreatedAtDate = DateTime.Now };
         Console.WriteLine("Enter task alias:");
         task.Alias = Console.ReadLine();
         Console.WriteLine("Enter task description:");
@@ -163,7 +162,7 @@ internal class Program
         int id = int.TryParse(Console.ReadLine(), out int value) ? value : 0;
         while (id != 0)
         {
-            task.Dependencies.Add(new BO.TaskInList() { Id = id });
+            task.Dependencies.Add(new TaskInList() { Id = id });
             id = int.TryParse(Console.ReadLine(), out value) ? value : 0;
         }
         Console.WriteLine("Enter task required effort time:");
@@ -177,11 +176,10 @@ internal class Program
         Console.WriteLine("Enter task complexity (0-4):");
         task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ? (BO.EngineerExperience)value : 0;
         Console.WriteLine("Enter task Engineer Id:");
-        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? new EngineerInTask() { Id = value} : null;
+        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? new EngineerInTask() { Id = value } : null;
 
         s_bl.Task.Create(task);
     }
-
     private static void UpdateTask()
     {
         Console.WriteLine("Enter the Id of the task you want to update:");
@@ -202,35 +200,34 @@ internal class Program
         int tmp = int.TryParse(Console.ReadLine(), out int value) ? value : 0;
         while (tmp != 0)
         {
-            task.Dependencies.Add(new BO.TaskInList() { Id = id });
+            task.Dependencies.Add(new TaskInList() { Id = id });
             id = int.TryParse(Console.ReadLine(), out value) ? value : 0;
         }
 
         Console.WriteLine("Enter task required effort time:");
-        task.RequiredEffortTime = TimeSpan.TryParse(Console.ReadLine(), out var time) ? 
+        task.RequiredEffortTime = TimeSpan.TryParse(Console.ReadLine(), out var time) ?
             time : task.RequiredEffortTime;
 
         Console.WriteLine("Enter task complexity (0-4):");
-        task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ? 
+        task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ?
             (BO.EngineerExperience)value : task.Copmlexity;
 
         Console.WriteLine("Enter task Engineer Id:");
-        task.Engineer = int.TryParse(Console.ReadLine(), out value) ? 
+        task.Engineer = int.TryParse(Console.ReadLine(), out value) ?
             new EngineerInTask() { Id = value } : task.Engineer;
 
         s_bl.Task.Update(task);
     }
-
     private static void AssignEngineer()
     {
         Console.WriteLine("Enter task Id:");
         int taskId = int.TryParse(Console.ReadLine(), out int num) ? num :
-            throw new BO.BlTryParseFailedException("Parsing failed");
+            throw new BlTryParseFailedException("Parsing failed");
         Console.WriteLine("Enter engineer Id:");
         int engineerId = int.TryParse(Console.ReadLine(), out num) ? num :
-            throw new BO.BlTryParseFailedException("Parsing failed");
+            throw new BlTryParseFailedException("Parsing failed");
         BO.Task task = s_bl.Task.Read(taskId);
-        task.Engineer = new BO.EngineerInTask() { Id = engineerId };
+        task.Engineer = new EngineerInTask() { Id = engineerId };
         s_bl.Task.Update(task);
     }
 
@@ -249,7 +246,7 @@ internal class Program
                        "4: show the tasks that the engineer works on" +
                        "5: update an engineer");
             choice = int.TryParse(Console.ReadLine(), out int value) ? value :
-                    throw new BO.BlTryParseFailedException("Parsing failed");
+                    throw new BlTryParseFailedException("Parsing failed");
             switch (choice)
             {
                 case 1:
@@ -268,7 +265,7 @@ internal class Program
                     UpdateEngineer();
                     break;
                 default:
-                    throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
+                    throw new BlOptionDoesntExistException("There is no such option in the menu");
             }
         }
         while (choice != 0);
@@ -277,8 +274,8 @@ internal class Program
     {
         Console.WriteLine("Enter engineer's Id: \t");
         if (int.TryParse(Console.ReadLine(), out var id) == false)
-            throw new BO.BlTryParseFailedException("parsing failed");
-        BO.Engineer engineer = new BO.Engineer() { Id = id };
+            throw new BlTryParseFailedException("parsing failed");
+        BO.Engineer engineer = new Engineer() { Id = id };
         Console.WriteLine("Enter engineer's name: \t");
         engineer.Name = Console.ReadLine();
         Console.WriteLine("Enter engineer's email: \t");
@@ -286,7 +283,7 @@ internal class Program
         Console.WriteLine("Enter engineer's level (0-4): \t");
         engineer.Level = (BO.EngineerExperience)(int.TryParse(Console.ReadLine(), out int level) ? level : 0);//(int)BO.EngineerExperience.Beginner);
         Console.WriteLine("Enter engineer's cost: \t");
-        engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;       
+        engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;
         try
         {
             s_bl.Engineer.Create(engineer);
@@ -298,7 +295,7 @@ internal class Program
     {
         Console.WriteLine("Enter engineer's Id: \t");
         if (int.TryParse(Console.ReadLine(), out int id) == false)
-            throw new BO.BlTryParseFailedException("parsing failed");
+            throw new BlTryParseFailedException("parsing failed");
         try { s_bl.Engineer.Delete(id); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
@@ -313,7 +310,7 @@ internal class Program
     {
         Console.WriteLine("Enter engineer's Id: \t");
         if (int.TryParse(Console.ReadLine(), out int id) == false)
-            throw new BO.BlTryParseFailedException("parsing failed");
+            throw new BlTryParseFailedException("parsing failed");
         foreach (BO.Task item in s_bl.Task.ReadAll())
             if (item.Engineer!.Id == id)
                 Console.WriteLine(item);
@@ -322,11 +319,11 @@ internal class Program
     {
         Console.WriteLine("Enter engineer's Id to update: \t");
         if (int.TryParse(Console.ReadLine(), out int id) == false)
-            throw new BO.BlTryParseFailedException("parsing failed");
+            throw new BlTryParseFailedException("parsing failed");
         Engineer original = s_bl.Engineer.Read(id);
         Console.Write(original);
 
-        BO.Engineer engineer = new BO.Engineer() { Id = id };
+        BO.Engineer engineer = new Engineer() { Id = id };
         Console.WriteLine("Enter engineer's new name: \t");
         engineer.Name = Console.ReadLine();
         Console.WriteLine("Enter engineer's new email: \t");
