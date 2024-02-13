@@ -7,37 +7,52 @@ internal class Program
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     static void Main(string[] args)
     {
-        Console.WriteLine("Would you like to create Initial data? Y/N\t");
-        string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
-        if (ans == "Y")
-            DalTest.Initialization.Do();
-        bool inProgress = s_bl.IsScheduled(); //a flag to indicate what stage the project is in - plannig, or in progress
-        int choice;
+        try
+        {
+            Console.WriteLine("Would you like to create Initial data? Y/N\t");
+            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+            if (ans == "Y")
+                DalTest.Initialization.Do();
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        int choice = 0;
         do
         {
-            Console.WriteLine("Choose an entity you want to check." +
-                "0: Exit main menu" +
-                "1: Tasks" +
-                "2: Engineer");
-            if(!inProgress)
-                Console.WriteLine("3: create schedule");
-            choice = int.TryParse(Console.ReadLine(), out int value) ? value :
-                throw new BlTryParseFailedException("Parsing failed");
-            switch (choice)
+            try
             {
-                case 0:
-                    break;
-                case 1:
-                    TaskMenu();
-                    break;
-                case 2:
-                    EngineerMenu();
-                    break;
-                case 3:
-                    CreateSchedule();
-                    break;
-                default:
-                    throw new BlOptionDoesntExistException("There is no such option in the menu");
+                Console.WriteLine("Choose an entity you want to check:\n" +
+                "0: Exit main menu\n" +
+                "1: Tasks\n" +
+                "2: Engineer");
+                if (!s_bl.IsScheduled()) //scheduling happens only once so if it's already scheduled don't show that option
+                    Console.WriteLine("3: create schedule");
+                choice = int.TryParse(Console.ReadLine(), out int value) ? value :
+                    throw new BlTryParseFailedException("Parsing failed");
+                switch (choice)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        TaskMenu();
+                        break;
+                    case 2:
+                        EngineerMenu();
+                        break;
+                    case 3:
+                        if (!s_bl.IsScheduled())
+                            CreateSchedule();
+                        break;
+                    default:
+                        throw new BlOptionDoesntExistException("There is no such option in the menu");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
         while (choice != 0);
@@ -45,13 +60,13 @@ internal class Program
 
     private static void TaskMenu()
     {
-        Console.WriteLine("Choose an action:" +
-            "0: return to main menu" +
-            "1: add new task" +
-            "2: show all tasks" +
-            "3: show task" +
-            "4: update a task" +
-            "5: assign a task to an engineer" +
+        Console.WriteLine("Choose an action:\n" +
+            "0: return to main menu\n" +
+            "1: add new task\n" +
+            "2: show all tasks\n" +
+            "3: show task\n" +
+            "4: update a task\n" +
+            "5: assign a task to an engineer\n" +
             "6: delete a task");
         int choice = int.TryParse(Console.ReadLine(), out int value) ? value :
                 throw new BlTryParseFailedException("Parsing failed");
@@ -82,7 +97,7 @@ internal class Program
                         break;
                     case 5:
                         Console.WriteLine("Enter task Id:");
-                        int taskId = int.TryParse(Console.ReadLine(), out int num) ? num :
+                        int taskId = int.TryParse(Console.ReadLine(), out num) ? num :
                             throw new BlTryParseFailedException("Parsing failed");
                         Console.WriteLine("Enter engineer Id:");
                         int engineerId = int.TryParse(Console.ReadLine(), out num) ? num :
@@ -103,69 +118,19 @@ internal class Program
             {
                 Console.WriteLine(ex);
             }
-            Console.WriteLine("Choose an action:" +
-            "0: return to main menu" +
-            "1: add new task" +
-            "2: show all tasks" +
-            "3: show task" +
-            "4: update a task" +
-            "5: assign a task to an engineer" +
+            Console.WriteLine("Choose an action:\n" +
+            "0: return to main menu\n" +
+            "1: add new task\n" +
+            "2: show all tasks\n" +
+            "3: show task\n" +
+            "4: update a task\n" +
+            "5: assign a task to an engineer\n" +
             "6: delete a task");
             choice = int.TryParse(Console.ReadLine(), out value) ? value :
                 throw new BO.BlTryParseFailedException("Parsing failed");
         }
 
     }
-    /*private static void TaskMenuAfter()
-    {
-        Console.WriteLine("Choose an action:" +
-            "0: return to main menu" +
-            "1: show all tasks" +
-            "2: show task" +
-            "3: update a task" +
-            "4: assign a task to an engineer");
-        int choice = int.TryParse(Console.ReadLine(), out int value) ? value :
-                throw new BO.BlTryParseFailedException("Parsing failed");
-        int tmp;
-        while (choice != 0)
-        {
-            switch (choice)
-            {
-                case 1:
-                    foreach (var item in s_bl.Task.ReadAll())
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case 2:
-                    Console.WriteLine("Enter task Id:");
-                    tmp = int.TryParse(Console.ReadLine(), out int num) ? num :
-                        throw new BO.BlTryParseFailedException("Parsing failed");
-                    Console.WriteLine(s_bl.Task.Read(tmp));
-                    break;
-                case 3:
-                    UpdateTask();
-                    break;
-                case 4:
-                    AssignEngineer();
-                    break;
-                case 5:
-                default:
-                    throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
-            }
-            Console.WriteLine("Choose an action:" +
-            "0: return to main menu" +
-            "1: add new task" +
-            "2: show all tasks" +
-            "3: show task" +
-            "4: update a task" +
-            "5: assign a task to an engineer" +
-            "6: delete a task");
-            choice = int.TryParse(Console.ReadLine(), out value) ? value :
-                throw new BO.BlTryParseFailedException("Parsing failed");
-        }
-
-    }*/
     private static void AddTask()
     {
         BO.Task task = new BO.Task();
@@ -242,20 +207,22 @@ internal class Program
         int choice;
         do
         {
-            Console.WriteLine("Choose an action:" +
-                       "0: return to main menu" +
-                       "1: add new engineer" +
-                       "2: delete engineer" +
-                       "3: show all engineers" +
-                       "4: show the tasks that the engineer works on" +
-                       "5: update an engineer" +
-                       "6: start working on a task" +
+            Console.WriteLine("Choose an action:\n" +
+                       "0: return to main menu\n" +
+                       "1: add new engineer\n" +
+                       "2: delete engineer\n" +
+                       "3: show all engineers\n" +
+                       "4: show the tasks that the engineer works on\n" +
+                       "5: update an engineer\n" +
+                       "6: start working on a task\n" +
                        "7: finish working on a task");
 
             choice = int.TryParse(Console.ReadLine(), out int value) ? value :
                     throw new BlTryParseFailedException("Parsing failed");
             switch (choice)
             {
+                case 0:
+                    break;
                 case 1:
                     AddEngineer();
                     break;
@@ -274,14 +241,14 @@ internal class Program
                 case 6:
                     try
                     {
-                        Bl.startNewTask();
+                        s_bl.startNewTask();
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                     break;
                 case 7:
                     try
                     {
-                        Bl.finishTask();
+                        s_bl.finishTask();
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                     break;
@@ -322,7 +289,7 @@ internal class Program
     }
     private static void ShowAllEngineers()
     {
-        foreach (Engineer? item in s_bl.Engineer.ReadAll())
+        foreach (Engineer item in s_bl.Engineer.ReadAll())
         {
             Console.WriteLine(item);
         }
@@ -370,9 +337,9 @@ internal class Program
         DateTime date;
         do
         {
-            Console.WriteLine("Choose an action: " +
-            "0: exit to main menu" +
-            "1: schedule a task" +
+            Console.WriteLine("Choose an action:\n" +
+            "0: exit to main menu\n" +
+            "1: schedule a task\n" +
             "2: finish scheduling");
             choice = int.TryParse(Console.ReadLine(), out int num) ? num :
                 throw new BlTryParseFailedException("Parsing failed");

@@ -90,9 +90,9 @@ internal class EngineerImplementation : IEngineer
     public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
         if (filter == null)
-            return from engineer in _dal.Task.ReadAll()
+            return from engineer in _dal.Engineer.ReadAll()
                    select Read(engineer.Id);
-        return from doEngineer in _dal.Task.ReadAll()
+        return from doEngineer in _dal.Engineer.ReadAll()
                let boEngineer = Read(doEngineer.Id)
                where filter(boEngineer)
                select boEngineer;

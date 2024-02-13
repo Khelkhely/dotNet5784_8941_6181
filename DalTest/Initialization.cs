@@ -149,6 +149,8 @@ public static class Initialization
         s_dal.Dependency.Clear();
         s_dal.Engineer.Clear();
         s_dal.Task.Clear();
+        s_dal.StartDate = null;
+        s_dal.EndDate = null;
     }
     public static void Do()
     {

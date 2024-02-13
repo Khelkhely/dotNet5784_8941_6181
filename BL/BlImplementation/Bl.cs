@@ -11,7 +11,7 @@ internal class Bl : IBl
 
     public IEngineer Engineer => new EngineerImplementation();
 
-    public static void startNewTask()
+    public void startNewTask()
     {
         Console.WriteLine("Enter engineer's Id: \t");
         if (int.TryParse(Console.ReadLine(), out int eId) == false)
@@ -37,7 +37,7 @@ internal class Bl : IBl
         _dal.Task.Delete(tId);
         _dal.Task.Create(tmpTask);
     }
-    public static void finishTask()
+    public void finishTask()
     {
         Console.WriteLine("Enter engineer's Id: \t");
         if (int.TryParse(Console.ReadLine(), out int eId) == false)
@@ -57,9 +57,6 @@ internal class Bl : IBl
         _dal.Task.Create(tmpTask);
     }
 
-
-
-    private DalApi.IDal _dal = Factory.Get;
 
     /// <summary>
     /// checks that a schedule can be made and sets the project starts date if it can

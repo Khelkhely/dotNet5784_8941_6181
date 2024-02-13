@@ -9,12 +9,27 @@ static class Tools
     public static string ToStringProperty<T>(this T t)
     {
         string str = "";
-        foreach (PropertyInfo item in t.GetType().GetProperties())
+        if (t != null)
         {
-            str += "\n" + item.Name + ": " + item.GetValue(t, null);
+            foreach (PropertyInfo item in t.GetType().GetProperties())
+            {
+                str += "\n" + item.Name + ": " + item.GetValue(t, null);
+            }
         }
         return str;
     }
+
+    //public static string ToStringList<T>(this T t) where T : System.Collections.IEnumerable
+    //{
+    //    string str = "";
+    //    foreach (var item in t) 
+    //    {
+    //        str += item?.ToString();
+    //        str += ", ";
+    //    }
+    //    str.Trim(' ', ',');
+    //    return str;
+    //}
 
     /// <summary>
     /// caculates the Status of the task received according to its dates
