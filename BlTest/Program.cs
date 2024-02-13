@@ -33,8 +33,7 @@ internal class Program
                     EngineerMenu();
                     break;
                 case 3:
-                    if(!inProgress)
-                        CreateSchedule();
+                    CreateSchedule();
                     break;
                 default:
                     throw new BlOptionDoesntExistException("There is no such option in the menu");
