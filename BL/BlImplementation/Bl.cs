@@ -58,9 +58,6 @@ internal class Bl : IBl
     }
 
 
-
-    private DalApi.IDal _dal = Factory.Get;
-
     /// <summary>
     /// checks that a schedule can be made and sets the project starts date if it can
     /// </summary>
