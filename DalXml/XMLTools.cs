@@ -35,23 +35,18 @@ static class XMLTools
         return nextId;
     }
 
-    public static DateTime? GetScheduledDate(string data_config_xml, string elemName)
-    {
-        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
-        DateTime? date = root.ToDateTimeNullable(elemName) ?? null; //throw new FormatException($"can't convert id.  {data_config_xml}, {elemName}");
-        return date;
-    }
     public static DateTime? GetScheduleDate(string data_config_xml, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
         DateTime? date = root.ToDateTimeNullable(elemName); // ?? throw new FormatException($"can't convert date.  {data_config_xml}, {elemName}");
         return date;
     }
-    public static void SetScheduleDate(string data_config_xml, string elemName, DateTime ? date)
+    public static void SetScheduleDate(string data_config_xml, string elemName, DateTime? date)
     {
         XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
-        XElement? element = root.Element(elemName);
-        element?.SetValue(date?.ToString() ?? throw new FormatException($"can't convert date. {data_config_xml}, {elemName}"));
+        XElement element = root.Element(elemName) ?? 
+            throw new FormatException($"can't convert date. {data_config_xml}, {elemName}");
+        element.SetValue(date.ToString() ?? ""); 
         XMLTools.SaveListToXMLElement(root, data_config_xml);
     }
 
