@@ -7,4 +7,15 @@ sealed internal class DalList : IDal
     public ITask Task => new TaskImplementation();
     public IDependency Dependency => new DependencyImplementation();
     public IEngineer Engineer => new EngineerImplementation();
+
+    public DateTime? StartDate
+    {
+        get => DataSource.Config.projectStartDate; 
+        set => DataSource.Config.projectStartDate = value;
+    }
+    public DateTime? EndDate
+    {
+        get => DataSource.Config.projectEndDate;
+        set => DataSource.Config.projectEndDate = value;
+    }
 }

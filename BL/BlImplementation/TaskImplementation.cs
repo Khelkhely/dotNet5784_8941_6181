@@ -5,6 +5,13 @@ namespace BlImplementation;
 internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = Factory.Get;
+
+    /// <summary>
+    /// adds a new task to the data layer
+    /// </summary>
+    /// <param name="task">the new task that will be added</param>
+    /// <exception cref="BO.BlInvalidDataException">thrown if the data of the task is invalid</exception>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if the data contains Ids of objects that don't exist</exception>
     public void Create(BO.Task task)
     {
         //if (task.Id <= 0) //task id not received - it's automatic from the Dal layer
@@ -23,7 +30,7 @@ internal class TaskImplementation : ITask
         //check if the engineer exists
         if (task.Engineer != null && _dal.Engineer.Read(task.Engineer.Id) == null)
             throw new BO.BlDoesNotExistException($"Engineer with id: {task.Engineer.Id} doesn't exist");
-        int newId  = _dal.Task.Create(BoToDo(task)); //doesn't throw exceptions
+        int newId  = _dal.Task.Create(BoToDo(task) with { CreatedAtDate = DateTime.Now }); //doesn't throw exceptions
         if (task.Dependencies != null)
         {
             foreach (var item in task.Dependencies) //check that all the the dependent-on tasks exist
@@ -36,6 +43,12 @@ internal class TaskImplementation : ITask
         }
     }
 
+    /// <summary>
+    /// deletes the task with the Id given
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="BO.BlCanNotDeleteException">thrown if the task has other tasks that depend on it and thus can't be deleted</exception>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with such an Id</exception>
     public void Delete(int id)
     {
         if (_dal.Dependency.ReadAll(x => x.DependsOnTask == id).Any()) //if there are tasks that depend on it
@@ -50,6 +63,12 @@ internal class TaskImplementation : ITask
         }
     }
 
+    /// <summary>
+    /// returns a BO.Task according to the Id
+    /// </summary>
+    /// <param name="id">the Id of the task that will be returned</param>
+    /// <returns>a complete BO.Task</returns>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with this Id</exception>
     public BO.Task Read(int id)
     {
         DO.Task d = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
@@ -88,6 +107,11 @@ internal class TaskImplementation : ITask
         return b;
     }
 
+    /// <summary>
+    /// returns a collection of all BO.Tasks that exist and satisfy a condition if given
+    /// </summary>
+    /// <param name="filter">a boolean function that determines for each task if it satisfies the condition or not</param>
+    /// <returns>an IEnumerable of BO tasks</returns>
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null)
     {
         if (filter == null)
@@ -99,20 +123,34 @@ internal class TaskImplementation : ITask
                select b;
     }
 
+    /// <summary>
+    /// Updates the data of a task in the data layer to the data of the task received
+    /// </summary>
+    /// <param name="task">the task to be updated with the new data</param>
+    /// <exception cref="BO.BlInvalidDataException">thrown if the new data is invalid</exception>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with the Id of the given task</exception>
     public void Update(BO.Task task)
     {
         if (task.Id <= 0)
-            throw new BO.BlInvalidDataException("Id isn't a positive number");
+            throw new BO.BlInvalidDataException($"Id {task.Id} isn't a positive number");
         if (task.Alias == "")
             throw new BO.BlInvalidDataException("Alias can't be empty");
-        if (task.Engineer != null && !BO.Tools.EngineerIsAvailabe(task.Engineer.Id, _dal))
-            throw new Exception(); //make a fitting exception
+        if (task.Engineer != null)
+        {
+            //check that the engineer exists
+            DO.Engineer engineer = _dal.Engineer.Read(task.Engineer.Id) ??
+                throw new BO.BlDoesNotExistException($"Engineer with id: {task.Engineer.Id} doesn't exist");
+
+            //check that the engineer is advanced enough to be assigned the task
+            if ((int)engineer.Level < (int)task.Copmlexity)
+                throw new BO.BlInvalidDataException($"Engineer {engineer.Name} isn't experienced enough for the task");
+        }
         try
         {
-            _dal.Task.Update(BoToDo(task));
-            List<DO.Dependency> dependencies = _dal.Dependency.ReadAll(x => x.DependentTask == task.Id).ToList();
+            //update all changes in the dependencies of the task
             if (task.Dependencies != null)
             {
+                List<DO.Dependency> dependencies = _dal.Dependency.ReadAll(x => x.DependentTask == task.Id).ToList();
                 //get a list of dependencies that need to be added
                 var toAdd = from t in task.Dependencies
                             where !dependencies.Exists(x => x.DependsOnTask == t.Id)
@@ -131,6 +169,16 @@ internal class TaskImplementation : ITask
                     _dal.Dependency.Delete(id);
                 }
             }
+            else 
+            {
+                foreach (var dep in _dal.Dependency.ReadAll(x => x.DependentTask == task.Id))
+                {
+                    _dal.Dependency.Delete(dep.Id);
+                }
+            }//if there are no dependencies, erase all of the tasks dependencies that were there before
+
+            //Update the task itself
+            _dal.Task.Update(BoToDo(task));
         }
         catch (DO.DalDoesNotExistException ex)
         {
@@ -138,6 +186,14 @@ internal class TaskImplementation : ITask
         }
     }
 
+    /// <summary>
+    /// set the scheduled starting date of a task
+    /// </summary>
+    /// <param name="id">the Id of the task to update</param>
+    /// <param name="date">the scheduled date of the task</param>
+    /// <param name="projectStartDate">the scheduled starting date of the project</param>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with the given Id</exception>
+    /// <exception cref="BO.BlTaskDateException">thrown if the task scheduled date can't be the updated to the given date</exception>
     public void UpdateTaskDate(int id, DateTime date, DateTime projectStartDate)
     {
         DO.Task task = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
@@ -172,7 +228,7 @@ internal class TaskImplementation : ITask
 
 
     /// <summary>
-    /// turns a BO task into a DO task
+    /// converts a BO task into a DO task
     /// </summary>
     /// <param name="task">a BO task</param>
     /// <returns>a DO task that has the properties of the BO task</returns>

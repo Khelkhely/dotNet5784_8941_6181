@@ -25,7 +25,7 @@ public class Task
     public string? Description { get; set; }
     public Status Status { get; set; }
     public List<TaskInList>? Dependencies { get; set; }
-    public DateTime? CreatedAtDate { get; init; }//צריך להיות נאל? כי לא נוכל לשנות בהמשך
+    public DateTime? CreatedAtDate { get; init; }
     public DateTime? StartDate { get; set; }
     public DateTime? ScheduledDate { get; set; }
     public DateTime? ForecastDate { get; set; }

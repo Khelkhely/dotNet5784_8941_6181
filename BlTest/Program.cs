@@ -11,14 +11,16 @@ internal class Program
         string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
         if (ans == "Y")
             DalTest.Initialization.Do();
+        bool inProgress = s_bl.IsScheduled(); //a flag to indicate what stage the project is in - plannig, or in progress
         int choice;
         do
         {
             Console.WriteLine("Choose an entity you want to check." +
                 "0: Exit main menu" +
                 "1: Tasks" +
-                "2: Engineer" +
-                "3: create schedule");
+                "2: Engineer");
+            if(!inProgress)
+                Console.WriteLine("3: create schedule");
             choice = int.TryParse(Console.ReadLine(), out int value) ? value :
                 throw new BlTryParseFailedException("Parsing failed");
             switch (choice)
@@ -32,7 +34,8 @@ internal class Program
                     EngineerMenu();
                     break;
                 case 3:
-                    CreateSchedule();
+                    if(!inProgress)
+                        CreateSchedule();
                     break;
                 default:
                     throw new BlOptionDoesntExistException("There is no such option in the menu");
@@ -56,37 +59,50 @@ internal class Program
         int tmp;
         while (choice != 0)
         {
-            switch (choice)
+            try
             {
-                case 1:
-                    AddTask();
-                    break;
-                case 2:
-                    foreach (var item in s_bl.Task.ReadAll())
-                    {
-                        Console.WriteLine(item);
-                    }
-                    break;
-                case 3:
-                    Console.WriteLine("Enter task Id:");
-                    tmp = int.TryParse(Console.ReadLine(), out int num) ? num :
-                        throw new BO.BlTryParseFailedException("Parsing failed");
-                    Console.WriteLine(s_bl.Task.Read(tmp));
-                    break;
-                case 4:
-                    UpdateTask();
-                    break;
-                case 5:
-                    AssignEngineer();
-                    break;
-                case 6:
-                    Console.WriteLine("Enter task Id:");
-                    tmp = int.TryParse(Console.ReadLine(), out num) ? num :
-                        throw new BO.BlTryParseFailedException("Parsing failed");
-                    s_bl.Task.Delete(tmp);
-                    break;
-                default:
-                    throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
+                switch (choice)
+                {
+                    case 1:
+                        AddTask();
+                        break;
+                    case 2:
+                        foreach (var item in s_bl.Task.ReadAll())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine("Enter task Id:");
+                        tmp = int.TryParse(Console.ReadLine(), out int num) ? num :
+                            throw new BO.BlTryParseFailedException("Parsing failed");
+                        Console.WriteLine(s_bl.Task.Read(tmp));
+                        break;
+                    case 4:
+                        UpdateTask();
+                        break;
+                    case 5:
+                        Console.WriteLine("Enter task Id:");
+                        int taskId = int.TryParse(Console.ReadLine(), out int num) ? num :
+                            throw new BlTryParseFailedException("Parsing failed");
+                        Console.WriteLine("Enter engineer Id:");
+                        int engineerId = int.TryParse(Console.ReadLine(), out num) ? num :
+                            throw new BlTryParseFailedException("Parsing failed");
+                        s_bl.AssignEngineer(engineerId, taskId);
+                        break;
+                    case 6:
+                        Console.WriteLine("Enter task Id:");
+                        tmp = int.TryParse(Console.ReadLine(), out num) ? num :
+                            throw new BO.BlTryParseFailedException("Parsing failed");
+                        s_bl.Task.Delete(tmp);
+                        break;
+                    default:
+                        throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
             Console.WriteLine("Choose an action:" +
             "0: return to main menu" +
@@ -101,7 +117,7 @@ internal class Program
         }
 
     }
-    private static void TaskMenuAfter()
+    /*private static void TaskMenuAfter()
     {
         Console.WriteLine("Choose an action:" +
             "0: return to main menu" +
@@ -150,10 +166,10 @@ internal class Program
                 throw new BO.BlTryParseFailedException("Parsing failed");
         }
 
-    }
+    }*/
     private static void AddTask()
     {
-        BO.Task task = new BO.Task() { CreatedAtDate = DateTime.Now };
+        BO.Task task = new BO.Task();
         Console.WriteLine("Enter task alias:");
         task.Alias = Console.ReadLine();
         Console.WriteLine("Enter task description:");
@@ -217,18 +233,6 @@ internal class Program
         task.Engineer = int.TryParse(Console.ReadLine(), out value) ?
             new EngineerInTask() { Id = value } : task.Engineer;
 
-        s_bl.Task.Update(task);
-    }
-    private static void AssignEngineer()
-    {
-        Console.WriteLine("Enter task Id:");
-        int taskId = int.TryParse(Console.ReadLine(), out int num) ? num :
-            throw new BlTryParseFailedException("Parsing failed");
-        Console.WriteLine("Enter engineer Id:");
-        int engineerId = int.TryParse(Console.ReadLine(), out num) ? num :
-            throw new BlTryParseFailedException("Parsing failed");
-        BO.Task task = s_bl.Task.Read(taskId);
-        task.Engineer = new EngineerInTask() { Id = engineerId };
         s_bl.Task.Update(task);
     }
 
@@ -363,31 +367,50 @@ internal class Program
         DateTime starting = DateTime.TryParse(Console.ReadLine(), out DateTime input) ? input
             : throw new BlTryParseFailedException("parsing failed");
 
-        //give all tasks a scheduled date
-        DateTime tmp;
-        var unscheduled = s_bl.Task.ReadAll(x => x.Status == Status.Unscheduled);
-        while (unscheduled.Count() > 0) //loop until all tasks have a scheduled date
+        int choice, taskId;
+        DateTime date;
+        do
         {
-            //attempt to add a scheduled starting date to the task
-            foreach (var task in s_bl.Task.ReadAll(x => x.Status == Status.Unscheduled))
+            Console.WriteLine("Choose an action: " +
+            "0: exit to main menu" +
+            "1: schedule a task" +
+            "2: finish scheduling");
+            choice = int.TryParse(Console.ReadLine(), out int num) ? num :
+                throw new BlTryParseFailedException("Parsing failed");
+            switch (choice)
             {
-                try
-                {
-                    Console.WriteLine($"Enter the scheduled date of the task {task.Id}, {task.Alias}.");
-                    tmp = DateTime.TryParse(Console.ReadLine(), out input) ? input
-                                        : throw new BlTryParseFailedException("parsing failed");
-                    s_bl.Task.UpdateTaskDate(task.Id, tmp, starting);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+                case 0:
+                    break;
+                case 1:
+                    try
+                    {
+                        Console.WriteLine("Enter task Id:");
+                        taskId = int.TryParse(Console.ReadLine(), out num) ? num :
+                            throw new BlTryParseFailedException("Parsing failed");
+                        Console.WriteLine("Enter task scheduled date:");
+                        date = DateTime.TryParse(Console.ReadLine(), out var tmp) ? tmp :
+                            throw new BlTryParseFailedException("Parsing failed");
+                        s_bl.Task.UpdateTaskDate(taskId, date, starting);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                    break;
+                case 2:
+                    try
+                    {
+                        s_bl.CreateSchedule(starting);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                    break;
+                default:
+                    throw new BlOptionDoesntExistException("There is no such option in the menu");
             }
-            //update the list of unscheduled tasks
-            unscheduled = s_bl.Task.ReadAll(x => x.Status == Status.Unscheduled);
         }
-
-        //save the project starting date to the configuration data
-        //how? \_(T-T)_/
+        while (choice != 0);
     }
 }
