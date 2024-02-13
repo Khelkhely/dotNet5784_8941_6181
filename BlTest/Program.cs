@@ -1,4 +1,5 @@
 ﻿using BO;
+using BlImplementation;
 namespace BlTest;
 
 internal class Program
@@ -244,7 +245,10 @@ internal class Program
                        "2: delete engineer" +
                        "3: show all engineers" +
                        "4: show the tasks that the engineer works on" +
-                       "5: update an engineer");
+                       "5: update an engineer" +
+                       "6: start working on a task" +
+                       "7: finish working on a task");
+
             choice = int.TryParse(Console.ReadLine(), out int value) ? value :
                     throw new BlTryParseFailedException("Parsing failed");
             switch (choice)
@@ -263,6 +267,20 @@ internal class Program
                     break;
                 case 5:
                     UpdateEngineer();
+                    break;
+                case 6:
+                    try
+                    {
+                        Bl.startNewTask();
+                    }
+                    catch (Exception ex) { Console.WriteLine(ex); }
+                    break;
+                case 7:
+                    try
+                    {
+                        Bl.finishTask();
+                    }
+                    catch (Exception ex) { Console.WriteLine(ex); }
                     break;
                 default:
                     throw new BlOptionDoesntExistException("There is no such option in the menu");
@@ -335,6 +353,8 @@ internal class Program
         try { s_bl!.Engineer.Update(engineer); }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
+
+
 
 
     private static void CreateSchedule()
