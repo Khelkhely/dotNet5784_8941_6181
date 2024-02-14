@@ -2,7 +2,6 @@
 using BO;
 
 namespace BlImplementation;
-
 internal class Bl : IBl
 {
     private static DalApi.IDal _dal = Factory.Get;
