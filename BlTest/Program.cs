@@ -251,14 +251,26 @@ internal class Program
                 case 6:
                     try
                     {
-                        s_bl.startNewTask();
+                        Console.WriteLine("Enter engineer's Id: \t");
+                        if (int.TryParse(Console.ReadLine(), out int eId) == false)
+                            throw new BlTryParseFailedException("parsing failed");
+                        Console.WriteLine("Enter task's Id that you want to start working on: \t");
+                        if (int.TryParse(Console.ReadLine(), out int tId) == false)
+                            throw new BlTryParseFailedException("parsing failed");
+                        s_bl.startNewTask(eId, tId);
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                     break;
                 case 7:
                     try
                     {
-                        s_bl.finishTask();
+                        Console.WriteLine("Enter engineer's Id: \t");
+                        if (int.TryParse(Console.ReadLine(), out int eId) == false)
+                            throw new BlTryParseFailedException("parsing failed");
+                        Console.WriteLine("Enter the task's Id you finished: \t");
+                        if (int.TryParse(Console.ReadLine(), out int tId) == false)
+                            throw new BlTryParseFailedException("parsing failed");
+                        s_bl.finishTask(eId, tId);
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                     break;
@@ -310,7 +322,7 @@ internal class Program
         if (int.TryParse(Console.ReadLine(), out int id) == false)
             throw new BlTryParseFailedException("parsing failed");
         foreach (BO.Task item in s_bl.Task.ReadAll())
-            if (item.Engineer!.Id == id)
+            if (item.Engineer != null && item.Engineer.Id == id)
                 Console.WriteLine(item);
     }
     private static void UpdateEngineer()
@@ -322,11 +334,13 @@ internal class Program
         Console.Write(original);
 
         BO.Engineer engineer = new Engineer() { Id = id };
-        Console.WriteLine("Enter engineer's new name: \t");
-        engineer.Name = Console.ReadLine();
+        Console.WriteLine("\nEnter engineer's new name: \t");
+        var input = Console.ReadLine();
+        engineer.Name = (input == "") ? original.Name : input;
         Console.WriteLine("Enter engineer's new email: \t");
-        engineer.Email = Console.ReadLine();
-        Console.WriteLine("Enter engineer's new level (as number): \t");
+        input = Console.ReadLine();
+        engineer.Email = (input == "") ? original.Email : input;
+        Console.WriteLine("Enter engineer's new level (0-4): \t");
         engineer.Level = (BO.EngineerExperience)(int.TryParse(Console.ReadLine(), out int level) ? level : 0);
         Console.WriteLine("Enter engineer's cost: \t");
         engineer.Cost = int.TryParse(Console.ReadLine(), out var cost) ? cost : null;

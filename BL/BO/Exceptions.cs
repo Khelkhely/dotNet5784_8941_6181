@@ -54,3 +54,11 @@ public class BlOptionDoesntExistException : Exception
     public BlOptionDoesntExistException(string message, Exception innerException)
                 : base(message, innerException) { }
 }
+
+[Serializable]
+public class BlAssignmentFailedException : Exception
+{
+    public BlAssignmentFailedException(string? message) : base(message) { }
+    public BlAssignmentFailedException(string message, Exception innerException)
+                : base(message, innerException) { }
+}

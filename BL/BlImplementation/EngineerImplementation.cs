@@ -121,28 +121,35 @@ internal class EngineerImplementation : IEngineer
         }
 
 
-        DO.Engineer doEngineer = new DO.Engineer();
-        if ((_dal.Engineer.Read(engineer.Id) != null) &&
-            (DO.EngineerExperience)engineer.Level < _dal.Engineer.Read(engineer.Id)!.Level)
+        DO.Engineer doEngineer;// = new DO.Engineer();
+        if (_dal.Engineer.Read(engineer.Id) != null)
         {
-            doEngineer = new DO.Engineer
+            if ((DO.EngineerExperience)engineer.Level < _dal.Engineer.Read(engineer.Id)!.Level)
             {
-                Name = engineer.Name,
-                Email = engineer.Email,
-                Cost = engineer.Cost
-            };
+                doEngineer = new DO.Engineer
+                {
+                    Id = engineer.Id,
+                    Name = engineer.Name,
+                    Email = engineer.Email,
+                    Cost = engineer.Cost
+                };
+            }
+            else
+            {
+                doEngineer = new DO.Engineer
+                {
+                    Id = engineer.Id,
+                    Name = engineer.Name,
+                    Email = engineer.Email,
+                    Cost = engineer.Cost,
+                    Level = (DO.EngineerExperience)engineer.Level
+                };
+            }
         }
         else
-        {
-            doEngineer = new DO.Engineer
-            {
-                Name = engineer.Name,
-                Email = engineer.Email,
-                Cost = engineer.Cost,
-                Level = (DO.EngineerExperience)engineer.Level
-            };
-        }
-        BO.Engineer en = new BO.Engineer();
+            throw new BO.BlDoesNotExistException($"Engineer with ID={engineer.Id} does not exists");
+
+        //BO.Engineer en = new BO.Engineer();
         try
         {
             _dal.Engineer.Update(doEngineer);

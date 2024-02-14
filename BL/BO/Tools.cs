@@ -17,7 +17,7 @@ static class Tools
                     !(item.GetValue(t, null) is string)) //if the property is a collection, print every item in it
                 {
                     str += "\n" + item.Name + ":\n{";
-                    foreach (var b in (System.Collections.IEnumerable)item.GetValue(t, null))
+                    foreach (var b in (System.Collections.IEnumerable)item.GetValue(t, null)!)
                     {
                         str += "\t" + b.ToString();
                         str += "\n";
