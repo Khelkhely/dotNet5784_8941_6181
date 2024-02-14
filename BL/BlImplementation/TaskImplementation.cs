@@ -25,7 +25,7 @@ internal class TaskImplementation : ITask
                     throw new BO.BlDoesNotExistException($"Task with id: {t.Id} doesn't exist");
                 t.Alias = dTask.Alias;
                 t.Description = dTask.Description;
-                t.Status = BO.Tools.CalculateStatus(dTask);
+                t.Status = CalculateStatus(dTask);
             }
         //check if the engineer exists
         if (task.Engineer != null && _dal.Engineer.Read(task.Engineer.Id) == null)
@@ -86,8 +86,8 @@ internal class TaskImplementation : ITask
             Remarks = d.Remarks,
             Copmlexity = (BO.EngineerExperience)d.Complexity
         };
-        b.Status = BO.Tools.CalculateStatus(d);
-        b.ForecastDate = BO.Tools.CalculateForcast(d);
+        b.Status = CalculateStatus(d);
+        b.ForecastDate = CalculateForcast(d);
         DO.Engineer? engineer = _dal.Engineer.Read(d.EngineerId);
         b.Engineer = (engineer == null) ? null : new BO.EngineerInTask { Id = engineer.Id, Name = engineer.Name };
 
@@ -101,7 +101,7 @@ internal class TaskImplementation : ITask
                               Id = task.Id,
                               Alias = task.Alias,
                               Description = task.Description,
-                              Status = BO.Tools.CalculateStatus(task)
+                              Status = CalculateStatus(task)
 
                           }).OrderBy(x => x.Id).ToList();
         return b;
@@ -116,10 +116,12 @@ internal class TaskImplementation : ITask
     {
         if (filter == null)
             return from d in _dal.Task.ReadAll()
+                   orderby d.Id
                    select Read(d.Id);
         return from d in _dal.Task.ReadAll()
                let b = Read(d.Id)
                where filter(b)
+               orderby b.Id
                select b;
     }
 
@@ -212,7 +214,7 @@ internal class TaskImplementation : ITask
         {
             if (previous.Any(x => x.ScheduledDate == null))
                 throw new BO.BlTaskDateException("previous tasks don't have a scheduled date");
-            if (previous.Any(x => BO.Tools.CalculateForcast(x) > date))
+            if (previous.Any(x => CalculateForcast(x) > date))
                 throw new BO.BlTaskDateException("previous tasks' forcast date is later than the given date");
         }
         try
@@ -240,6 +242,39 @@ internal class TaskImplementation : ITask
         return new DO.Task(task.Id, task.Alias, task.Description, task.CreatedAtDate,
                 task.ScheduledDate, task.StartDate, task.RequiredEffortTime, task.CompleteDate,
                 task.Deliverables, task.Remarks, engineerId, (DO.EngineerExperience)task.Copmlexity);
+    }
+
+
+    /// <summary>
+    /// caculates the Status of the task received according to its dates
+    /// </summary>
+    /// <param name="task">the DO task that the status of is calculated</param>
+    /// <returns>the status of the task</returns>
+    public static BO.Status CalculateStatus(DO.Task task)
+    {
+        if (task.CompleteDate != null)
+            return BO.Status.Done;
+        if (task.StartDate != null)
+            return BO.Status.OnTrack;
+        if (task.ScheduledDate != null)
+            return BO.Status.Scheduled;
+        return BO.Status.Unscheduled;
+    }
+    /// <summary>
+    /// caculates the forcast date of the task received according to its dates. if the task is unscheduled, returns null
+    /// </summary>
+    /// <param name="task">the DO task that the forcast date of is calculated</param>
+    /// <returns>the scheduled / start date of the task + the required effort time</returns>
+    public static DateTime? CalculateForcast(DO.Task task)
+    {
+        if (task.ScheduledDate != null)
+        {
+            if (task.StartDate != null && task.StartDate > task.ScheduledDate)
+                return task.StartDate + task.RequiredEffortTime;
+            else
+                return task.ScheduledDate + task.RequiredEffortTime;
+        }
+        return null;
     }
 
 }

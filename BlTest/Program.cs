@@ -9,6 +9,10 @@ internal class Program
     {
         try
         {
+            Console.WriteLine("Would you like to reset data? Y/N\t");
+            string? answ = Console.ReadLine() ?? throw new FormatException("Wrong input");
+            if (answ == "Y")
+                DalTest.Initialization.Reset();
             Console.WriteLine("Would you like to create Initial data? Y/N\t");
             string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
             if (ans == "Y")
@@ -181,13 +185,19 @@ internal class Program
         int tmp = int.TryParse(Console.ReadLine(), out int value) ? value : 0;
         while (tmp != 0)
         {
-            task.Dependencies.Add(new TaskInList() { Id = id });
-            id = int.TryParse(Console.ReadLine(), out value) ? value : 0;
+            task.Dependencies.Add(new TaskInList() { Id = tmp });
+            tmp = int.TryParse(Console.ReadLine(), out value) ? value : 0;
         }
 
         Console.WriteLine("Enter task required effort time:");
         task.RequiredEffortTime = TimeSpan.TryParse(Console.ReadLine(), out var time) ?
             time : task.RequiredEffortTime;
+        Console.WriteLine("Enter task deliverables:");
+        input = Console.ReadLine();
+        task.Deliverables = (input == "") ? task.Deliverables : input;
+        Console.WriteLine("Enter task remarks:");
+        input = Console.ReadLine();
+        task.Remarks = (input == "") ? task.Remarks : input;
 
         Console.WriteLine("Enter task complexity (0-4):");
         task.Copmlexity = int.TryParse(Console.ReadLine(), out value) ?

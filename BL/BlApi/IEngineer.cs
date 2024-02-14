@@ -9,4 +9,7 @@ public interface IEngineer
     public void Create(BO.Engineer engineer);
     public void Delete(int id);
     public void Update(BO.Engineer engineer);
+
+    public bool EngineerIsAvailabe(int id);
+
 }

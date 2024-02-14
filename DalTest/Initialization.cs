@@ -80,9 +80,9 @@ public static class Initialization
         for (int i = 0; i < 20; i++) 
         {
             string? alias = $"T{i}";
-            DateTime earliest = new DateTime(2020, 1, 1);
+            DateTime earliest = new DateTime(2023, 1, 1);
             int range = (DateTime.Today - earliest).Days;
-            DateTime created = earliest.AddDays(s_rand.Next(range)); //chooses a random date from 2020 until today
+            DateTime created = earliest.AddDays(s_rand.Next(range)); //chooses a random date from 2023 until today
            
             EngineerExperience complexity = (EngineerExperience)(s_rand.Next() % 5); //choose a random numer from 0-4 and convert to EngineerExperience
             Task newTask = new Task(0, alias, TaskDescriptions[i], created, null, null, null, null, TaskDeliverables[i], TaskRemarks[i], 0, complexity);

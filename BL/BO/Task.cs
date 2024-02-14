@@ -37,7 +37,7 @@ public class Task
     public EngineerExperience Copmlexity  { get; set;}
     public override string ToString()
     {
-        return this.ToStringProperty();//!לתקן את הפונקציה לאוספים
+        return this.ToStringProperty();
     }
 
 }

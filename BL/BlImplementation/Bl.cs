@@ -19,7 +19,7 @@ internal class Bl : IBl
         if (_dal.Engineer.Read(eId) == null)
             throw new BO.BlDoesNotExistException($"engineer with id {eId} does not exist.");
 
-        if (Tools.EngineerIsAvailabe(eId, _dal) == false)
+        if (Engineer.EngineerIsAvailabe(eId) == false)
             throw new Exception("The engineer is not available");//!!!!!!!!!!!!!!!11
 
         Console.WriteLine("Enter task's Id that you want to start working on: \t");
@@ -34,8 +34,9 @@ internal class Bl : IBl
             throw new Exception("the engineer can't work on this task because his level is low");
 
         DO.Task tmpTask = _dal.Task.Read(tId)! with { StartDate = DateTime.Now };
-        _dal.Task.Delete(tId);
-        _dal.Task.Create(tmpTask);
+        _dal.Task.Update(tmpTask);
+        //_dal.Task.Delete(tId);
+        //_dal.Task.Create(tmpTask);
     }
     public void finishTask()
     {
@@ -53,8 +54,9 @@ internal class Bl : IBl
 
         //_dal.Task.Read(tId).CompleteDate= DateTime.Now;
         DO.Task tmpTask = _dal.Task.Read(tId)! with { CompleteDate = DateTime.Now };
-        _dal.Task.Delete(tId);
-        _dal.Task.Create(tmpTask);
+        _dal.Task.Update(tmpTask);
+        //_dal.Task.Delete(tId);
+        //_dal.Task.Create(tmpTask);
     }
 
 

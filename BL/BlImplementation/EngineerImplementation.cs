@@ -73,7 +73,7 @@ internal class EngineerImplementation : IEngineer
             };
         BO.TaskInEngineer? boTask = new BO.TaskInEngineer
         {
-            Id = doTask.EngineerId,
+            Id = doTask.Id,
             Alias = doTask.Alias
         };
         return new BO.Engineer
@@ -152,5 +152,16 @@ internal class EngineerImplementation : IEngineer
         {
             throw new BO.BlDoesNotExistException($"Engineer with ID={engineer.Id} does not exists", ex);
         }
+    }
+
+    public bool EngineerIsAvailabe(int id)
+    {
+        if (_dal.Engineer.Read(id) == null)
+            throw new BO.BlDoesNotExistException($"Engineer with ID={id} does not exists");
+        var tasks = _dal.Task.ReadAll(x => x.EngineerId == id);
+        //checks if there is a task that the engineer is assigned to, had started, but hadn't finished
+        if (tasks.Any(x => x.StartDate != null && x.CompleteDate == null))
+            return false;
+        return true;
     }
 }
