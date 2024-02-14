@@ -62,3 +62,11 @@ public class BlAssignmentFailedException : Exception
     public BlAssignmentFailedException(string message, Exception innerException)
                 : base(message, innerException) { }
 }
+
+[Serializable]
+public class BlSchedulingFailedException : Exception
+{
+    public BlSchedulingFailedException(string? message) : base(message) { }
+    public BlSchedulingFailedException(string message, Exception innerException)
+                : base(message, innerException) { }
+}

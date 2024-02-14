@@ -6,12 +6,6 @@ internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = Factory.Get;
 
-    /// <summary>
-    /// adds a new task to the data layer
-    /// </summary>
-    /// <param name="task">the new task that will be added</param>
-    /// <exception cref="BO.BlInvalidDataException">thrown if the data of the task is invalid</exception>
-    /// <exception cref="BO.BlDoesNotExistException">thrown if the data contains Ids of objects that don't exist</exception>
     public void Create(BO.Task task)
     {
         //if (task.Id <= 0) //task id not received - it's automatic from the Dal layer
@@ -42,13 +36,6 @@ internal class TaskImplementation : ITask
             task.Dependencies.ForEach(x => _dal.Dependency.Create(new DO.Dependency(0, newId, x.Id)));
         }
     }
-
-    /// <summary>
-    /// deletes the task with the Id given
-    /// </summary>
-    /// <param name="id"></param>
-    /// <exception cref="BO.BlCanNotDeleteException">thrown if the task has other tasks that depend on it and thus can't be deleted</exception>
-    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with such an Id</exception>
     public void Delete(int id)
     {
         if (_dal.Dependency.ReadAll(x => x.DependsOnTask == id).Any()) //if there are tasks that depend on it
@@ -62,13 +49,6 @@ internal class TaskImplementation : ITask
             throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist", ex);
         }
     }
-
-    /// <summary>
-    /// returns a BO.Task according to the Id
-    /// </summary>
-    /// <param name="id">the Id of the task that will be returned</param>
-    /// <returns>a complete BO.Task</returns>
-    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with this Id</exception>
     public BO.Task Read(int id)
     {
         DO.Task d = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
@@ -106,12 +86,6 @@ internal class TaskImplementation : ITask
                           }).OrderBy(x => x.Id).ToList();
         return b;
     }
-
-    /// <summary>
-    /// returns a collection of all BO.Tasks that exist and satisfy a condition if given
-    /// </summary>
-    /// <param name="filter">a boolean function that determines for each task if it satisfies the condition or not</param>
-    /// <returns>an IEnumerable of BO tasks</returns>
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null)
     {
         if (filter == null)
@@ -124,13 +98,6 @@ internal class TaskImplementation : ITask
                orderby b.Id
                select b;
     }
-
-    /// <summary>
-    /// Updates the data of a task in the data layer to the data of the task received
-    /// </summary>
-    /// <param name="task">the task to be updated with the new data</param>
-    /// <exception cref="BO.BlInvalidDataException">thrown if the new data is invalid</exception>
-    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with the Id of the given task</exception>
     public void Update(BO.Task task)
     {
         if (task.Id <= 0)
@@ -187,15 +154,6 @@ internal class TaskImplementation : ITask
             throw new BO.BlDoesNotExistException($"Task with id: {task.Id} doesn't exist", ex);
         }
     }
-
-    /// <summary>
-    /// set the scheduled starting date of a task
-    /// </summary>
-    /// <param name="id">the Id of the task to update</param>
-    /// <param name="date">the scheduled date of the task</param>
-    /// <param name="projectStartDate">the scheduled starting date of the project</param>
-    /// <exception cref="BO.BlDoesNotExistException">thrown if there is no task with the given Id</exception>
-    /// <exception cref="BO.BlTaskDateException">thrown if the task scheduled date can't be the updated to the given date</exception>
     public void UpdateTaskDate(int id, DateTime date, DateTime projectStartDate)
     {
         DO.Task task = _dal.Task.Read(id) ?? throw new BO.BlDoesNotExistException($"Task with id: {id} doesn't exist");
@@ -234,7 +192,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="task">a BO task</param>
     /// <returns>a DO task that has the properties of the BO task</returns>
-    public DO.Task BoToDo(BO.Task task)
+    private DO.Task BoToDo(BO.Task task)
     {
         int engineerId = (task.Engineer == null) ? 0 : task.Engineer.Id;
         if (engineerId != 0 && !_dal.Engineer.ReadAll().Any(x => x.Id == engineerId)) //check if the given id exists
@@ -244,13 +202,12 @@ internal class TaskImplementation : ITask
                 task.Deliverables, task.Remarks, engineerId, (DO.EngineerExperience)task.Copmlexity);
     }
 
-
     /// <summary>
     /// caculates the Status of the task received according to its dates
     /// </summary>
     /// <param name="task">the DO task that the status of is calculated</param>
     /// <returns>the status of the task</returns>
-    public static BO.Status CalculateStatus(DO.Task task)
+    private BO.Status CalculateStatus(DO.Task task)
     {
         if (task.CompleteDate != null)
             return BO.Status.Done;
@@ -260,12 +217,13 @@ internal class TaskImplementation : ITask
             return BO.Status.Scheduled;
         return BO.Status.Unscheduled;
     }
+
     /// <summary>
     /// caculates the forcast date of the task received according to its dates. if the task is unscheduled, returns null
     /// </summary>
     /// <param name="task">the DO task that the forcast date of is calculated</param>
     /// <returns>the scheduled / start date of the task + the required effort time</returns>
-    public static DateTime? CalculateForcast(DO.Task task)
+    private DateTime? CalculateForcast(DO.Task task)
     {
         if (task.ScheduledDate != null)
         {

@@ -61,7 +61,11 @@ internal class Program
         }
         while (choice != 0);
     }
-
+    /// <summary>
+    /// menu for task functions
+    /// </summary>
+    /// <exception cref="BlTryParseFailedException"></exception>
+    /// <exception cref="BlOptionDoesntExistException"></exception>
     private static void TaskMenu()
     {
         Console.WriteLine("Choose an action:\n" +
@@ -93,7 +97,7 @@ internal class Program
                     case 3:
                         Console.WriteLine("Enter task Id:");
                         tmp = int.TryParse(Console.ReadLine(), out int num) ? num :
-                            throw new BO.BlTryParseFailedException("Parsing failed");
+                            throw new BlTryParseFailedException("Parsing failed");
                         Console.WriteLine(s_bl.Task.Read(tmp));
                         break;
                     case 4:
@@ -111,11 +115,11 @@ internal class Program
                     case 6:
                         Console.WriteLine("Enter task Id:");
                         tmp = int.TryParse(Console.ReadLine(), out num) ? num :
-                            throw new BO.BlTryParseFailedException("Parsing failed");
+                            throw new BlTryParseFailedException("Parsing failed");
                         s_bl.Task.Delete(tmp);
                         break;
                     default:
-                        throw new BO.BlOptionDoesntExistException("There is no such option in the menu");
+                        throw new BlOptionDoesntExistException("There is no such option in the menu");
                 }
             }
             catch (Exception ex)
@@ -131,10 +135,14 @@ internal class Program
             "5: assign a task to an engineer\n" +
             "6: delete a task");
             choice = int.TryParse(Console.ReadLine(), out value) ? value :
-                throw new BO.BlTryParseFailedException("Parsing failed");
+                throw new BlTryParseFailedException("Parsing failed");
         }
 
     }
+
+    /// <summary>
+    /// receives data for a new task to add
+    /// </summary>
     private static void AddTask()
     {
         BO.Task task = new BO.Task();
@@ -165,6 +173,11 @@ internal class Program
 
         s_bl.Task.Create(task);
     }
+
+    /// <summary>
+    /// receives data to update a task with
+    /// </summary>
+    /// <exception cref="BlTryParseFailedException"></exception>
     private static void UpdateTask()
     {
         Console.WriteLine("Enter the Id of the task you want to update:");
@@ -211,7 +224,11 @@ internal class Program
     }
 
 
-
+    /// <summary>
+    /// menu for engineer functions
+    /// </summary>
+    /// <exception cref="BlTryParseFailedException"></exception>
+    /// <exception cref="BlOptionDoesntExistException"></exception>
     private static void EngineerMenu()
     {
         int choice;
@@ -226,7 +243,7 @@ internal class Program
                        "5: update an engineer\n" +
                        "6: start working on a task\n" +
                        "7: finish working on a task");
-
+            int id;
             choice = int.TryParse(Console.ReadLine(), out int value) ? value :
                     throw new BlTryParseFailedException("Parsing failed");
             switch (choice)
@@ -237,13 +254,24 @@ internal class Program
                     AddEngineer();
                     break;
                 case 2:
-                    DeleteEngineer();
+                    Console.WriteLine("Enter engineer's Id: \t");
+                    if (int.TryParse(Console.ReadLine(), out id) == false)
+                        throw new BlTryParseFailedException("parsing failed");
+                    try { s_bl.Engineer.Delete(id); }
+                    catch (Exception ex) { Console.WriteLine(ex); }
                     break;
                 case 3:
-                    ShowAllEngineers();
+                    foreach (Engineer item in s_bl.Engineer.ReadAll())
+                    {
+                        Console.WriteLine(item);
+                    }
                     break;
                 case 4:
-                    ShowTasks();
+                    Console.WriteLine("Enter engineer's Id: \t");
+                    if (int.TryParse(Console.ReadLine(), out id) == false)
+                        throw new BlTryParseFailedException("parsing failed");
+                    foreach (var item in s_bl.ShowTasks(id))
+                        Console.WriteLine(item);
                     break;
                 case 5:
                     UpdateEngineer();
@@ -280,6 +308,11 @@ internal class Program
         }
         while (choice != 0);
     }
+
+    /// <summary>
+    /// receives data for a new engineer to add
+    /// </summary>
+    /// <exception cref="BlTryParseFailedException"></exception>
     private static void AddEngineer()
     {
         Console.WriteLine("Enter engineer's Id: \t");
@@ -301,30 +334,11 @@ internal class Program
         }
         catch (Exception ex) { Console.WriteLine(ex); }
     }
-    private static void DeleteEngineer()
-    {
-        Console.WriteLine("Enter engineer's Id: \t");
-        if (int.TryParse(Console.ReadLine(), out int id) == false)
-            throw new BlTryParseFailedException("parsing failed");
-        try { s_bl.Engineer.Delete(id); }
-        catch (Exception ex) { Console.WriteLine(ex); }
-    }
-    private static void ShowAllEngineers()
-    {
-        foreach (Engineer item in s_bl.Engineer.ReadAll())
-        {
-            Console.WriteLine(item);
-        }
-    }
-    private static void ShowTasks()
-    {
-        Console.WriteLine("Enter engineer's Id: \t");
-        if (int.TryParse(Console.ReadLine(), out int id) == false)
-            throw new BlTryParseFailedException("parsing failed");
-        foreach (BO.Task item in s_bl.Task.ReadAll())
-            if (item.Engineer != null && item.Engineer.Id == id)
-                Console.WriteLine(item);
-    }
+
+    /// <summary>
+    /// receives data to update an engineer with
+    /// </summary>
+    /// <exception cref="BlTryParseFailedException"></exception>
     private static void UpdateEngineer()
     {
         Console.WriteLine("Enter engineer's Id to update: \t");
@@ -350,7 +364,11 @@ internal class Program
 
 
 
-
+    /// <summary>
+    /// start scheduling process- giving the tasks a scheduled start date and choosing a start date for the project
+    /// </summary>
+    /// <exception cref="BlTryParseFailedException"></exception>
+    /// <exception cref="BlOptionDoesntExistException"></exception>
     private static void CreateSchedule()
     {
         Console.WriteLine("Enter project starting date:");

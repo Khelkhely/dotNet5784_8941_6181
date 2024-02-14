@@ -11,6 +11,13 @@ internal class Bl : IBl
 
     public IEngineer Engineer => new EngineerImplementation();
 
+    /// <summary>
+    /// registers an engineer starting to work on a task and updates the data accordingly
+    /// </summary>
+    /// <param name="eId">the Id of the engineer that wants to start working on the task</param>
+    /// <param name="tId">the Id of the task he wants to start</param>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if there are no enginners / tasks with the received Ids</exception>
+    /// <exception cref="BlAssignmentFailedException">thrown if the engineer can't start working on the task</exception>
     public void startNewTask(int eId, int tId)
     {
        
@@ -29,6 +36,14 @@ internal class Bl : IBl
         _dal.Task.Update(tmpTask);
 
     }
+
+
+    /// <summary>
+    ///  registers an engineer finishing a task and updates the data accordingly
+    /// </summary>
+    /// <param name="eId">the Id of the engineer that completed the task</param>
+    /// <param name="tId">the Id of the task that was completed</param>
+    /// <exception cref="BO.BlDoesNotExistException">thrown if there are no enginners / tasks with the received Ids</exception>
     public void finishTask(int eId, int tId)
     {
        
@@ -42,21 +57,32 @@ internal class Bl : IBl
         _dal.Task.Update(tmpTask);
     }
 
+    /// <summary>
+    /// returns a collection of all the tasks assigned to the engineer
+    /// </summary>
+    /// <param name="eId">the Id of the engineer</param>
+    /// <returns>an IEnumerable collection of tasks assigned to the engineer</returns>
+    public IEnumerable<BO.Task> ShowTasks(int eId)
+    {
+        if (_dal.Engineer.Read(eId) == null)
+            throw new BlDoesNotExistException($"engineer with id {eId} does not exist.");
+        return Task.ReadAll(x => x.Engineer != null && x.Engineer.Id == eId);
+    }
 
     /// <summary>
     /// checks that a schedule can be made and sets the project starts date if it can
     /// </summary>
-    /// <param name="date"></param>
-    /// <exception cref="Exception"></exception>
+    /// <param name="date">the desired scheduled date of the project</param>
+    /// <exception cref="BlSchedulingFailedException">thrown if the tasks' scheduled dates don't allow scheduling the given project start date</exception>
     public void CreateSchedule(DateTime date) 
     {
         var tasks = Task.ReadAll();
         //check that all tasks are scheduled
         if (tasks.Any(x => x.Status == BO.Status.Unscheduled)) 
-            throw new Exception();
+            throw new BlSchedulingFailedException("Not all tasks are scheduled");
         //check that none of the scheduled dates are before the start of the project
         if (tasks.Any(x => x.ScheduledDate < date)) 
-            throw new Exception();
+            throw new BlSchedulingFailedException("Project starting date is before the task's scheduled date");
         //save the start date of the project in the configuration data
         _dal.StartDate = date;
     }
