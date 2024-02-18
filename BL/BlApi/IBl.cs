@@ -1,5 +1,5 @@
 ﻿namespace BlApi;
-
+using DalTest;
 public interface IBl
 {
     public ITask Task { get; }
@@ -44,4 +44,7 @@ public interface IBl
     /// <param name="engineerId"></param>
     /// <param name="taskId"></param>
     void AssignEngineer(int engineerId, int taskId);
+    public void InitializeDB() => DalTest.Initialization.Do();
+    public void ResetDB() => DalTest.Initialization.Reset();
+
 }
