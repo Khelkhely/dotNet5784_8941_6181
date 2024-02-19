@@ -35,7 +35,7 @@ namespace PL
                 "Initialize data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 s_bl.InitializeDB();
         }
-
+         
         private void Button_Reset_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to reset data?",
