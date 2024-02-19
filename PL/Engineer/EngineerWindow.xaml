@@ -5,8 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="EngineerWindow" Height="450" Width="800"
+        DataContext="{Binding MyEngineer, RelativeSource={RelativeSource self}, Mode=TwoWay}">
+    <Grid Margin="10,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Content="Id:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="0" VerticalAlignment="Center"/>
+        <!--Engineer Id TextBox-->
+        <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"
+                 IsEnabled="{Binding Id, Converter={StaticResource ConvertIdToBooleanKey}}"
+                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+
+        <Label Grid.Column="0" Content="Name:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="1" VerticalAlignment="Center"/>
+        <!--Engineer Name TextBox-->
+        <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"
+                 Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+
+        <Label Grid.Column="0" Content="Email:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
+        <!--Engineer Email TextBox-->
+        <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"
+                 Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+
+        <Label Grid.Column="0" Content="Level:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
+        <!--Engineer Level ComboBox-->
+        <ComboBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" 
+                  ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
+                  SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+
+        <Label Grid.Column="0" Content="Cost:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="4" VerticalAlignment="Center"/>
+        <!--Engineer Cost TextBox-->
+        <TextBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch"
+                 Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+
+        <!--Add/Update Button-->
+        <Button Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.RowSpan="2" Width="200"
+                Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}"
+                Padding="5" Click="AddUpdate_Click" IsEnabled="True">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFF9F5F5"/>
+                    <GradientStop Color="#FFF78B8B" Offset="1"/>
+                    <GradientStop Color="#FFF4B7F7" Offset="0.333"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
