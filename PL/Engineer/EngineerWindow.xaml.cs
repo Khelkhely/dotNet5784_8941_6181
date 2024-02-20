@@ -38,7 +38,7 @@ namespace PL.Engineer
             InitializeComponent();
             try
             {
-                add = id == 0 ? true : false;
+                add = id == 0;
                 MyEngineer = (id == 0) ? new BO.Engineer() { Id = 0, Cost = 0, Level = BO.EngineerExperience.None }
                     : s_bl.Engineer.Read(id);
             }
@@ -69,6 +69,7 @@ namespace PL.Engineer
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Close();
             }
         }
     }

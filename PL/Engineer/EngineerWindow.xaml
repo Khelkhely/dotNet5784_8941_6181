@@ -8,6 +8,20 @@
         Title="EngineerWindow" Height="450" Width="800"
         DataContext="{Binding MyEngineer, RelativeSource={RelativeSource self}, Mode=TwoWay}">
     <Grid Margin="10,10,10,10">
+        <Grid.Background>
+            <RadialGradientBrush>
+                <RadialGradientBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="2" CenterX="2"/>
+                        <SkewTransform CenterX="2" CenterY="2"/>
+                        <RotateTransform CenterX="2" CenterY="2"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </RadialGradientBrush.RelativeTransform>
+                <GradientStop Color="#FF8EED8B" Offset="1"/>
+                <GradientStop Color="#FF1E821B" Offset="0"/>
+            </RadialGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -20,44 +34,42 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="Id:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="0" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Id:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="0" VerticalAlignment="Center"/>
         <!--Engineer Id TextBox-->
-        <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"
+        <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
+                 MaxLength="9" Width="290" Margin="10,20,10,20"
                  IsEnabled="{Binding Id, Converter={StaticResource ConvertIdToBooleanKey}}"
-                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White" />
 
-        <Label Grid.Column="0" Content="Name:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="1" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="1" VerticalAlignment="Center"/>
         <!--Engineer Name TextBox-->
-        <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"
-                 Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"
+                 Width="290" Margin="10,20,10,20"
+                 Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Email:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Email:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
         <!--Engineer Email TextBox-->
-        <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"
-                 Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"
+                 MaxLength="9" Width="290" Margin="10,20,10,20"
+                 Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Level:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Level:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
         <!--Engineer Level ComboBox-->
-        <ComboBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" 
+        <ComboBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"
+                  Width="290" Margin="10,20,10,20" 
                   ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
-                  SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+                  SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Cost:" HorizontalAlignment="Left" Margin="70,0,0,0" Grid.Row="4" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Cost:" HorizontalAlignment="Left" Margin="65,0,0,0" 
+               Grid.Row="4" FontSize="15" VerticalAlignment="Center"/>
         <!--Engineer Cost TextBox-->
-        <TextBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch"
-                 Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+        <TextBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"
+                 Width="290" Margin="10,20,10,20"
+                 Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
         <!--Add/Update Button-->
-        <Button Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Margin="0,70,0,0" Grid.RowSpan="2" Width="200"
-                Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}"
-                Padding="5" Click="AddUpdate_Click" IsEnabled="True">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFF9F5F5"/>
-                    <GradientStop Color="#FFF78B8B" Offset="1"/>
-                    <GradientStop Color="#FFF4B7F7" Offset="0.333"/>
-                </LinearGradientBrush>
-            </Button.Background>
-        </Button>
+        <Button Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Margin="172,0,0,10" Grid.RowSpan="1" Width="200"
+                Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" FontSize="20"
+                Padding="5" Click="AddUpdate_Click" IsEnabled="True" Background="White" BorderBrush="Black"/>
     </Grid>
 </Window>
