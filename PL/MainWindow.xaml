@@ -14,9 +14,9 @@
             </LinearGradientBrush>
         </Grid.Background>
         <!--Show engineers Button-->
-        <Button Content="Show engineers" HorizontalAlignment="Left" Margin="80,60,0,0" VerticalAlignment="Top" Height="54" Width="117" Click="Button_Engineer_Click"/>
-        <Button Content="Initialize data" HorizontalAlignment="Left" Margin="308,57,0,0" VerticalAlignment="Top" Height="60" Width="120" Click="Button_Initialize_Click"/>
-        <Button Content="Reset data" HorizontalAlignment="Left" Margin="508,57,0,0" VerticalAlignment="Top" Height="69" Width="124" Click="Button_Reset_Click"/>
+        <Button Content="Show engineers" HorizontalAlignment="Left" Margin="100,100,0,0" VerticalAlignment="Top" Height="70" Width="120" Click="Button_Engineer_Click" Background="#FFA3FCD7"/>
+        <Button Content="Initialize data" HorizontalAlignment="Left" Margin="300,100,0,0" VerticalAlignment="Top" Height="70" Width="120" Click="Button_Initialize_Click" Background="#FFA3FCD7"/>
+        <Button Content="Reset data" HorizontalAlignment="Left" Margin="500,100,0,0" VerticalAlignment="Top" Height="70" Width="120" Click="Button_Reset_Click" Background="#FFA3FCD7"/>
 
     </Grid>
 </Window>
