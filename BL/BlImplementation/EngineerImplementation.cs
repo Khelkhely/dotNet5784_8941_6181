@@ -21,7 +21,7 @@ internal class EngineerImplementation : IEngineer
         if ((engineer.Id <= 0) ||
             (engineer.Name == null) || (engineer.Name == "") ||
             (engineer.Email == null) || !(engineer.Email.EndsWith("@gmail.com")) ||
-            (engineer.Cost == null) || (engineer.Cost < 0))
+            (engineer.Cost == null) || (engineer.Cost < 0) || engineer.Level == BO.EngineerExperience.None)
             throw new BO.BlInvalidDataException($"The data of the engineer with the ID={engineer.Id} is invalid");
         try
         {
@@ -122,10 +122,12 @@ internal class EngineerImplementation : IEngineer
     {
         if (filter == null)
             return from engineer in _dal.Engineer.ReadAll()
+                   orderby engineer.Id
                    select Read(engineer.Id);
         return from doEngineer in _dal.Engineer.ReadAll()
                let boEngineer = Read(doEngineer.Id)
                where filter(boEngineer)
+               orderby boEngineer.Id
                select boEngineer;
     }
 
@@ -140,7 +142,7 @@ internal class EngineerImplementation : IEngineer
         if ((engineer.Id < 0) ||
             (engineer.Name == null) || (engineer.Name == "") ||
             (engineer.Email == null) || !(engineer.Email.EndsWith("@gmail.com")) ||
-            (engineer.Cost == null) || (engineer.Cost < 0))
+            (engineer.Cost == null) || (engineer.Cost < 0) || engineer.Level == BO.EngineerExperience.None)
             throw new BO.BlInvalidDataException($"The data of the engineer with the ID={engineer.Id} is invalid");
 
         if (engineer.Task != null)//if the engineer that recieved is working on a task
@@ -159,7 +161,7 @@ internal class EngineerImplementation : IEngineer
 
 
         DO.Engineer doEngineer;
-        if (_dal.Engineer.Read(engineer.Id) != null)//if an engineer with tha recived id exists in the data layer
+        if (_dal.Engineer.Read(engineer.Id) != null)//if an engineer with the recived id exists in the data layer
         {
             if ((DO.EngineerExperience)engineer.Level < _dal.Engineer.Read(engineer.Id)!.Level)//if the level of the recived engineer is smaller then the previous one 
             {

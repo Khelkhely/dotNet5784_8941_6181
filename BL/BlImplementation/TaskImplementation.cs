@@ -8,11 +8,11 @@ internal class TaskImplementation : ITask
 
     public void Create(BO.Task task)
     {
-        //if (task.Id <= 0) //task id not received - it's automatic from the Dal layer
-        //    throw new BO.BlInvalidDataException("Id isn't a positive number");
         if (task.Alias == "")
             throw new BO.BlInvalidDataException("Alias can't be empty");
-        if (task.Dependencies != null) // doesn't matter because the 
+        if (task.Copmlexity == BO.EngineerExperience.None)
+            throw new BO.BlInvalidDataException("Complexity can't be none");
+        if (task.Dependencies != null) //if there are dependencies 
             foreach (var t in task.Dependencies) //complete the data for the dependant tasks
             {
                 var dTask = _dal.Task.Read(t.Id) ??
@@ -73,17 +73,18 @@ internal class TaskImplementation : ITask
 
         IEnumerable<DO.Dependency> dependencies = _dal.Dependency.ReadAll();
         b.Dependencies = (from item in dependencies
-                          where item.DependentTask == id
-                          let task = _dal.Task.Read(item.DependsOnTask) ??
-                               throw new BO.BlDoesNotExistException($"Task with ID={item.DependsOnTask} doesn't exist")
-                          select new BO.TaskInList
-                          {
-                              Id = task.Id,
-                              Alias = task.Alias,
-                              Description = task.Description,
-                              Status = CalculateStatus(task)
+                         where item.DependentTask == id
+                         let task = _dal.Task.Read(item.DependsOnTask) ??
+                              throw new BO.BlDoesNotExistException($"Task with ID={item.DependsOnTask} doesn't exist")
+                         orderby task.Id
+                         select new BO.TaskInList
+                         {
+                             Id = task.Id,
+                             Alias = task.Alias,
+                             Description = task.Description,
+                             Status = CalculateStatus(task)
 
-                          }).OrderBy(x => x.Id).ToList();
+                         }).ToList();
         return b;
     }
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null)
@@ -104,6 +105,8 @@ internal class TaskImplementation : ITask
             throw new BO.BlInvalidDataException($"Id {task.Id} isn't a positive number");
         if (task.Alias == "")
             throw new BO.BlInvalidDataException("Alias can't be empty");
+        if (task.Copmlexity == BO.EngineerExperience.None)
+            throw new BO.BlInvalidDataException("Complexity can't be none");
         if (task.Engineer != null)
         {
             //check that the engineer exists

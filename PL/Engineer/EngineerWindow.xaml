@@ -15,11 +15,11 @@
                         <ScaleTransform CenterY="0" CenterX="0"/>
                         <SkewTransform CenterX="0" CenterY="0"/>
                         <RotateTransform CenterX="0" CenterY="0"/>
-                        <TranslateTransform/>
+                        <TranslateTransform Y="0" X="0"/>
                     </TransformGroup>
                 </RadialGradientBrush.RelativeTransform>
                 <GradientStop Color="#FF8EED8B" Offset="1"/>
-                <GradientStop Color="#FF1E821B" Offset="0"/>
+                <GradientStop Color="#FFB6F3CA" Offset="0"/>
             </RadialGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
@@ -50,7 +50,7 @@
         <Label Grid.Column="0" Content="Email:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
         <!--Engineer Email TextBox-->
         <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"
-                 MaxLength="9" Width="290" Margin="10,20,10,20"
+                 Width="290" Margin="10,20,10,20"
                  Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
         <Label Grid.Column="0" Content="Level:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>

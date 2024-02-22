@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfEngineer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Engineer>
-    <Id>123456789</Id>
-    <Name>a</Name>
-    <Email>a@gmail.com</Email>
-    <Level>Intermediate</Level>
-    <Cost>100</Cost>
-  </Engineer>
-  <Engineer>
     <Id>987654321</Id>
     <Name>c</Name>
     <Email>c@gmail.com</Email>
@@ -19,13 +12,6 @@
     <Name>kiki</Name>
     <Email>k@gmail.com</Email>
     <Level>AdvancedBeginner</Level>
-    <Cost>150</Cost>
-  </Engineer>
-  <Engineer>
-    <Id>234567891</Id>
-    <Name>b</Name>
-    <Email>b@gmail.com</Email>
-    <Level>Beginner</Level>
     <Cost>150</Cost>
   </Engineer>
   <Engineer>
@@ -48,5 +34,19 @@
     <Email>ert@gmail.com</Email>
     <Level>Expert</Level>
     <Cost>1000000</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>123456789</Id>
+    <Name>Batata</Name>
+    <Email>a@gmail.com</Email>
+    <Level>Intermediate</Level>
+    <Cost>200</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>234567891</Id>
+    <Name>Jelly Banana</Name>
+    <Email>banana@gmail.com</Email>
+    <Level>AdvancedBeginner</Level>
+    <Cost>180</Cost>
   </Engineer>
 </ArrayOfEngineer>
