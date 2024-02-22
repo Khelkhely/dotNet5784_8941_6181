@@ -38,34 +38,38 @@ namespace PL.Engineer
             InitializeComponent();
             try
             {
-                add = id == 0;
+                add = id == 0; // add = true if id is 0.
                 MyEngineer = (id == 0) ? new BO.Engineer() { Id = 0, Cost = 0, Level = BO.EngineerExperience.None }
-                    : s_bl.Engineer.Read(id);
+                //if the Id is 0, it means that we want to add a new engineer, so we will display on the sceen default values.
+                    : s_bl.Engineer.Read(id); //else, we would like to update an existing engineer so we will display his old data.
             }
-            catch(Exception ex)
+            catch(Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
 
+        /// <summary>
+        /// "Add/Update" button click event
+        /// </summary>
         private void AddUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (add)
+                if (add) //if we want to add a new engineer
                 {
                     s_bl.Engineer.Create(MyEngineer);
-                    MessageBox.Show("Engineer Added Succesfully");
+                    MessageBox.Show("Engineer Added Succesfully"); //If we succeeded, we will notify the user.
                 }
-                else
+                else //if we want to update an existing engineer
                 {
                     s_bl.Engineer.Update(MyEngineer);
-                    MessageBox.Show("Engineer Updated Succesfully");
+                    MessageBox.Show("Engineer Updated Succesfully"); //If we succeeded, we will notify the user.
                 }
                 Close();
             }
-            catch(Exception ex)
+            catch(Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Close();
