@@ -25,19 +25,31 @@ namespace PL
             InitializeComponent();
         }
 
+        /// <summary>
+        /// "Show engineers" button click event
+        /// </summary>
         private void Button_Engineer_Click(object sender, RoutedEventArgs e)
         {
-            new EngineerListWindow().Show();
+            new EngineerListWindow().Show(); // Shows the list of engineers window
         }
+
+        /// <summary>
+        /// "Initialize data" button click event
+        /// </summary>
         private void Button_Initialize_Click(object sender, RoutedEventArgs e)
         {
+            //Initialize the data only if the user clicked "yes" in the Message box:
             if (MessageBox.Show("Are you sure you want to initialize data?", 
                 "Initialize data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 s_bl.InitializeDB();
         }
-        
+
+        /// <summary>
+        /// "Reset data" button click event
+        /// </summary>
         private void Button_Reset_Click(object sender, RoutedEventArgs e)
         {
+            //Reset the data only if the user clicked "yes" in the Message box:
             if (MessageBox.Show("Are you sure you want to reset data?",
                 "Reset data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 s_bl.ResetDB();

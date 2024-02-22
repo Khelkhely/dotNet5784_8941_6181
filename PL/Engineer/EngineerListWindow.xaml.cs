@@ -9,7 +9,6 @@ namespace PL.Engineer;
 public partial class EngineerListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-
     public BO.EngineerExperience level { get; set; } = BO.EngineerExperience.None;
 
     /// <summary>
@@ -35,10 +34,8 @@ public partial class EngineerListWindow : Window
     }
 
     /// <summary>
-    /// reloads the list according to the engineer experience level chosen in the combobox
+    /// event of click on the combo box
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void Engineer_Filter_Changed(object sender, SelectionChangedEventArgs e)
     {
         EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
@@ -46,30 +43,26 @@ public partial class EngineerListWindow : Window
     }
 
     /// <summary>
-    /// opens the engineer window in adding mode
+    /// "Add" button click event
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void Add_Engineer_Click(object sender, RoutedEventArgs e)
     {
-        new EngineerWindow().ShowDialog();
+        new EngineerWindow().ShowDialog(); // shows the engineer window (with "Add" button)
         EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-            s_bl.Engineer.ReadAll(x => x.Level == level); //reloads the list with the new update
+            s_bl.Engineer.ReadAll(x => x.Level == level); // updates the list of engineers window
     }
 
     /// <summary>
-    /// opens an engineer window in update mode for the engineer that was chosen
+    /// Event of clicking on an existing engineer
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void EngineerList_SelectedEngineer(object sender, MouseButtonEventArgs e)
     {
         BO.Engineer? engineer = (sender as ListView)?.SelectedItem as BO.Engineer;
         if (engineer != null)
         {
-            new EngineerWindow(engineer.Id).ShowDialog();
+            new EngineerWindow(engineer.Id).ShowDialog(); // shows the engineer window (with the desired data and with "Update" button)
             EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-            s_bl.Engineer.ReadAll(x => x.Level == level);
+                s_bl.Engineer.ReadAll(x => x.Level == level); // updates the list of engineers window
 
         }
     }
