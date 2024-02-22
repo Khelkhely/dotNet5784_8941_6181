@@ -25,13 +25,13 @@ public partial class EngineerListWindow : Window
     public EngineerListWindow()
     {
         InitializeComponent();
-        EngineerList = s_bl?.Engineer.ReadAll()!;
+        EngineerList = s_bl?.Engineer.ReadAll()!; //initialize the list of engineers
     }
 
     private void Engineer_Filter_Changed(object sender, SelectionChangedEventArgs e)
     {
         EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-            s_bl.Engineer.ReadAll(x => x.Level == level);
+            s_bl.Engineer.ReadAll(x => x.Level == level); //change the according to the chosen filter
     }
 
     private void Add_Engineer_Click(object sender, RoutedEventArgs e)
@@ -41,7 +41,7 @@ public partial class EngineerListWindow : Window
             s_bl.Engineer.ReadAll(x => x.Level == level);
     }
 
-    private void EngineerList_DoubleClick(object sender, MouseButtonEventArgs e)
+    private void EngineerList_SelectedEngineer(object sender, MouseButtonEventArgs e)
     {
         BO.Engineer? engineer = (sender as ListView)?.SelectedItem as BO.Engineer;
         if (engineer != null)

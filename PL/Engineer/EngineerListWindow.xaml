@@ -30,8 +30,8 @@
                       SelectionChanged="Engineer_Filter_Changed"
                       Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding EngineerList}" Margin="-1,0,1,0"
-                  MouseDoubleClick="EngineerList_DoubleClick">
+        <ListView Grid.Row="1" ItemsSource="{Binding EngineerList}" Margin="-5,0,5,0"
+                  MouseDoubleClick="EngineerList_SelectedEngineer" BorderBrush="Black">
             <ListView.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFF8EEEE"/>

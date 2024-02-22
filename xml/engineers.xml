@@ -35,4 +35,18 @@
     <Level>Expert</Level>
     <Cost>128</Cost>
   </Engineer>
+  <Engineer>
+    <Id>123456789</Id>
+    <Name>Batata</Name>
+    <Email>a@gmail.com</Email>
+    <Level>Intermediate</Level>
+    <Cost>200</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>234567891</Id>
+    <Name>Jelly Banana</Name>
+    <Email>banana@gmail.com</Email>
+    <Level>AdvancedBeginner</Level>
+    <Cost>180</Cost>
+  </Engineer>
 </ArrayOfEngineer>
