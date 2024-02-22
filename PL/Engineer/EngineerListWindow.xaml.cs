@@ -11,6 +11,9 @@ public partial class EngineerListWindow : Window
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
     public BO.EngineerExperience level { get; set; } = BO.EngineerExperience.None;
 
+    /// <summary>
+    /// the list of engineers that will be displayed on the screen
+    /// </summary>
     public IEnumerable<BO.Engineer> EngineerList
     {
         get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
@@ -21,6 +24,9 @@ public partial class EngineerListWindow : Window
     public static readonly DependencyProperty EngineerListProperty =
         DependencyProperty.Register("EngineerList", typeof(IEnumerable<BO.Engineer>), typeof(EngineerListWindow), new PropertyMetadata(null));
 
+    /// <summary>
+    /// constructor
+    /// </summary>
     public EngineerListWindow()
     {
         InitializeComponent();
@@ -33,7 +39,7 @@ public partial class EngineerListWindow : Window
     private void Engineer_Filter_Changed(object sender, SelectionChangedEventArgs e)
     {
         EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-            s_bl.Engineer.ReadAll(x => x.Level == level); //change the according to the chosen filter
+            s_bl.Engineer.ReadAll(x => x.Level == level); //change the list according to the chosen filter
     }
 
     /// <summary>
