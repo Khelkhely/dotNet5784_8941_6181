@@ -12,9 +12,9 @@
             <RadialGradientBrush>
                 <RadialGradientBrush.RelativeTransform>
                     <TransformGroup>
-                        <ScaleTransform CenterY="2" CenterX="2"/>
-                        <SkewTransform CenterX="2" CenterY="2"/>
-                        <RotateTransform CenterX="2" CenterY="2"/>
+                        <ScaleTransform CenterY="0" CenterX="0"/>
+                        <SkewTransform CenterX="0" CenterY="0"/>
+                        <RotateTransform CenterX="0" CenterY="0"/>
                         <TranslateTransform/>
                     </TransformGroup>
                 </RadialGradientBrush.RelativeTransform>
