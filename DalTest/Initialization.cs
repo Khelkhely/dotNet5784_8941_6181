@@ -151,6 +151,7 @@ public static class Initialization
         s_dal.Task.Clear();
         s_dal.StartDate = null;
         s_dal.EndDate = null;
+        s_dal.InitializeIds();
     }
     public static void Do()
     {

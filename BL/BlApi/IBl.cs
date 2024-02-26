@@ -44,7 +44,17 @@ public interface IBl
     /// <param name="engineerId"></param>
     /// <param name="taskId"></param>
     void AssignEngineer(int engineerId, int taskId);
-    public void InitializeDB() => DalTest.Initialization.Do();
-    public void ResetDB() => DalTest.Initialization.Reset();
+    public void InitializeDB();
+    public void ResetDB();
+
+    #region
+
+    DateTime Clock { get; }
+    void AddYear();
+    void AddMonth();
+    void AddDay();
+    void AddHour();
+    void ResetTime();
+    #endregion
 
 }

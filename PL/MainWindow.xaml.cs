@@ -20,39 +20,39 @@ namespace PL
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
+
+
+        public DateTime MyClock
+        {
+            get { return (DateTime)GetValue(MyClockProperty); }
+            set { SetValue(MyClockProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyClock.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyClockProperty =
+            DependencyProperty.Register("MyClock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(DateTime.Now.Date));
+
+
         public MainWindow()
         {
             InitializeComponent();
+            //MyClock = s_bl.Clock;
         }
 
-        /// <summary>
-        /// "Show engineers" button click event
-        /// </summary>
-        private void Button_Engineer_Click(object sender, RoutedEventArgs e)
+        private void EngineerMainWindow_Click(object sender, RoutedEventArgs e)
         {
-            new EngineerListWindow().Show(); // Shows the list of engineers window
+            new EngineerMainWindow().Show();
         }
 
-        /// <summary>
-        /// "Initialize data" button click event
-        /// </summary>
-        private void Button_Initialize_Click(object sender, RoutedEventArgs e)
+        private void ManagerMainWindow_Click(object sender, RoutedEventArgs e)
         {
-            //Initialize the data only if the user clicked "yes" in the Message box:
-            if (MessageBox.Show("Are you sure you want to initialize data?", 
-                "Initialize data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                s_bl.InitializeDB();
+            new ManagerMainWindow().Show();
         }
 
-        /// <summary>
-        /// "Reset data" button click event
-        /// </summary>
-        private void Button_Reset_Click(object sender, RoutedEventArgs e)
+        private void AddYear_Click(object sender, RoutedEventArgs e)
         {
-            //Reset the data only if the user clicked "yes" in the Message box:
-            if (MessageBox.Show("Are you sure you want to reset data?",
-                "Reset data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                s_bl.ResetDB();
+            s_bl.AddYear();
+            MyClock = s_bl.Clock;
         }
     }
 }

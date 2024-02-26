@@ -26,6 +26,12 @@ static class XMLTools
     #endregion
 
     #region XmlConfig
+    public static void SetId(string data_config_xml, string elemName, int value)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
+        root.Element(elemName)?.SetValue(value.ToString());
+        XMLTools.SaveListToXMLElement(root, data_config_xml);
+    }
     public static int GetAndIncreaseNextId(string data_config_xml, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
@@ -34,7 +40,6 @@ static class XMLTools
         XMLTools.SaveListToXMLElement(root, data_config_xml);
         return nextId;
     }
-
     public static DateTime? GetScheduleDate(string data_config_xml, string elemName)
     {
         XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);

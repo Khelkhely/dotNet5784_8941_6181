@@ -14,4 +14,10 @@ sealed internal class DalXml : IDal
 
     public DateTime? StartDate { get => Config.projectStartDate; set => Config.projectStartDate = value;}
     public DateTime? EndDate { get => Config.projectEndDate; set => Config.projectEndDate = value;}
+
+    public void InitializeIds()
+    {
+        Config.NextTaskId = 1000;
+        Config.NextDependencyId = 100;
+    }
 }

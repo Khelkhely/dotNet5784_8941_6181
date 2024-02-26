@@ -8,6 +8,9 @@ namespace BlImplementation;
 internal class EngineerImplementation : IEngineer
 {
     private DalApi.IDal _dal = Factory.Get;
+    private readonly Bl _bl;
+    internal EngineerImplementation(Bl bl) => _bl = bl;
+
 
     /// <summary>
     /// adds a new engineer to the data layer
@@ -57,7 +60,7 @@ internal class EngineerImplementation : IEngineer
         var matching = groups.FirstOrDefault(x => x.Key == id);
         if (matching != null && matching.Any(item =>
                (item!.StartDate != null && item!.CompleteDate == null) ||
-               (item!.CompleteDate > DateTime.Now)))//if the engineer is in the middle of working on that task
+               (item!.CompleteDate > _bl.Clock)))//if the engineer is in the middle of working on that task
             throw new BO.BlCanNotDeleteException("The engineer is in the middle of working on a task, so he couldn't be deleted");
         try
         {

@@ -5,6 +5,8 @@ namespace BlImplementation;
 internal class TaskImplementation : ITask
 {
     private DalApi.IDal _dal = Factory.Get;
+    private readonly Bl _bl;
+    internal TaskImplementation(Bl bl) => _bl = bl;
 
     public void Create(BO.Task task)
     {
@@ -24,7 +26,7 @@ internal class TaskImplementation : ITask
         //check if the engineer exists
         if (task.Engineer != null && _dal.Engineer.Read(task.Engineer.Id) == null)
             throw new BO.BlDoesNotExistException($"Engineer with id: {task.Engineer.Id} doesn't exist");
-        int newId  = _dal.Task.Create(BoToDo(task) with { CreatedAtDate = DateTime.Now }); //doesn't throw exceptions
+        int newId  = _dal.Task.Create(BoToDo(task) with { CreatedAtDate = _bl.Clock }); //doesn't throw exceptions
         if (task.Dependencies != null)
         {
             foreach (var item in task.Dependencies) //check that all the the dependent-on tasks exist

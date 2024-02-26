@@ -1,14 +1,18 @@
 ﻿using BlApi;
 using BO;
+using System.Runtime.CompilerServices;
 
 namespace BlImplementation;
 internal class Bl : IBl
 {
     private static DalApi.IDal _dal = Factory.Get;
 
-    public ITask Task => new TaskImplementation();
+    public ITask Task => new TaskImplementation(this);
 
-    public IEngineer Engineer => new EngineerImplementation();
+    public IEngineer Engineer => new EngineerImplementation(this);
+
+    private static DateTime s_clock = DateTime.Now.Date;
+    public DateTime Clock { get => s_clock; private set => s_clock = value; }
 
     /// <summary>
     /// registers an engineer starting to work on a task and updates the data accordingly
@@ -31,7 +35,7 @@ internal class Bl : IBl
         if (_dal.Task.Read(tId)!.Complexity > _dal.Engineer.Read(eId)!.Level)
             throw new BlAssignmentFailedException("the engineer can't work on this task because his level is low");
 
-        DO.Task tmpTask = _dal.Task.Read(tId)! with { StartDate = DateTime.Now };
+        DO.Task tmpTask = _dal.Task.Read(tId)! with { StartDate = Clock };
         _dal.Task.Update(tmpTask);
 
     }
@@ -52,7 +56,7 @@ internal class Bl : IBl
         if (_dal.Task.Read(tId) == null)
             throw new BO.BlDoesNotExistException($"task with id {tId} does not exist.");
 
-        DO.Task tmpTask = _dal.Task.Read(tId)! with { EngineerId = 0, CompleteDate = DateTime.Now };
+        DO.Task tmpTask = _dal.Task.Read(tId)! with { EngineerId = 0, CompleteDate = Clock };
         _dal.Task.Update(tmpTask);
     }
 
@@ -104,5 +108,34 @@ internal class Bl : IBl
         task.Engineer = new BO.EngineerInTask() { Id = engineer.Id, Name = engineer.Name };
         Task.Update(task); //update the task
         //the engineer doesn't need to be updated because it doesn't have a task property in dal
+    }
+
+    public void InitializeDB() => DalTest.Initialization.Do();
+
+    public void ResetDB() => DalTest.Initialization.Reset();
+
+    public void AddYear()
+    {
+        s_clock = s_clock.AddYears(1);
+    }
+
+    public void AddMonth()
+    {
+        s_clock = s_clock.AddMonths(1);
+    }
+
+    public void AddDay()
+    {
+        s_clock = s_clock.AddDays(1);
+    }
+
+    public void AddHour()
+    {
+        s_clock = s_clock.AddHours(1);
+    }
+
+    public void ResetTime()
+    {
+        s_clock = DateTime.Now.Date;
     }
 }

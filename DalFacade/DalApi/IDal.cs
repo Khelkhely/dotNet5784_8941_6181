@@ -8,4 +8,6 @@ public interface IDal
 
     DateTime? StartDate { get; set; }
     DateTime? EndDate { get; set; }
+
+    void InitializeIds();
 }

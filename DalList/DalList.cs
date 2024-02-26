@@ -18,4 +18,9 @@ sealed internal class DalList : IDal
         get => DataSource.Config.projectEndDate;
         set => DataSource.Config.projectEndDate = value;
     }
+
+    public void InitializeIds()
+    {
+       
+    }
 }

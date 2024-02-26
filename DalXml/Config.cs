@@ -3,8 +3,16 @@
 static internal class Config
 {
     static string s_data_config_xml = "data-config";
-    internal static int NextTaskId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextTaskId"); }
-    internal static int NextDependencyId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDependencyId"); }
+    internal static int NextTaskId 
+    { 
+        get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextTaskId");
+        set => XMLTools.SetId(s_data_config_xml, "NextTaskId", value);
+    }
+    internal static int NextDependencyId 
+    { 
+        get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDependencyId");
+        set => XMLTools.SetId(s_data_config_xml, "NextDependencyId", value);
+    }
     internal static DateTime? projectStartDate
     {
         get => XMLTools.GetScheduleDate(s_data_config_xml, "StartDate");

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -13,15 +14,13 @@
                 <GradientStop Color="#FF9CFADE" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <!--Show engineers Button-->
-        <Button Content="Show engineers" HorizontalAlignment="Center" Margin="0,110,0,0" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Engineer_Click" FontSize="15" Background="White" BorderBrush="Black"/>
-        <!--Initialize Data Button-->
-        <Button Content="Initialize data" HorizontalAlignment="Left" Margin="170,287,0,0" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Initialize_Click" FontSize="20" Background="White" BorderBrush="Black"/>
-        <!--Reset Data Button-->
-        <Button Content="Reset data" HorizontalAlignment="Right" Margin="400,287,170,0" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Reset_Click" FontSize="20" Background="White" BorderBrush="Black"/>
-
+        <Button Content="Manager" Margin="490,167,210,167" Height="100" Width="100"
+                Click="ManagerMainWindow_Click"/>
+        <Button Content="Engineer" Height="100" Width="100" Margin="190,162,510,172"
+                Click="EngineerMainWindow_Click"/>
+        
+        <!--clock-->
+        <Label Content="{Binding Path=MyClock}" Height="100" Width="100"/>
+        <Button Content="add year" Height="100" Width="100" Click="AddYear_Click" Margin="350,267,350,67"/>
     </Grid>
 </Window>
