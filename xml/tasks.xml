@@ -1,17 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Task>
-    <Id>1000</Id>
-    <Alias>t2</Alias>
-    <Description>kjah</Description>
-    <CreatedAtDate>2024-02-26T15:05:12.7777976+02:00</CreatedAtDate>
-    <ScheduledDate xsi:nil="true" />
-    <StartDate xsi:nil="true" />
-    <RequiredEffortTime>P90D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <Deliverables>lksh</Deliverables>
-    <Remarks>s</Remarks>
-    <EngineerId>0</EngineerId>
-    <Complexity>Advanced</Complexity>
-  </Task>
-</ArrayOfTask>
+<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />

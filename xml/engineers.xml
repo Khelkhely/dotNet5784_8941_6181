@@ -2,9 +2,16 @@
 <ArrayOfEngineer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Engineer>
     <Id>215718941</Id>
-    <Name>Rachel Shapiro</Name>
+    <Name>רחל חסידה שפירו</Name>
     <Email>rachelcs403@gmail.com</Email>
     <Level>AdvancedBeginner</Level>
-    <Cost>500</Cost>
+    <Cost>99</Cost>
+  </Engineer>
+  <Engineer>
+    <Id>987654321</Id>
+    <Name>Rachel Goldman</Name>
+    <Email>cisaoat100@gmail.com</Email>
+    <Level>Beginner</Level>
+    <Cost>1</Cost>
   </Engineer>
 </ArrayOfEngineer>
