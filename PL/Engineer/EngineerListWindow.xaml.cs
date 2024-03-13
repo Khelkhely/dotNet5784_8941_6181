@@ -9,7 +9,7 @@ namespace PL.Engineer;
 public partial class EngineerListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    public BO.EngineerExperience level { get; set; } = BO.EngineerExperience.None;
+    public BO.EngineerExperience Level { get; set; } = BO.EngineerExperience.None;
 
     /// <summary>
     /// the list of engineers that will be displayed on the screen
@@ -38,8 +38,7 @@ public partial class EngineerListWindow : Window
     /// </summary>
     private void Engineer_Filter_Changed(object sender, SelectionChangedEventArgs e)
     {
-        EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-            s_bl.Engineer.ReadAll(x => x.Level == level); //change the list according to the chosen filter
+        ReloadList(); //update the list to fit with the new filter chosen
     }
 
     /// <summary>
@@ -48,8 +47,7 @@ public partial class EngineerListWindow : Window
     private void Add_Engineer_Click(object sender, RoutedEventArgs e)
     {
         new EngineerWindow().ShowDialog(); // shows the engineer window (with "Add" button)
-        EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-            s_bl.Engineer.ReadAll(x => x.Level == level); // updates the list of engineers window
+        ReloadList(); // updates the list of engineers window
     }
 
     /// <summary>
@@ -61,9 +59,14 @@ public partial class EngineerListWindow : Window
         if (engineer != null)
         {
             new EngineerWindow(engineer.Id).ShowDialog(); // shows the engineer window (with the desired data and with "Update" button)
-            EngineerList = (level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
-                s_bl.Engineer.ReadAll(x => x.Level == level); // updates the list of engineers window
+            ReloadList(); // updates the list of engineers window
 
         }
+    }
+
+    void ReloadList()
+    {
+        EngineerList = (Level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
+            s_bl.Engineer.ReadAll(x => x.Level == Level); //reload the list according to the chosen level
     }
 }
