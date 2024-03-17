@@ -22,6 +22,8 @@
         <!--Reset Data Button-->
         <Button Content="Reset data" HorizontalAlignment="Right" Margin="400,287,170,0" VerticalAlignment="Top" 
                 Height="70" Width="130" Click="Button_Reset_Click" FontSize="20" Background="White" BorderBrush="Black"/>
+        <Button Content="show tasks" Click="Button_Task_Click"
+                HorizontalAlignment="Left" Margin="148,180,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

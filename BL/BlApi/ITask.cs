@@ -12,6 +12,13 @@ public interface ITask
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null);
 
     /// <summary>
+    /// Returns a list of tasks that fit the filter like ReadAll - but with TaskInList instead of Task
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public IEnumerable<BO.TaskInList> GetTaskList(Func<BO.Task, bool>? filter = null);
+
+    /// <summary>
     /// returns a BO.Task according to the Id
     /// </summary>
     /// <param name="id">the Id of the task that will be returned</param>

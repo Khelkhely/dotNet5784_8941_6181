@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using PL.Engineer;
+using PL.Task;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,6 +54,11 @@ namespace PL
             if (MessageBox.Show("Are you sure you want to reset data?",
                 "Reset data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 s_bl.ResetDB();
+        }
+
+        private void Button_Task_Click(object sender, RoutedEventArgs e)
+        {
+            new TaskListWindow().Show();
         }
     }
 }

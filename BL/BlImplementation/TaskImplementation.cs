@@ -101,6 +101,28 @@ internal class TaskImplementation : ITask
                orderby b.Id
                select b;
     }
+
+    public IEnumerable<BO.TaskInList> GetTaskList(Func<BO.Task, bool>? filter = null)
+    {
+        if (filter == null)
+            return from d in _dal.Task.ReadAll()
+                   orderby d.Id
+                   select new BO.TaskInList()
+                   {
+                       Id = d.Id,
+                       Alias = d.Alias,
+                       Description = d.Description,
+                       Status = CalculateStatus(d)
+                   };
+        return from d in ReadAll(filter)
+               select new BO.TaskInList()
+               {
+                   Id = d.Id,
+                   Alias = d.Alias,
+                   Description = d.Description,
+                   Status = d.Status
+               };
+    }
     public void Update(BO.Task task)
     {
         if (task.Id <= 0)
