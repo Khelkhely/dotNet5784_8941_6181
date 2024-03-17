@@ -15,17 +15,20 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for EngineerMainWindow.xaml
+    /// Interaction logic for EngineerIdWindow.xaml
     /// </summary>
-    public partial class EngineerMainWindow : Window
+    public partial class EngineerIdWindow : Window
     {
-        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-
-        public EngineerMainWindow()
+        public EngineerIdWindow()
         {
-           // MyEngineer =  s_bl.Engineer.Read(id);
-
             InitializeComponent();
         }
+
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show("hi: ", sender.ToString());
+        }
+
     }
 }
