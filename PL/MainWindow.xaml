@@ -21,6 +21,6 @@
         
         <!--clock-->
         <Label Content="{Binding Path=MyClock}" Height="100" Width="100"/>
-        <Button Content="add year" Height="100" Width="100" Click="AddYear_Click" Margin="350,267,350,67"/>
+        <Button Content="add year" Height="100" Width="100" Click="AddYear_Click" Margin="360,267,340,67"/>
     </Grid>
 </Window>

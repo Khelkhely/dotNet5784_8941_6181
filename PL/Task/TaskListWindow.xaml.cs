@@ -21,11 +21,7 @@ namespace PL.Task
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-        public TaskListWindow()
-        {
-            InitializeComponent();
-            TaskList = s_bl.Task.GetTaskList();
-        }
+
 
         public IEnumerable<BO.TaskInList> TaskList
         {
@@ -37,7 +33,11 @@ namespace PL.Task
         public static readonly DependencyProperty TaskListProperty =
             DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
 
-
+        public TaskListWindow()
+        {
+            InitializeComponent();
+            TaskList = s_bl.Task.GetTaskList();
+        }
 
         public BO.EngineerExperience MyLevel
         {
@@ -53,18 +53,24 @@ namespace PL.Task
 
         void UpdateList()
         {
-            TaskList = (MyLevel == BO.EngineerExperience.None) ? s_bl.Task.GetTaskList() : 
+            TaskList = (MyLevel == BO.EngineerExperience.None) ? s_bl.Task.GetTaskList() :
                 s_bl.Task.GetTaskList(x => x.Copmlexity == MyLevel);
         }
 
         private void TaskList_TaskSelected(object sender, MouseButtonEventArgs e)
         {
-
+            BO.TaskInList? task = (sender as ListView)?.SelectedItem as BO.TaskInList;
+            if(task != null)
+            {
+                new TaskWindow(task.Id).ShowDialog();
+                UpdateList();
+            }
         }
 
         private void Add_Task_Click(object sender, RoutedEventArgs e)
         {
-
+            new TaskWindow().ShowDialog();
+            UpdateList();
         }
 
         private void Task_Filter_Changed(object sender, SelectionChangedEventArgs e)

@@ -21,6 +21,7 @@ sealed internal class DalList : IDal
 
     public void InitializeIds()
     {
-       
+        DataSource.Config.nextDependencyId = 100;
+        DataSource.Config.nextTaskId = 1000;
     }
 }

@@ -26,7 +26,7 @@
                    Margin="170,10,0,0" VerticalAlignment="Top" Background="#FFF8EEEE" Width="134"/>
             <!--Engineer List Filter ComboBox-->
             <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
-                      SelectedValue="{Binding Path=level, Mode=TwoWay}"
+                      SelectedValue="{Binding Path=Level, Mode=TwoWay}"
                       SelectionChanged="Engineer_Filter_Changed"
                       Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>

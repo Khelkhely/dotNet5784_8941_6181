@@ -57,6 +57,7 @@ namespace PL.Engineer
         {
             try
             {
+                Close();
                 if (add) //if we want to add a new engineer
                 {
                     s_bl.Engineer.Create(MyEngineer);
@@ -67,12 +68,10 @@ namespace PL.Engineer
                     s_bl.Engineer.Update(MyEngineer);
                     MessageBox.Show("Engineer Updated Succesfully"); //If we succeeded, we will notify the user.
                 }
-                Close();
             }
             catch(Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Close();
             }
         }
     }
