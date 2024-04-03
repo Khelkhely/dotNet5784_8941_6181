@@ -41,7 +41,8 @@ namespace PL
 
         private void EngineerMainWindow_Click(object sender, RoutedEventArgs e)
         {
-            new EngineerMainWindow().Show();
+            //ComboBox comboBox = new ComboBox();
+            new EngineerIdWindow().Show();
         }
 
         private void ManagerMainWindow_Click(object sender, RoutedEventArgs e)
