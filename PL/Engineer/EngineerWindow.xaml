@@ -39,7 +39,7 @@
         <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
                  MaxLength="9" Width="290" Margin="10,20,10,20"
                  IsEnabled="{Binding Id, Converter={StaticResource ConvertIdToBooleanKey}}"
-                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White" TextChanged="TextBox_TextChanged" />
+                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
 
         <Label Grid.Column="0" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="1" VerticalAlignment="Center"/>
         <!--Engineer Name TextBox-->

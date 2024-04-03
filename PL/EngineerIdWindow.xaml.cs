@@ -21,24 +21,24 @@ namespace PL
     public partial class EngineerIdWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        int myId = 0;
+        public int MyId = 0;
         public EngineerIdWindow()
         {
             InitializeComponent();
+           // this.DataContext = this;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                new EngineerMainWindow(myId).Show();
+                new EngineerMainWindow(MyId).Show();
 
             }
             catch (BO.BlDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
 
     }
