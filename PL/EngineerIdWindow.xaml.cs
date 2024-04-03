@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PL;
 
 namespace PL
 {
@@ -19,6 +20,8 @@ namespace PL
     /// </summary>
     public partial class EngineerIdWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        int myId = 0;
         public EngineerIdWindow()
         {
             InitializeComponent();
@@ -26,8 +29,16 @@ namespace PL
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                new EngineerMainWindow(myId).Show();
 
-            MessageBox.Show("hi: ", sender.ToString());
+            }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
     }
