@@ -39,7 +39,6 @@ public partial class EngineerMainWindow : Window
     bool dosentHaveTask = true;
     public EngineerMainWindow(int id = 0)
     {   
-
         try
         {
             myEng = s_bl.Engineer.Read(id);
