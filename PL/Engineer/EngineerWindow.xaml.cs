@@ -21,13 +21,13 @@ namespace PL.Engineer
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         static bool add;
-
+        
         public BO.Engineer MyEngineer
         {
             get { return (BO.Engineer)GetValue(MyEngineerProperty); }
             set { SetValue(MyEngineerProperty, value); }
         }
-
+        
         // Using a DependencyProperty as the backing store for MyEngineer.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyEngineerProperty =
             DependencyProperty.Register("MyEngineer", typeof(BO.Engineer), typeof(EngineerWindow), new PropertyMetadata(null));

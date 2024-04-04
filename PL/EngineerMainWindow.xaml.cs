@@ -20,17 +20,30 @@ namespace PL;
 public partial class EngineerMainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    BO.Task myTask;
-    BO.Engineer myEng;
+
+    /*
+    public BO.Task myTask
+    {
+        get { return (BO.Task)GetValue(myTaskProperty); }
+        set { SetValue(myTaskProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty myTaskProperty =
+        DependencyProperty.Register("myTask", typeof(BO.Task), typeof(EngineerMainWindow), new PropertyMetadata(0));
+    */
+
+    BO.Task myTask = new BO.Task();
+    BO.Engineer myEng = new BO.Engineer();// = null;
     bool hasTask = false;
     bool dosentHaveTask = true;
-    public EngineerMainWindow(int id)
-    {
-        myEng = s_bl.Engineer.Read(id);
-        InitializeComponent();
+    public EngineerMainWindow(int id = 0)
+    {   
 
         try
         {
+            myEng = s_bl.Engineer.Read(id);
+
             if (myEng.Task != null)
             {
                 hasTask = true;
@@ -43,6 +56,8 @@ public partial class EngineerMainWindow : Window
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
+        InitializeComponent();
 
     }
 

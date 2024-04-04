@@ -21,7 +21,19 @@ namespace PL
     public partial class EngineerIdWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        public int MyId = 0;
+
+
+        public int MyId
+        {
+            get { return (int)GetValue(MyIdProperty); }
+            set { SetValue(MyIdProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyId.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyIdProperty =
+            DependencyProperty.Register("MyId", typeof(int), typeof(EngineerIdWindow), new PropertyMetadata(0));
+
+
         public EngineerIdWindow()
         {
             InitializeComponent();

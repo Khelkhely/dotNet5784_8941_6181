@@ -5,19 +5,161 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="EngineerMainWindow" Height="450" Width="800"
+        Title="EngineerMainWindow" Height="600" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=PreviousData}}">
-    <!--TODO!!!! Mode=PreviousData?-->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
 
-        <Label Content="Alias:" IsVisibleChanged="{Binding hasTask}"
-                   FontSize="15" HorizontalAlignment="Left" Margin="100,30,0,0" VerticalAlignment="Top" Width="97" Height="39"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Width="290" Margin="10,37,0,372"
-                     IsVisibleChanged="{Binding hasTask}" Text="{Binding Path=myTask.Alias, Mode=TwoWay}"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <!-- task id -->
+        <Label Grid.Row="0" Grid.Column="1" Content="Id:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Grid.Row="0" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"
+                 Text="{Binding Path=myTask.Id}" IsEnabled="False" Width="200"/>
+
+        <!-- task alias -->
+        <Label Grid.Row="1" Grid.Column="1" Content="Alias:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Grid.Row="1" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"
+                 Text="{Binding Path=myTask.Alias, Mode=TwoWay}" Width="200"/>
+
+        <!-- task description -->
+        <Label Grid.Row="2" Grid.Column="1" Content="Description:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Grid.Row="2" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"
+                 Text="{Binding Path=myTask.Description, Mode=TwoWay}" Width="300"/>
+        
+
+        <!-- task status -->
+        <Label Grid.Row="3" Grid.Column="1" Content="Status:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Grid.Row="3" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"
+                 Text="{Binding Path=myTask.Status}" IsEnabled="False" Width="200"/>
+
+        <!-- task dependencies -->
+        <Label Grid.Row="4" Grid.Column="1" Content="Dependencies:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <ListView Grid.Row="4" Grid.Column="3"
+                  HorizontalAlignment="Left" Width="300"
+                  IsVisibleChanged="{Binding hasTask}"
+                  ItemsSource="{Binding Path=myTask.Dependencies}"/>
+
+        <!-- task creation date -->
+        <Label Grid.Row="5" Grid.Column="1" Content="Creation Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Grid.Row="5" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"
+                 Text="{Binding Path=myTask.CreatedAtDate}" IsEnabled="False" Width="200"/>
+
+        <!-- task scheduled date -->
+        <Label Grid.Row="6" Grid.Column="1" Content="Scheduled Starting Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Text="{Binding ScheduledDate, Mode=TwoWay}" 
+                 Grid.Row="6" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task start date  -->
+        <Label Grid.Row="7" Grid.Column="1" Content="Starting Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Text="{Binding StartDate, Mode=TwoWay}" 
+                 Grid.Row="7" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task forcast date -->
+        <Label Grid.Row="8" Grid.Column="1" Content="Forcast Completion Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Text="{Binding ForecastDate, Mode=TwoWay}" 
+                 Grid.Row="8" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task end date -->
+        <Label Grid.Row="9" Grid.Column="1" Content="Completion Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Text="{Binding CompleteDate, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
+                 Grid.Row="9" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task effort time -->
+        <Label Grid.Row="10" Grid.Column="1" Content="Required Effort Time:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+        <TextBox Text="{Binding RequiredEffortTime, Mode=TwoWay}" 
+                 Grid.Row="10" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task complexity -->
+        <Label Grid.Row="11" Grid.Column="1" Content="Complexity:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="11" Grid.Column="3" HorizontalAlignment="Left" 
+                  Width="200" VerticalAlignment="Center"
+                  ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
+                  SelectedValue="{Binding Path=myTask.Copmlexity, Mode=TwoWay, NotifyOnValidationError=True, 
+                  ValidatesOnExceptions=True}" BorderBrush="White"
+                  IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task deliverables -->
+        <Label Grid.Row="12" Grid.Column="1" Content="Deliverables:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task remarks -->
+        <Label Grid.Row="13" Grid.Column="1" Content="Creation Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
+
+        <!-- task engineer -->
+        <Label Grid.Row="14" Grid.Column="1" Content="Assigned Engineer:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               IsVisibleChanged="{Binding hasTask}"/>
 
         <Button Grid.Column="1" Content="finish task" HorizontalAlignment="Left" Margin="448,30,0,0" VerticalAlignment="Top"
              IsVisibleChanged="{Binding hasTask}" Click="FinishTaskButton_Click" Height="41" Width="75"/>
@@ -25,4 +167,5 @@
         <Button Content="Task List"  IsVisibleChanged="{Binding dosentHaveTask}" Grid.Column="1" HorizontalAlignment="Left" Margin="430,106,0,255"  Width="112"/>
 
     </Grid>
+
 </Window>
