@@ -7,5 +7,7 @@
         <local:EngineerExperienceLevel x:Key="EngineerExperienceLevelKey"/>
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToBoolean x:Key="ConvertIdToBooleanKey"/>
+        <local:VisibilityNullConverter x:Key="VisibilityNullConverterKey"/>
+        <local:VisibilityNotNullConverter x:Key="VisibilityNotNullConverterKey"/>
     </Application.Resources>
 </Application>

@@ -52,6 +52,5 @@ namespace PL
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Task"
         mc:Ignorable="d"
-        Title="TaskWindow" 
+        Title="TaskWindow" Height="650" Width="800"
         DataContext="{Binding MyTask, RelativeSource={RelativeSource Mode=Self}, Mode=TwoWay}">
     <Grid>
         <Grid.ColumnDefinitions>

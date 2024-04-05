@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PL.Task;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +22,7 @@ public partial class EngineerMainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-    /*
-    public BO.Task myTask
+    public BO.Task? MyTask
     {
         get { return (BO.Task)GetValue(myTaskProperty); }
         set { SetValue(myTaskProperty, value); }
@@ -30,24 +30,33 @@ public partial class EngineerMainWindow : Window
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty myTaskProperty =
-        DependencyProperty.Register("myTask", typeof(BO.Task), typeof(EngineerMainWindow), new PropertyMetadata(0));
-    */
+        DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(EngineerMainWindow));
 
-    BO.Task myTask = new BO.Task();
-    BO.Engineer myEng = new BO.Engineer();// = null;
-    bool hasTask = false;
-    bool dosentHaveTask = true;
-    public EngineerMainWindow(int id = 0)
-    {   
+    public IEnumerable<BO.TaskInList> TaskList
+    {
+        get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
+        set { SetValue(TaskListProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for TaskList.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty TaskListProperty =
+        DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(EngineerMainWindow));
+
+
+    BO.Engineer myEng = new BO.Engineer();
+
+    public EngineerMainWindow(int engineerId = 0)
+    {      
+        InitializeComponent();
+
         try
         {
-            myEng = s_bl.Engineer.Read(id);
-
-            if (myEng.Task != null)
+            myEng = s_bl.Engineer.Read(engineerId);
+            if (myEng.Task != null) MyTask = s_bl.Task.Read(myEng.Task.Id);
+            else
             {
-                hasTask = true;
-                dosentHaveTask = false;
-                myTask = s_bl.Task.Read(myEng.Task.Id);
+                TaskList = s_bl.Task.GetTaskList();
+                //תנאים
             }
 
         }
@@ -56,20 +65,18 @@ public partial class EngineerMainWindow : Window
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        InitializeComponent();
-
     }
 
     private void FinishTaskButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.finishTask(myEng.Id, myTask.Id);
-        ReloadData();
+        s_bl.finishTask(myEng.Id, MyTask!.Id);
+        MyTask = null;
     }
 
-    void ReloadData()
+    private void TaskSelected_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        //maybe not neccery
+        int id = ((sender as ListView)!.SelectedItem as BO.TaskInList)!.Id;
+        MyTask = s_bl.Task.Read(id);
+        s_bl.startNewTask(myEng.Id, MyTask!.Id);
     }
-
-
 }
