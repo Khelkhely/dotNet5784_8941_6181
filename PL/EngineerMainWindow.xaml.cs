@@ -57,11 +57,11 @@ public partial class EngineerMainWindow : Window
             else
             {
 
-                TaskList = s_bl.Task.GetTaskList(task => (task.Engineer == null && !(task.Copmlexity > myEng.Level)));
+                TaskList = s_bl.Task.GetTaskList(task => task.Engineer == null && !(task.Copmlexity > myEng.Level));
                 //לא מבוצעות על ידי מהנדס אחרV
                 //אין משימות קודמות שלא הסתיימו
                 //אותה רמה או רמה נמוכה יותרV
-
+                //יש פונקציה חדשה בbl בשביל זה
             }
 
         }

@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using BO;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 namespace BlImplementation;
 internal class Bl : IBl
@@ -31,22 +32,32 @@ internal class Bl : IBl
         if (_dal.Task.Read(tId) == null)
             throw new BO.BlDoesNotExistException($"task with id {tId} does not exist.");
         if (_dal.Task.Read(tId)!.EngineerId != eId)
-            throw new BlAssignmentFailedException($"The task with id {tId} does not belong to the engineer with the id {eId}.");//!!!!!!!!!!!11
+            throw new BlAssignmentFailedException($"The task with id {tId} does not belong to the engineer with the id {eId}.");
         if (_dal.Task.Read(tId)!.Complexity > _dal.Engineer.Read(eId)!.Level)
             throw new BlAssignmentFailedException("the engineer can't work on this task because his level is low");
-        //צריך לעבור על כל המשימות שטאסק תלוי בהן ולבדוק שהן הסתיימו.
-        var dependincies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == tId)
-                .Select(dependency => dependency.DependsOnTask)
-                .ToHashSet();
-        if (_dal.Task.ReadAll(task => dependincies.Contains(task.Id)).Any(task => task.CompleteDate is null))
-            throw new BlAssignmentFailedException("");
-        //TODO: write and check!
-
+        if(HasPrevTask(eId))
+            throw new BlAssignmentFailedException("the engineer has previous unfinished tasks.");
+        
         DO.Task tmpTask = _dal.Task.Read(tId)! with { StartDate = Clock };
         _dal.Task.Update(tmpTask);
 
     }
-
+    
+    /// <summary>
+    /// Checks if there are previous unfinished tasks
+    /// </summary>
+    /// <param name="eId">id of the task we want to check</param>
+    /// <returns>true if there is previous task and false if there not</returns>
+    public bool HasPrevTask(int eId)
+    {
+        var dependincies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == eId); 
+        foreach (var _task in dependincies)
+        {
+            if (_dal.Task.Read(_task.DependsOnTask)!.CompleteDate is null)
+                return true;
+        }
+        return false;
+    }
 
     /// <summary>
     ///  registers an engineer finishing a task and updates the data accordingly
