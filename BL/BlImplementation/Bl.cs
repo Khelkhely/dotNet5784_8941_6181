@@ -34,6 +34,13 @@ internal class Bl : IBl
             throw new BlAssignmentFailedException($"The task with id {tId} does not belong to the engineer with the id {eId}.");//!!!!!!!!!!!11
         if (_dal.Task.Read(tId)!.Complexity > _dal.Engineer.Read(eId)!.Level)
             throw new BlAssignmentFailedException("the engineer can't work on this task because his level is low");
+        //צריך לעבור על כל המשימות שטאסק תלוי בהן ולבדוק שהן הסתיימו.
+        var dependincies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == tId)
+                .Select(dependency => dependency.DependsOnTask)
+                .ToHashSet();
+        if (_dal.Task.ReadAll(task => dependincies.Contains(task.Id)).Any(task => task.CompleteDate is null))
+            throw new BlAssignmentFailedException("");
+        //TODO: write and check!
 
         DO.Task tmpTask = _dal.Task.Read(tId)! with { StartDate = Clock };
         _dal.Task.Update(tmpTask);

@@ -1,4 +1,5 @@
-﻿using PL.Task;
+﻿using DalApi;
+using PL.Task;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,8 +56,12 @@ public partial class EngineerMainWindow : Window
             if (myEng.Task != null) MyTask = s_bl.Task.Read(myEng.Task.Id);
             else
             {
-                TaskList = s_bl.Task.GetTaskList();
-                //תנאים
+
+                TaskList = s_bl.Task.GetTaskList(task => (task.Engineer == null && !(task.Copmlexity > myEng.Level)));
+                //לא מבוצעות על ידי מהנדס אחרV
+                //אין משימות קודמות שלא הסתיימו
+                //אותה רמה או רמה נמוכה יותרV
+
             }
 
         }
@@ -77,6 +82,7 @@ public partial class EngineerMainWindow : Window
     {
         int id = ((sender as ListView)!.SelectedItem as BO.TaskInList)!.Id;
         MyTask = s_bl.Task.Read(id);
+        s_bl.AssignEngineer(myEng.Id, MyTask!.Id);
         s_bl.startNewTask(myEng.Id, MyTask!.Id);
     }
 }
