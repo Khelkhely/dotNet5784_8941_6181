@@ -95,7 +95,7 @@
         <Label Grid.Row="6" Grid.Column="1" Content="Scheduled Starting Date:" 
                HorizontalAlignment="Right" VerticalAlignment="Center"
                IsVisibleChanged="{Binding hasTask}"/>
-        <TextBox Text="{Binding ScheduledDate, Mode=TwoWay}" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"/>
                  Grid.Row="6" Grid.Column="3" Width="200"
                  HorizontalAlignment="Left" VerticalAlignment="Center"
                  IsVisibleChanged="{Binding hasTask}"/>
