@@ -130,7 +130,9 @@
 
             <Button Grid.Row="12" Content="finish task" 
                     Click="FinishTaskButton_Click"
-                    HorizontalAlignment ="Left" VerticalAlignment="Center" Margin="5,0,0,0" Height="41" Width="412" Grid.Column="1" Grid.ColumnSpan="3" />
+                    HorizontalAlignment ="Left" VerticalAlignment="Center" Margin="100,0,0,0" Height="41" Width="213" Grid.Column="3" Grid.ColumnSpan="2" />
+            <Button Grid.Row="12" Content="update task" 
+                    Click="UpdateTaskButton_Click" Grid.ColumnSpan="4" Height="41" VerticalAlignment="Center" Margin="71,0,247,0"/>
         </Grid>
 
         <!--Right Column-->
@@ -141,6 +143,6 @@
                       MouseDoubleClick="TaskSelected_MouseDoubleClick">
             </ListView>
         </Grid>
-        
+
     </Grid>
 </Window>

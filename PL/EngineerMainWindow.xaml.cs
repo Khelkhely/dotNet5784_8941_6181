@@ -47,35 +47,41 @@ public partial class EngineerMainWindow : Window
     BO.Engineer myEng = new BO.Engineer();
 
     public EngineerMainWindow(int engineerId = 0)
-    {      
+    {
+        myEng = s_bl.Engineer.Read(engineerId);//if an exception is thrown, it will be catched in the EngineerIdWindow.
+        if (myEng.Task != null) MyTask = s_bl.Task.Read(myEng.Task.Id);
+        else
+        {
+
+            TaskList = s_bl.Task.GetTaskList(task => task.Engineer == null
+                                                     && !(task.Copmlexity > myEng.Level)
+                                                     && !s_bl.HasPrevTask(task.Id)
+                                                     && task.CompleteDate == null);
+            //לא מבוצעות על ידי מהנדס אחרV
+            //אין משימות קודמות שלא הסתיימוV
+            //אותה רמה או רמה נמוכה יותרV
+       
+            
+            if (!TaskList.Any()) MessageBox.Show("There is no available task for this engineer");
+        }
+
         InitializeComponent();
-
-        try
-        {
-            myEng = s_bl.Engineer.Read(engineerId);
-            if (myEng.Task != null) MyTask = s_bl.Task.Read(myEng.Task.Id);
-            else
-            {
-
-                TaskList = s_bl.Task.GetTaskList(task => task.Engineer == null && !(task.Copmlexity > myEng.Level));
-                //לא מבוצעות על ידי מהנדס אחרV
-                //אין משימות קודמות שלא הסתיימו
-                //אותה רמה או רמה נמוכה יותרV
-                //יש פונקציה חדשה בbl בשביל זה
-            }
-
-        }
-        catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
-        {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
     }
 
     private void FinishTaskButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.finishTask(myEng.Id, MyTask!.Id);
+        s_bl.FinishTask(myEng.Id, MyTask!.Id);
         MyTask = null;
+        TaskList = s_bl.Task.GetTaskList(task => task.Engineer == null
+                                                        && !(task.Copmlexity > myEng.Level)
+                                                        && !s_bl.HasPrevTask(task.Id)
+                                                        && task.CompleteDate == null);
+    }
+    private void UpdateTaskButton_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.Task.Update(MyTask!);
+        MessageBox.Show("Task Updated Succesfully"); //If we succeeded, we will notify the user.
+
     }
 
     private void TaskSelected_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -83,6 +89,6 @@ public partial class EngineerMainWindow : Window
         int id = ((sender as ListView)!.SelectedItem as BO.TaskInList)!.Id;
         MyTask = s_bl.Task.Read(id);
         s_bl.AssignEngineer(myEng.Id, MyTask!.Id);
-        s_bl.startNewTask(myEng.Id, MyTask!.Id);
+        s_bl.StartNewTask(myEng.Id, MyTask!.Id);
     }
 }
