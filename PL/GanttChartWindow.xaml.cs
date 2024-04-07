@@ -39,5 +39,10 @@ namespace PL
             TaskList = s_bl.Task.ReadAll();
             InitializeComponent();
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

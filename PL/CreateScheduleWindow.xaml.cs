@@ -112,13 +112,20 @@ public partial class CreateScheduleWindow : Window
 
     private void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date!, Starting);
-        TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
-        if (TaskList.Count() == 0)
+        if (Date is DateTime)
         {
-            s_bl.CreateSchedule(Starting);
-            Close();
+            s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date!, Starting);
+            TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
+            if (TaskList.Count() == 0)
+            {
+                s_bl.CreateSchedule(Starting);
+                Close();
+            }
+            Date = null;
+            Flag = false;
         }
-        Flag = false;
+        else
+            MessageBox.Show("The date entered is incorrect. Pleas try again");
+        
     }
 }
