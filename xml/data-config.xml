@@ -2,6 +2,6 @@
 <config>
   <NextTaskId>1020</NextTaskId>
   <NextDependencyId>153</NextDependencyId>
-  <StartDate></StartDate>
+  <StartDate>01/01/0001 00:00:00</StartDate>
   <EndDate></EndDate>
 </config>

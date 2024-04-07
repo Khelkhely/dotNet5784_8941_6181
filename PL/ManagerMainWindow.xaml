@@ -24,6 +24,8 @@
                 Height="70" Width="130" Click="Button_Reset_Click" FontSize="20" Background="White" BorderBrush="Black"/>
         <Button Content="show tasks" Click="Button_Task_Click"
                 HorizontalAlignment="Left" Margin="148,180,0,0" VerticalAlignment="Top"/>
+        <Button Content="Gantt Chart" Click="Button_Gantt_Click"  Width="100" Height="50" Margin="565,55,135,279"/>
+        <Button Content="Create a schedule" Click="Button_CreateSchedule_Click"  Width="100" Height="50" Margin="565,180,135,204"/>
 
     </Grid>
 </Window>

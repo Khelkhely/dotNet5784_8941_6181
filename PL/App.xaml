@@ -9,5 +9,7 @@
         <local:ConvertIdToBoolean x:Key="ConvertIdToBooleanKey"/>
         <local:VisibilityNullConverter x:Key="VisibilityNullConverterKey"/>
         <local:VisibilityNotNullConverter x:Key="VisibilityNotNullConverterKey"/>
+        <local:FalseToVisibilityConverter x:Key="FalseToVisibilityConverterKey"/>
+        <local:TrueToVisibilityConverter x:Key="TrueToVisibilityConverterKey"/>
     </Application.Resources>
 </Application>
