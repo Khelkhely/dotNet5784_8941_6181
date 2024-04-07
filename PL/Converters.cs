@@ -80,3 +80,32 @@ internal class ConvertIdToBoolean : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+internal class DateToLengthConverter : IValueConverter
+{
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (s_bl.IsScheduled() == false || value == null)
+            throw new Exception();
+        return ((DateTime)value - s_bl.GetStartDate()!).Value.Days * 30;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class TimeSpanToLengthConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return ((TimeSpan)value).Days * 30;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

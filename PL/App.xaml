@@ -11,5 +11,7 @@
         <local:VisibilityNotNullConverter x:Key="VisibilityNotNullConverterKey"/>
         <local:FalseToVisibilityConverter x:Key="FalseToVisibilityConverterKey"/>
         <local:TrueToVisibilityConverter x:Key="TrueToVisibilityConverterKey"/>
+        <local:DateToLengthConverter x:Key="DateToLengthConverterKey"/>
+        <local:TimeSpanToLengthConverter x:Key="TimeSpanToLengthConverterKey"/>
     </Application.Resources>
 </Application>
