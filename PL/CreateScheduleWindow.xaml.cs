@@ -37,25 +37,25 @@ public partial class CreateScheduleWindow : Window
 
     public DateTime? Date
     {
-        get { return (DateTime?)GetValue(dateProperty); }
-        set { SetValue(dateProperty, value); }
+        get { return (DateTime?)GetValue(DateProperty); }
+        set { SetValue(DateProperty, value); }
     }
 
     // Using a DependencyProperty as the backing store for date.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty dateProperty =
-        DependencyProperty.Register("date", typeof(DateTime?), typeof(CreateScheduleWindow), new PropertyMetadata(null));
+    public static readonly DependencyProperty DateProperty =
+        DependencyProperty.Register("Date", typeof(DateTime?), typeof(CreateScheduleWindow), new PropertyMetadata(null));
 
 
 
     public bool Flag
     {
-        get { return (bool)GetValue(flagProperty); }
-        set { SetValue(flagProperty, value); }
+        get { return (bool)GetValue(FlagProperty); }
+        set { SetValue(FlagProperty, value); }
     }
 
     // Using a DependencyProperty as the backing store for flag.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty flagProperty =
-        DependencyProperty.Register("flag", typeof(bool), typeof(CreateScheduleWindow), new PropertyMetadata(false));
+    public static readonly DependencyProperty FlagProperty =
+        DependencyProperty.Register("Flag", typeof(bool), typeof(CreateScheduleWindow), new PropertyMetadata(false));
 
 
     public BO.Task? MyTask
@@ -77,7 +77,7 @@ public partial class CreateScheduleWindow : Window
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty TaskListProperty =
-        DependencyProperty.Register("MyProperty", typeof(IEnumerable<BO.TaskInList>), typeof(CreateScheduleWindow), new PropertyMetadata(null));
+        DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(CreateScheduleWindow), new PropertyMetadata(null));
 
 
     public CreateScheduleWindow()
@@ -108,24 +108,17 @@ public partial class CreateScheduleWindow : Window
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-
-
     }
 
     private void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
-        // if (Date == null)
-        s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date, Starting);
+        s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date!, Starting);
         TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
         if (TaskList.Count() == 0)
         {
             s_bl.CreateSchedule(Starting);
             Close();
         }
-    }
-
-    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
+        Flag = false;
     }
 }
