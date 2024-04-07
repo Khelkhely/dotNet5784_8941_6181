@@ -63,6 +63,7 @@ public partial class EngineerMainWindow : Window
        
             
             if (!TaskList.Any()) MessageBox.Show("There is no available task for this engineer");
+            //if (TaskList.Count() == 0) MessageBox.Show("There is no available task for this engineer");
         }
 
         InitializeComponent();
