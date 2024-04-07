@@ -13,12 +13,11 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Visibility="{Binding Flag, Converter={StaticResource FalseToVisibilityConverterKey}}">
+        <Grid Grid.Column="0">
             <Label Content="Enter project starting date:" HorizontalAlignment="Left" Margin="90,25,0,0" VerticalAlignment="Top" FontSize="20"/>
             <TextBox HorizontalAlignment="Left" Margin="110,60,0,0" Text="{Binding Starting, Mode=TwoWay}" VerticalAlignment="Top" Width="200" Height="30"/>
 
             <ListView ItemsSource="{Binding TaskList, Mode=TwoWay}"
-                      Visibility="{Binding Flag, Converter={StaticResource FalseToVisibilityConverterKey}}"
                       MouseDoubleClick="TaskSelected_MouseDoubleClick" Height="300" Width="260" Margin="82,109,58,25"/>
         </Grid>
 
@@ -28,7 +27,7 @@
 
             <Label Content="Id of the task:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,120,0,0" FontSize="20"/>
             <TextBox IsEnabled="False" Text="{Binding MyTask.Id}" HorizontalAlignment="Left" Margin="200,120,0,0" VerticalAlignment="Top" Width="120" Height="37"/>
-            <Button Content="Update" Click="UpdateButton_Click" Height="40" Width="80" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" Background="White" FontSize="20"/>
+            <Button Content="Update" IsEnabled="{Binding Date, Converter={StaticResource VisibilityNotNullConverterKey}}" Click="UpdateButton_Click" Height="40" Width="80" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" Background="White" FontSize="20"/>
 
         </Grid>
     </Grid>
