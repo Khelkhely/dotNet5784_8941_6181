@@ -140,18 +140,21 @@
 
         <!-- task dependencies -->
         <Label Grid.Row="0" Grid.Column="4" Content="Dependencies:" 
-        HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{Binding DependenciesListView}"/>
         <ListView Grid.Column="4" Grid.RowSpan="12" Grid.Row="1"
-           HorizontalAlignment="Center" Width="400" Visibility="{Binding Vd, Mode=TwoWay}"
-           ItemsSource="{Binding Path=MyTask.Dependencies}" />
+           HorizontalAlignment="Center" Width="400" Visibility="{Binding DependenciesListView}"
+           ItemsSource="{Binding Path=MyTask.Dependencies, IsAsync=False}" />
         <Button Content="Add Dependant Task" HorizontalAlignment="Center"
                 Grid.Column="4" Grid.Row="13" Click="AddDependency"
                 VerticalAlignment="Center"/>
 
+        
         <!-- list of tasks to add to dependencies -->
+        <Label Grid.Row="0" Grid.Column="4" Content="Choose Task To Add:" 
+        HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{Binding DependenciesToAdd}"/>
         <ListView Grid.Column="4" Grid.RowSpan="12" Grid.Row="1"
-        HorizontalAlignment="Center" Width="400"
-        ItemsSource="{Binding TaskList}" Visibility="{Binding Vs, Mode=TwoWay}"/>
+        HorizontalAlignment="Center" Width="400" MouseDoubleClick="ChooseTask_MouseDoubleClick"
+        ItemsSource="{Binding TaskList}" Visibility="{Binding DependenciesToAdd}"/>
         
         
         <Button Content="{Binding Path=MyTask.Id, Converter={StaticResource ConverIdToContentKey}}"

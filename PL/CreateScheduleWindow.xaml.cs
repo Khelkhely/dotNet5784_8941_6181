@@ -99,9 +99,9 @@ public partial class CreateScheduleWindow : Window
         try
         {
             Flag = true;
-            int id = ((sender as ListView)!.SelectedItem as BO.TaskInList)!.Id;
-            MyTask = s_bl.Task.Read(id);
-
+            int? id = ((sender as ListView)!.SelectedItem as BO.TaskInList)?.Id;
+            if (id != null)
+                MyTask = s_bl.Task.Read((int)id);
         }
         catch (BO.BlDoesNotExistException ex)
         {

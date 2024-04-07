@@ -21,34 +21,30 @@ namespace PL.Task
     {
 
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        private bool flag = false;
+        //private bool flag = false;
 
-        //public Visibility Vs { get; set; } = Visibility.Collapsed;
-
-
-
-        public Visibility Vs
+        public Visibility DependenciesToAdd
         {
-            get { return (Visibility)GetValue(VsProperty); }
-            set { SetValue(VsProperty, value); }
+            get { return (Visibility)GetValue(DependenciesToAddProperty); }
+            set { SetValue(DependenciesToAddProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Vs.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty VsProperty =
-            DependencyProperty.Register("Vs", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Hidden));
+        // Using a DependencyProperty as the backing store for DependenciesToAdd.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DependenciesToAddProperty =
+            DependencyProperty.Register("DependenciesToAdd", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Hidden));
 
 
 
 
-        public Visibility Vd
+        public Visibility DependenciesListView
         {
-            get { return (Visibility)GetValue(VdProperty); }
-            set { SetValue(VdProperty, value); }
+            get { return (Visibility)GetValue(DependenciesListViewProperty); }
+            set { SetValue(DependenciesListViewProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Vd.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty VdProperty =
-            DependencyProperty.Register("Vd", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Visible));
+        // Using a DependencyProperty as the backing store for DependenciesListView.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DependenciesListViewProperty =
+            DependencyProperty.Register("DependenciesListView", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Visible));
 
 
 
@@ -114,24 +110,48 @@ namespace PL.Task
 
         private void AddDependency(object sender, RoutedEventArgs e)
         {
-            TaskList = s_bl.Task.GetTaskList().ToList();
-            if (MyTask.Dependencies != null)
-                foreach (var task in MyTask.Dependencies)
-                {
-                    TaskList.RemoveAll(x => x.Id == task.Id);
-                }
-            Vs = Visibility.Visible;
-            Vd = Visibility.Hidden;
-            /*BO.TaskInList newTask = new BO.TaskInList();
-            new TaskFilterListWindow(ref newTask, availabe).ShowDialog();
-            if (MyTask.Dependencies != null)
-                MyTask.Dependencies.Add(newTask);
+            if (DependenciesListView == Visibility.Visible)
+            {
+                TaskList = s_bl.Task.GetTaskList(x => x.Id != MyTask.Id).ToList();
+                //remove all the tasks that MyTask is already dependant on
+                if (MyTask.Dependencies != null)
+                    foreach (var task in MyTask.Dependencies)
+                    {
+                        TaskList.RemoveAll(x => x.Id == task.Id);
+                    }
+
+                DependenciesToAdd = Visibility.Visible;
+                DependenciesListView = Visibility.Hidden;
+            }
             else
-                MyTask.Dependencies = new List<BO.TaskInList> { newTask };*/
-
+            {
+                //return to view the dependencies
+                DependenciesToAdd = Visibility.Hidden;
+                DependenciesListView = Visibility.Visible;
+            }
         }
 
-        }
+        private void ChooseTask_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            BO.TaskInList? task = (sender as ListView)?.SelectedItem as BO.TaskInList;
+            if (task != null)
+            {
+                if (MyTask.Dependencies != null) //add the task to the dependencies
+                    MyTask.Dependencies.Add(task);
+                else
+                    MyTask.Dependencies = new List<BO.TaskInList> { task };
 
+                //return to view the dependencies
+                DependenciesToAdd = Visibility.Hidden;
+                DependenciesListView = Visibility.Visible;
+
+                
+            }
+        }
     }
+
+
+    //
+
 }
+
