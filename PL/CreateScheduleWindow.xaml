@@ -7,28 +7,28 @@
         mc:Ignorable="d"
         Title="CreateScheduleWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
-    <Grid>
+    <Grid Background="#FFFCC9C9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Label Content="Enter project starting date:" HorizontalAlignment="Left" Margin="49,33,0,0" VerticalAlignment="Top"/>
-            <TextBox HorizontalAlignment="Left" Margin="234,37,0,0" Text="{Binding Starting, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+        <Grid Grid.Column="0" Visibility="{Binding Flag, Converter={StaticResource FalseToVisibilityConverterKey}}">
+            <Label Content="Enter project starting date:" HorizontalAlignment="Left" Margin="90,25,0,0" VerticalAlignment="Top" FontSize="20"/>
+            <TextBox HorizontalAlignment="Left" Margin="110,60,0,0" Text="{Binding Starting, Mode=TwoWay}" VerticalAlignment="Top" Width="200" Height="30"/>
 
             <ListView ItemsSource="{Binding TaskList, Mode=TwoWay}"
                       Visibility="{Binding Flag, Converter={StaticResource FalseToVisibilityConverterKey}}"
-                      MouseDoubleClick="TaskSelected_MouseDoubleClick" Margin="78,128,66,42"/>
+                      MouseDoubleClick="TaskSelected_MouseDoubleClick" Height="300" Width="260" Margin="82,109,58,25"/>
         </Grid>
 
-        <Grid Grid.Column="1">
-            <Label Content="Enter task scheduled date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,260,0,0"/>
-            <TextBox Text="{Binding Date, Mode=TwoWay}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="120" Margin="200,264,0,0"/>
+        <Grid Grid.Column="1" Visibility="{Binding Flag, Converter={StaticResource TrueToVisibilityConverterKey}}">
+            <Label Content="Enter task scheduled date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,200,0,0" FontSize="20"/>
+            <TextBox Text="{Binding Date, Mode=TwoWay}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="260" Margin="60,240,0,0" Height="30"/>
 
-            <Label Content="Id of the task:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,191,0,0"/>
-            <TextBox IsEnabled="False" Text="{Binding MyTask.Id}" HorizontalAlignment="Left" Margin="200,204,0,0" VerticalAlignment="Top" Width="120"/>
-            <Button Content="Update" Click="UpdateButton_Click" HorizontalAlignment="Left" Margin="175,345,0,0" VerticalAlignment="Top"/>
+            <Label Content="Id of the task:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,120,0,0" FontSize="20"/>
+            <TextBox IsEnabled="False" Text="{Binding MyTask.Id}" HorizontalAlignment="Left" Margin="200,120,0,0" VerticalAlignment="Top" Width="120" Height="37"/>
+            <Button Content="Update" Click="UpdateButton_Click" Height="40" Width="80" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" Background="White" FontSize="20"/>
 
         </Grid>
     </Grid>
