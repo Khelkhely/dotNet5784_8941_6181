@@ -10,22 +10,24 @@
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FFF9FAFA"/>
-                <GradientStop Color="#FF9CFADE" Offset="1"/>
+                <GradientStop Color="#FFBFA5F7" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
         <!--Show engineers Button-->
-        <Button Content="Show engineers" HorizontalAlignment="Center" Margin="0,110,0,0" VerticalAlignment="Top" 
+        <Button Content="Show engineers" HorizontalAlignment="Left" Margin="490,120,0,0" VerticalAlignment="Top" 
                 Height="70" Width="130" Click="Button_Engineer_Click" FontSize="15" Background="White" BorderBrush="Black"/>
         <!--Initialize Data Button-->
-        <Button Content="Initialize data" HorizontalAlignment="Left" Margin="170,287,0,0" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Initialize_Click" FontSize="20" Background="White" BorderBrush="Black"/>
+        <Button Content="Initialize data" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Height="70" Width="130" Click="Button_Initialize_Click" FontSize="20" Background="White" BorderBrush="Black" Margin="80,230,0,0"/>
         <!--Reset Data Button-->
-        <Button Content="Reset data" HorizontalAlignment="Right" Margin="400,287,170,0" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Reset_Click" FontSize="20" Background="White" BorderBrush="Black"/>
-        <Button Content="show tasks" Click="Button_Task_Click"
-                HorizontalAlignment="Left" Margin="148,180,0,0" VerticalAlignment="Top"/>
-        <Button Content="Gantt Chart" Click="Button_Gantt_Click"  Width="100" Height="50" Margin="565,55,135,279"/>
-        <Button Content="Create a schedule" Click="Button_CreateSchedule_Click"  Width="100" Height="50" Margin="565,180,135,204"/>
+        <Button Content="Reset data" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Height="70" Width="130" Click="Button_Reset_Click" FontSize="20" Background="White" BorderBrush="Black" Margin="80,120,0,0"/>
+        <Button Content="show tasks" Click="Button_Task_Click"  FontSize="20" Background="White" BorderBrush="Black"
+                Height="70" Width="130" HorizontalAlignment="Left" Margin="490,230,0,0" VerticalAlignment="Top"/>
+        <Button Content="Gantt Chart" Click="Button_Gantt_Click"  Width="130" Height="70" Background="White"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,230,0,0"/>
+        <Button Content="Create a schedule" Click="Button_CreateSchedule_Click"  Height="70" Width="130" Background="White" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,120,0,0"/>
 
     </Grid>
 </Window>

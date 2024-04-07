@@ -55,4 +55,15 @@ public partial class MainWindow : Window
         s_bl.AddYear();
         MyClock = s_bl.Clock;
     }
+
+    private void AddMonth_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.AddMonth();
+        MyClock = s_bl.Clock;
+    }
+    private void AddDay_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.AddDay();
+        MyClock = s_bl.Clock;
+    }
 }

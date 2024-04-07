@@ -28,7 +28,7 @@
 
             <Label Content="Id of the task:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,191,0,0"/>
             <TextBox IsEnabled="False" Text="{Binding MyTask.Id}" HorizontalAlignment="Left" Margin="200,204,0,0" VerticalAlignment="Top" Width="120"/>
-            <Button Content="Update" Click="Button_Click" HorizontalAlignment="Left" Margin="175,345,0,0" VerticalAlignment="Top"/>
+            <Button Content="Update" Click="UpdateButton_Click" HorizontalAlignment="Left" Margin="175,345,0,0" VerticalAlignment="Top"/>
 
         </Grid>
     </Grid>
