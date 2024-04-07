@@ -285,7 +285,7 @@ internal class Program
                         Console.WriteLine("Enter task's Id that you want to start working on: \t");
                         if (int.TryParse(Console.ReadLine(), out int tId) == false)
                             throw new BlTryParseFailedException("parsing failed");
-                        s_bl.startNewTask(eId, tId);
+                        s_bl.StartNewTask(eId, tId);
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                     break;
@@ -298,7 +298,7 @@ internal class Program
                         Console.WriteLine("Enter the task's Id you finished: \t");
                         if (int.TryParse(Console.ReadLine(), out int tId) == false)
                             throw new BlTryParseFailedException("parsing failed");
-                        s_bl.finishTask(eId, tId);
+                        s_bl.FinishTask(eId, tId);
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                     break;

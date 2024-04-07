@@ -30,6 +30,7 @@
                   SelectionChanged="Task_Filter_Changed"
                   Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </Grid>
+        <!--Internal, middle Grid-->
         <ListView Grid.Row="1" ItemsSource="{Binding TaskList}" Margin="-5,0,5,0"
               MouseDoubleClick="TaskList_TaskSelected"  BorderBrush="Black">
             <ListView.Background>
@@ -43,7 +44,8 @@
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
-
+            
+        <!--Internal, lowwer Grid-->
         </ListView>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"
             Click="Add_Task_Click"  Background="#FFEC6060"/>

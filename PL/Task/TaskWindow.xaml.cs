@@ -131,14 +131,7 @@ namespace PL.Task
 
         }
 
-        /*private bool availabe(BO.Task task)
-        {
-            if (MyTask.Dependencies != null)
-            {
-                if (MyTask.Dependencies.Count(x => x.Id == task.Id) > 0) //already is in the dependencies 
-                    return false;
-            }
-            return true;
-        }*/
+        }
+
     }
 }

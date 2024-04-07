@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PL;
 
 namespace PL
 {
@@ -19,16 +20,37 @@ namespace PL
     /// </summary>
     public partial class EngineerIdWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
+
+        public int MyId
+        {
+            get { return (int)GetValue(MyIdProperty); }
+            set { SetValue(MyIdProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyId.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyIdProperty =
+            DependencyProperty.Register("MyId", typeof(int), typeof(EngineerIdWindow), new PropertyMetadata(0));
+
+
         public EngineerIdWindow()
         {
             InitializeComponent();
+           // this.DataContext = this;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                new EngineerMainWindow(MyId).Show();
 
-            MessageBox.Show("hi: ", sender.ToString());
+            }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
     }
 }

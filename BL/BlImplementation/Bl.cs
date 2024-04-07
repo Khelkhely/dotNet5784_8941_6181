@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using BO;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 namespace BlImplementation;
 internal class Bl : IBl
@@ -21,9 +22,9 @@ internal class Bl : IBl
     /// <param name="tId">the Id of the task he wants to start</param>
     /// <exception cref="BO.BlDoesNotExistException">thrown if there are no enginners / tasks with the received Ids</exception>
     /// <exception cref="BlAssignmentFailedException">thrown if the engineer can't start working on the task</exception>
-    public void startNewTask(int eId, int tId)
+    public void StartNewTask(int eId, int tId)
     {
-       
+
         if (_dal.Engineer.Read(eId) == null)
             throw new BO.BlDoesNotExistException($"engineer with id {eId} does not exist.");
         if (Engineer.EngineerIsAvailabe(eId) == false)
@@ -31,15 +32,32 @@ internal class Bl : IBl
         if (_dal.Task.Read(tId) == null)
             throw new BO.BlDoesNotExistException($"task with id {tId} does not exist.");
         if (_dal.Task.Read(tId)!.EngineerId != eId)
-            throw new BlAssignmentFailedException($"The task with id {tId} does not belong to the engineer with the id {eId}.");//!!!!!!!!!!!11
+            throw new BlAssignmentFailedException($"The task with id {tId} does not belong to the engineer with the id {eId}.");
         if (_dal.Task.Read(tId)!.Complexity > _dal.Engineer.Read(eId)!.Level)
             throw new BlAssignmentFailedException("the engineer can't work on this task because his level is low");
+        if (HasPrevTask(tId))
+            throw new BlAssignmentFailedException("the task has previous unfinished tasks.");
 
         DO.Task tmpTask = _dal.Task.Read(tId)! with { StartDate = Clock };
         _dal.Task.Update(tmpTask);
 
     }
 
+    /// <summary>
+    /// Checks if there are previous unfinished tasks that the task depends on
+    /// </summary>
+    /// <param name="eId">id of the task we want to check</param>
+    /// <returns>true if there is previous task and false if there not</returns>
+    public bool HasPrevTask(int tId)
+    {
+        var dependincies = _dal.Dependency.ReadAll(dependency => dependency.DependentTask == tId);
+        foreach (var _task in dependincies)
+        {
+            if (_dal.Task.Read(_task.DependsOnTask)!.CompleteDate is null)
+                return true;
+        }
+        return false;
+    }
 
     /// <summary>
     ///  registers an engineer finishing a task and updates the data accordingly
@@ -47,9 +65,9 @@ internal class Bl : IBl
     /// <param name="eId">the Id of the engineer that completed the task</param>
     /// <param name="tId">the Id of the task that was completed</param>
     /// <exception cref="BO.BlDoesNotExistException">thrown if there are no enginners / tasks with the received Ids</exception>
-    public void finishTask(int eId, int tId)
+    public void FinishTask(int eId, int tId)
     {
-       
+
         if (_dal.Engineer.Read(eId) == null)
             throw new BO.BlDoesNotExistException($"engineer with id {eId} does not exist.");
 
@@ -77,14 +95,14 @@ internal class Bl : IBl
     /// </summary>
     /// <param name="date">the desired scheduled date of the project</param>
     /// <exception cref="BlSchedulingFailedException">thrown if the tasks' scheduled dates don't allow scheduling the given project start date</exception>
-    public void CreateSchedule(DateTime date) 
+    public void CreateSchedule(DateTime date)
     {
         var tasks = Task.ReadAll();
         //check that all tasks are scheduled
-        if (tasks.Any(x => x.Status == BO.Status.Unscheduled)) 
+        if (tasks.Any(x => x.Status == BO.Status.Unscheduled))
             throw new BlSchedulingFailedException("Not all tasks are scheduled");
         //check that none of the scheduled dates are before the start of the project
-        if (tasks.Any(x => x.ScheduledDate < date)) 
+        if (tasks.Any(x => x.ScheduledDate < date))
             throw new BlSchedulingFailedException("Project starting date is before the task's scheduled date");
         //save the start date of the project in the configuration data
         _dal.StartDate = date;
@@ -101,10 +119,13 @@ internal class Bl : IBl
     /// </summary>
     /// <param name="engineerId"></param>
     /// <param name="taskId"></param>
+    /// <exception cref="BlAssignmentFailedException">thrown if the level of the engineer is too low</exception>
     public void AssignEngineer(int engineerId, int taskId)
     {
         var engineer = Engineer.Read(engineerId);
         var task = Task.Read(taskId);
+        if (engineer.Level < task.Copmlexity)
+            throw new BlAssignmentFailedException("the engineer can't work on this task because his level is low");
         task.Engineer = new BO.EngineerInTask() { Id = engineer.Id, Name = engineer.Name };
         Task.Update(task); //update the task
         //the engineer doesn't need to be updated because it doesn't have a task property in dal

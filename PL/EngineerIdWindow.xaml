@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="EngineerIdWindow" Height="200" Width="500">
+        Title="EngineerIdWindow" Height="200" Width="500"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -13,13 +14,10 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Button Content="OK" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,100,0,0" Width="60" Grid.ColumnSpan="2"
-                  Click="OkButton_Click"  IsEnabled="{Binding Id, Converter={StaticResource ConverIdToContentKey}}"/>
+                  Click="OkButton_Click" />
         </Grid>
-        <TextBox MaxLength="9" Width="120" Margin="200,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                 
-                 IsEnabled="{Binding Id, Converter={StaticResource ConvertIdToBooleanKey}}"
-                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
-        <Label Grid.Column="0" Content="Enter your Id:" HorizontalAlignment="Left" Margin="100,0,0,0" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding MyId, Mode=TwoWay}"  MaxLength="9" Width="120" Margin="203,74,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Grid.Column="0" Content="Enter your Id:" HorizontalAlignment="Left" Margin="100,65,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

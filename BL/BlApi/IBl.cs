@@ -17,14 +17,21 @@ public interface IBl
     /// </summary>
     /// <param name="eId">the Id of the engineer that wants to start working on the task</param>
     /// <param name="tId">the Id of the task he wants to start</param>
-    void startNewTask(int eId, int tId);
+    void StartNewTask(int eId, int tId);
 
     /// <summary>
     /// registers an engineer finishing a task and updates the data accordingly
     /// </summary>
     /// <param name="eId">the Id of the engineer that completed the task</param>
     /// <param name="tId">the Id of the task that was completed</param>
-    void finishTask(int eId, int tId);
+    void FinishTask(int eId, int tId);
+
+    /// /// <summary>
+    /// Checks if there are previous unfinished tasks that the task depends on
+    /// </summary>
+    /// <param name="eId">id of the task we want to check</param>
+    /// <returns>true if there is previous task and false if there not</returns>
+    bool HasPrevTask(int tId);
 
     /// <summary>
     /// checks that a schedule can be made and sets the project starts date if it can

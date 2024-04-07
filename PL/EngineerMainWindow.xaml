@@ -5,40 +5,143 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="EngineerMainWindow" Height="450" Width="800">
+        Title="EngineerMainWindow" Width="1200" Height="700"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <!--Internal, Upper Grid-->
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!--Left Column-->
+        <Grid Grid.Column="0" Visibility="{Binding MyTask, Mode=OneWay,
+              Converter={StaticResource VisibilityNotNullConverterKey}}">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <!-- task id -->
+            <Label Grid.Row="0" Grid.Column="1" Content="Id:" 
+                HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"              
+                 Text="{Binding Path=MyTask.Id, Mode=TwoWay}" IsEnabled="False" Width="200"/>
+
+            <!-- task alias -->
+            <Label Grid.Row="1" Grid.Column="1" Content="Alias:" 
+                 HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"                 
+                 Text="{Binding Path=MyTask.Alias, Mode=TwoWay}" Width="200"/>
+
+            <!-- task description -->
+            <Label Grid.Row="2" Grid.Column="1" Content="Description:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="3" 
+                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.Description, Mode=TwoWay}" Width="290" Height="60"/>
+
+            <!-- task status -->
+            <Label Grid.Row="3" Grid.Column="1" Content="Status:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="3" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.Status, Mode=TwoWay}" IsEnabled="False" Width="200"/>
+
+            <!-- task creation date -->
+            <Label Grid.Row="4" Grid.Column="1" Content="Creation Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="4" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.CreatedAtDate, Mode=TwoWay}" IsEnabled="False" Width="200"/>
+
+            <!-- task scheduled date -->
+            <Label Grid.Row="5" Grid.Column="1" Content="Scheduled Starting Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox  Grid.Row="5" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.ScheduledDate, Mode=TwoWay}" Width="200"/>
+
+            <!-- task start date  -->
+            <Label Grid.Row="6" Grid.Column="1" Content="Starting Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="6" Grid.Column="3"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.StartDate, Mode=TwoWay}"  Width="200"/>
+
+            <!-- task forcast date -->
+            <Label Grid.Row="7" Grid.Column="1" Content="Forcast Completion Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="7" Grid.Column="3" 
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.ForecastDate, Mode=TwoWay}" Width="200"/>
+
+            <!-- task end date -->
+            <Label Grid.Row="8" Grid.Column="1" Content="Completion Date:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="8" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.CompleteDate, Mode=TwoWay}" />
+
+            <!-- task effort time -->
+            <Label Grid.Row="9" Grid.Column="1" Content="Required Effort Time:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="9" Grid.Column="3" Width="200"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 Text="{Binding Path=MyTask.RequiredEffortTime, Mode=TwoWay}" />
+
+            <!-- task deliverables -->
+            <Label Grid.Row="10" Grid.Column="1" Content="Deliverables:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="10" Grid.Column="3" Width="290" Height="60"
+               HorizontalAlignment="Left" VerticalAlignment="Center" 
+               Text="{Binding Path=MyTask.Deliverables, Mode=TwoWay}"/>
+
+            <!-- task remarks -->
+            <Label Grid.Row="11" Grid.Column="1" Content="Remarks:" 
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="11" Grid.Column="3"  Width="290" Height="60"
+                HorizontalAlignment="Left" VerticalAlignment="Center"
+                Text="{Binding Path=MyTask.Remarks, Mode=TwoWay}"/>
+
+            <Button Grid.Row="12" Content="finish task" 
+                    Click="FinishTaskButton_Click"
+                    HorizontalAlignment ="Left" VerticalAlignment="Center" Margin="100,0,0,0" Height="41" Width="213" Grid.Column="3" Grid.ColumnSpan="2" />
+            <Button Grid.Row="12" Content="update task" 
+                    Click="UpdateTaskButton_Click" Grid.ColumnSpan="4" Height="41" VerticalAlignment="Center" Margin="71,0,247,0"/>
         </Grid>
-        <TextBox MaxLength="9" HorizontalAlignment="Left" Margin="280,26,0,0" VerticalAlignment="Top" Width="120"
-        IsEnabled="{Binding Id, Converter={StaticResource ConvertIdToBooleanKey}}"
-         Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
-        <Label Grid.Column="0" Content="Enter your Id:" HorizontalAlignment="Left" Margin="167,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.033,0.721"/>
 
-        <!--Internal, Middle Grid-->
-        <Grid Grid.Row = "1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="207,130,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <!--Right Column-->
+        <Grid Grid.Column="1" Visibility="{Binding MyTask, Mode=OneWay,
+                                Converter={StaticResource VisibilityNullConverterKey}}">
 
-
-        <!--Internal, Lower Grid-->
-        <Grid Grid.Row = "2">
-            <Button Content="Task List"  HorizontalAlignment="Left" Margin="49,5,0,5" Grid.RowSpan="1" Width="200"/>
-            <Button Content="Task Details"  HorizontalAlignment="Left" Margin="400,5,0,5" Grid.RowSpan="1" Width="200"/>
-
+            <ListView ItemsSource="{Binding TaskList}" Height="600" Width="500"
+                      MouseDoubleClick="TaskSelected_MouseDoubleClick">
+            </ListView>
         </Grid>
 
     </Grid>
