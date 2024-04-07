@@ -112,7 +112,7 @@ public partial class CreateScheduleWindow : Window
 
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
         // if (Date == null)
         s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date, Starting);
@@ -122,5 +122,10 @@ public partial class CreateScheduleWindow : Window
             s_bl.CreateSchedule(Starting);
             Close();
         }
+    }
+
+    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
     }
 }

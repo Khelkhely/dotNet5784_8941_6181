@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="EngineerMainWindow" Width="1200" Height="700"
+        Title="EngineerMainWindow" Width="1200" Height="680"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
 
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF8DFACC" Offset="1"/>
+                <GradientStop Color="#FFF8FAFA" Offset="0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -130,9 +136,9 @@
 
             <Button Grid.Row="12" Content="finish task" 
                     Click="FinishTaskButton_Click"
-                    HorizontalAlignment ="Left" VerticalAlignment="Center" Margin="100,0,0,0" Height="41" Width="213" Grid.Column="3" Grid.ColumnSpan="2" />
+                    HorizontalAlignment ="Left" VerticalAlignment="Center" Margin="100,0,0,0" Height="41" Width="213" Grid.Column="3" Grid.ColumnSpan="2" Background="White" />
             <Button Grid.Row="12" Content="update task" 
-                    Click="UpdateTaskButton_Click" Grid.ColumnSpan="4" Height="41" VerticalAlignment="Center" Margin="71,0,247,0"/>
+                    Click="UpdateTaskButton_Click" Grid.ColumnSpan="4" Height="41" VerticalAlignment="Center" Margin="71,0,247,0" Background="#FFFEFEFE"/>
         </Grid>
 
         <!--Right Column-->
