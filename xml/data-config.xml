@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <NextTaskId>1001</NextTaskId>
-  <NextDependencyId>100</NextDependencyId>
-  <StartDate>09/04/2024 0:00:00</StartDate>
-  <EndDate>14/04/2024 0:00:00</EndDate>
+  <NextTaskId>1021</NextTaskId>
+  <NextDependencyId>156</NextDependencyId>
+  <StartDate></StartDate>
+  <EndDate></EndDate>
 </config>
