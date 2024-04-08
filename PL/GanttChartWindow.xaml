@@ -9,8 +9,9 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
         <ListView ItemsSource="{Binding MyDates}" Margin="100,0,0,0">
@@ -26,11 +27,12 @@
             </ListView.ItemsPanel>
         </ListView>
 
-        <ListView ItemsSource="{Binding TaskList}" Grid.Row="1">
+        <ListView ItemsSource="{Binding TaskList}" Grid.Row="1" SelectionChanged="TaskList_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Alias}" Width="100" BorderBrush="Black"/>
+                        <Label Content="{Binding Alias}" Width="50" BorderBrush="Black"/>
+                        <Label Content="{Binding Id}" Width="50" BorderBrush="Black"/>
                         <Label Content="" Visibility="Hidden"
                         Width="{Binding ScheduledDate, Converter={StaticResource DateToLengthConverterKey}}"/>
                         <Label Content="" Background="{Binding Converter={StaticResource TaskToColorConverterKey}}"
@@ -40,5 +42,22 @@
             </ListView.ItemTemplate>
         </ListView>
         
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="The task is delayed" Background="red" FontSize="20"
+                   Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Content="The task is on track" Background="Green" FontSize="20"
+                   Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Content="The task accomplished" Background="Blue" FontSize="20"
+                   Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Grid>
+
+
     </Grid>
 </Window>

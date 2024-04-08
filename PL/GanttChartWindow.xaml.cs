@@ -22,8 +22,6 @@ namespace PL
 
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-
-
         public IEnumerable<BO.Task> TaskList
         {
             get { return (IEnumerable<BO.Task>)GetValue(TaskListProperty); }
@@ -33,9 +31,6 @@ namespace PL
         // Using a DependencyProperty as the backing store for TaskList.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TaskListProperty =
             DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.Task>), typeof(GanttChartWindow), new PropertyMetadata(null));
-
-
-
 
         public int Length
         {
@@ -47,10 +42,6 @@ namespace PL
         public static readonly DependencyProperty LengthProperty =
             DependencyProperty.Register("Length", typeof(int), typeof(GanttChartWindow), new PropertyMetadata(0));
 
-
-
-
-
         public IEnumerable<int> MyDates
         {
             get { return (IEnumerable<int>)GetValue(MyDatesProperty); }
@@ -60,8 +51,6 @@ namespace PL
         // Using a DependencyProperty as the backing store for MyDates.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyDatesProperty =
             DependencyProperty.Register("MyDates", typeof(IEnumerable<int>), typeof(GanttChartWindow), new PropertyMetadata(null));
-
-
 
 
         public GanttChartWindow()
@@ -82,6 +71,11 @@ namespace PL
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void TaskList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //להראות את התלויות של המשימה
         }
     }
 }

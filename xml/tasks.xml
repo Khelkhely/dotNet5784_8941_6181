@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
-    <Id>1001</Id>
-    <Alias>T1</Alias>
-    <Description>Writing interfaces for layer 1</Description>
-    <CreatedAtDate>2023-10-18T00:00:00</CreatedAtDate>
-    <ScheduledDate>2024-12-11T00:00:00</ScheduledDate>
-    <StartDate xsi:nil="true" />
-    <RequiredEffortTime>P7D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <Deliverables>Layer 1 interface</Deliverables>
-    <Remarks>Bring more cookies next time</Remarks>
-    <EngineerId>0</EngineerId>
-    <Complexity>Expert</Complexity>
-  </Task>
-  <Task>
     <Id>1000</Id>
     <Alias>T0</Alias>
     <Description>Planning and distribution of tasks between teams</Description>
@@ -27,5 +13,19 @@
     <Remarks>use agile method</Remarks>
     <EngineerId>0</EngineerId>
     <Complexity>AdvancedBeginner</Complexity>
+  </Task>
+  <Task>
+    <Id>1001</Id>
+    <Alias>T1</Alias>
+    <Description>Writing interfaces for layer 1</Description>
+    <CreatedAtDate>2023-10-18T00:00:00</CreatedAtDate>
+    <ScheduledDate>2024-12-11T00:00:00</ScheduledDate>
+    <StartDate>2024-05-10T00:00:00+03:00</StartDate>
+    <RequiredEffortTime>P7D</RequiredEffortTime>
+    <CompleteDate>2024-05-10T00:00:00+03:00</CompleteDate>
+    <Deliverables>Layer 1 interface</Deliverables>
+    <Remarks>Bring more cookies next time</Remarks>
+    <EngineerId>0</EngineerId>
+    <Complexity>Beginner</Complexity>
   </Task>
 </ArrayOfTask>
