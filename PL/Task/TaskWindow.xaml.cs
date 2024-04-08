@@ -31,7 +31,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for DependenciesToAdd.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DependenciesToAddProperty =
-            DependencyProperty.Register("DependenciesToAdd", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Hidden));
+            DependencyProperty.Register("DependenciesToAdd", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Collapsed));
 
 
 
@@ -121,12 +121,12 @@ namespace PL.Task
                     }
 
                 DependenciesToAdd = Visibility.Visible;
-                DependenciesListView = Visibility.Hidden;
+                DependenciesListView = Visibility.Collapsed;
             }
             else
             {
                 //return to view the dependencies
-                DependenciesToAdd = Visibility.Hidden;
+                DependenciesToAdd = Visibility.Collapsed;
                 DependenciesListView = Visibility.Visible;
             }
         }
@@ -142,7 +142,7 @@ namespace PL.Task
                     MyTask.Dependencies = new List<BO.TaskInList> { task };
 
                 //return to view the dependencies
-                DependenciesToAdd = Visibility.Hidden;
+                DependenciesToAdd = Visibility.Collapsed;
                 DependenciesListView = Visibility.Visible;
 
                 

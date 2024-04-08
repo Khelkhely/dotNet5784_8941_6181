@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace PL;
 
@@ -55,6 +57,7 @@ internal class VisibilityNullConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
 internal class ConvertIdToContent : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -102,6 +105,27 @@ internal class TimeSpanToLengthConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         return ((TimeSpan)value).Days * 30;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class TaskToColorConverter : IValueConverter
+{
+    static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        BO.Task task = (BO.Task)value;
+        if (task.CompleteDate == null)
+        {
+            if (task.ForecastDate < s_bl.Clock)
+                return Brushes.Red;
+            else return Brushes.Green;
+        }
+        return Brushes.Blue;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

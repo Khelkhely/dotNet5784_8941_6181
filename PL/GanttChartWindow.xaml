@@ -9,11 +9,22 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        
+        <ListView ItemsSource="{Binding MyDates}" Margin="100,0,0,0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding}" Width="30"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
 
         <ListView ItemsSource="{Binding TaskList}" Grid.Row="1">
             <ListView.ItemTemplate>
@@ -22,7 +33,7 @@
                         <Label Content="{Binding Alias}" Width="100" BorderBrush="Black"/>
                         <Label Content="" Visibility="Hidden"
                         Width="{Binding ScheduledDate, Converter={StaticResource DateToLengthConverterKey}}"/>
-                        <Label Content="" Background="Green"
+                        <Label Content="" Background="{Binding Converter={StaticResource TaskToColorConverterKey}}"
                         Width="{Binding RequiredEffortTime, Converter={StaticResource TimeSpanToLengthConverterKey}}"/>
                     </StackPanel>
                 </DataTemplate>
