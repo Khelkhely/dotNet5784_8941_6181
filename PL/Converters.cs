@@ -98,6 +98,19 @@ internal class ConvertIdToBoolean : IValueConverter
     }
 }
 
+internal class IdToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (int)value == 0 ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 internal class DateToLengthConverter : IValueConverter
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();

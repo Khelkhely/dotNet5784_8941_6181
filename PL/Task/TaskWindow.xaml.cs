@@ -134,8 +134,10 @@ namespace PL.Task
             {
                 BO.Task t = MyTask;
                 new AddDependencyWindow(ref t).ShowDialog();
-                NewDepList = (from dep in MyTask.Dependencies
-                              select dep).ToList();
+                if (MyTask.Dependencies != null)
+                    NewDepList = (from dep in MyTask.Dependencies
+                                  orderby dep.Id
+                                  select dep).ToList();
             }
             catch(Exception ex)
             {

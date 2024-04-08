@@ -16,5 +16,6 @@
         <local:TaskToColorConverter x:Key="TaskToColorConverterKey"/>
         <local:TrueToFalseConverter x:Key="TrueToFalseConverterKey"/>
         <local:NullToFalseConverter x:Key="NullToFalseConverterKey"/>
+        <local:IdToVisibilityConverter x:Key="IdToVisibilityConverterKey"/>
     </Application.Resources>
 </Application>
