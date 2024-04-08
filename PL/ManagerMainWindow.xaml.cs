@@ -32,17 +32,9 @@ public partial class ManagerMainWindow : Window
 
     public ManagerMainWindow()
     {
-        if (s_bl.GetStartDate() != null)
+        if (s_bl.IsScheduled())
             IsSchedule = true;
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// "Show engineers" button click event
-    /// </summary>
-    private void Button_Engineer_Click(object sender, RoutedEventArgs e)
-    {
-        new EngineerListWindow().Show(); // Shows the list of engineers window
     }
 
     /// <summary>
@@ -69,19 +61,37 @@ public partial class ManagerMainWindow : Window
         IsSchedule = false;
     }
 
+    /// <summary>
+    /// "Show engineers" button click event
+    /// </summary>
+    private void Button_Engineer_Click(object sender, RoutedEventArgs e)
+    {
+        new EngineerListWindow().Show(); // Shows the list of engineers window
+    }
+
+    /// <summary>
+    /// "Show Tasks" button click event
+    /// </summary>
     private void Button_Task_Click(object sender, RoutedEventArgs e)
     {
         new TaskListWindow().Show();
     }
 
+    /// <summary>
+    /// "Gantt Chart" button click event
+    /// </summary>
     private void Button_Gantt_Click(object sender, RoutedEventArgs e)
     {
         new GanttChartWindow().ShowDialog();
     }
+
+    /// <summary>
+    /// "Create Schedule" button click event
+    /// </summary>
     private void Button_CreateSchedule_Click(object sender, RoutedEventArgs e)
     {
         new CreateScheduleWindow().ShowDialog();
-        if (s_bl.GetStartDate() != null)
+        if (s_bl.IsScheduled())
             IsSchedule = true;
     }
     

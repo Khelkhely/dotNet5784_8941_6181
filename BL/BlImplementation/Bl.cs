@@ -106,7 +106,7 @@ internal class Bl : IBl
             throw new BlSchedulingFailedException("Project starting date is before the task's scheduled date");
         //save the start date of the project in the configuration data
         _dal.StartDate = date;
-        _dal.EndDate = tasks.MaxBy(x => x.ForecastDate).ForecastDate;
+        _dal.EndDate = tasks.MaxBy(x => x.ForecastDate)!.ForecastDate;
     }
 
     /// <summary>

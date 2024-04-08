@@ -34,7 +34,6 @@ public partial class CreateScheduleWindow : Window
     public static readonly DependencyProperty StartingProperty =
         DependencyProperty.Register("Starting", typeof(DateTime), typeof(CreateScheduleWindow), new PropertyMetadata(DateTime.Today));
 
-
     public DateTime? Date
     {
         get { return (DateTime?)GetValue(DateProperty); }
@@ -44,8 +43,6 @@ public partial class CreateScheduleWindow : Window
     // Using a DependencyProperty as the backing store for date.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty DateProperty =
         DependencyProperty.Register("Date", typeof(DateTime?), typeof(CreateScheduleWindow), new PropertyMetadata(null));
-
-
 
     public bool Flag
     {
@@ -57,7 +54,6 @@ public partial class CreateScheduleWindow : Window
     public static readonly DependencyProperty FlagProperty =
         DependencyProperty.Register("Flag", typeof(bool), typeof(CreateScheduleWindow), new PropertyMetadata(false));
 
-
     public BO.Task? MyTask
     {
         get { return (BO.Task?)GetValue(MyTaskProperty); }
@@ -67,7 +63,6 @@ public partial class CreateScheduleWindow : Window
     // Using a DependencyProperty as the backing store for MyTask.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty MyTaskProperty =
         DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(CreateScheduleWindow), new PropertyMetadata(null));
-
 
     public IEnumerable<BO.TaskInList> TaskList
     {
@@ -94,6 +89,9 @@ public partial class CreateScheduleWindow : Window
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Task Selected event
+    /// </summary>
     private void TaskSelected_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         try
@@ -110,6 +108,9 @@ public partial class CreateScheduleWindow : Window
 
     }
 
+    /// <summary>
+    /// "Update" button click event
+    /// </summary>
     private void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
 

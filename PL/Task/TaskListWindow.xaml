@@ -7,12 +7,27 @@
         mc:Ignorable="d"
         Title="TaskListWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20" BorderThickness="1" Background="White">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <!--External Grid-->
-    <Grid>
+    <Grid Background="#FFFAE0E0">
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="400*"/>
-            <RowDefinition Height="70*"/>
+            <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
@@ -47,8 +62,8 @@
 
             <!--Internal, lowwer Grid-->
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="60" Width="100"
                 IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"
-                Click="Add_Task_Click"  Background="#FFEC6060"/>
+                Click="Add_Task_Click"/>
     </Grid>
 </Window>
