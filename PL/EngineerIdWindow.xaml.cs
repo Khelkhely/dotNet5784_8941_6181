@@ -47,7 +47,7 @@ namespace PL
                 new EngineerMainWindow(MyId).Show();
 
             }
-            catch (BO.BlDoesNotExistException ex)
+            catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }

@@ -33,21 +33,38 @@ public partial class MainWindow : Window
         DependencyProperty.Register("MyClock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(DateTime.Now.Date));
 
 
+
+    public bool IsSchedule
+    {
+        get { return (bool)GetValue(IsScheduleProperty); }
+        set { SetValue(IsScheduleProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for IsSchedule.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty IsScheduleProperty =
+        DependencyProperty.Register("IsSchedule", typeof(bool), typeof(MainWindow), new PropertyMetadata(false));
+
+
+
+
+
     public MainWindow()
     {
+        if (s_bl.GetStartDate() != null)
+            IsSchedule = true;
         InitializeComponent();
-        //MyClock = s_bl.Clock;
     }
 
     private void EngineerMainWindow_Click(object sender, RoutedEventArgs e)
     {
-        //ComboBox comboBox = new ComboBox();
         new EngineerIdWindow().Show();
     }
 
     private void ManagerMainWindow_Click(object sender, RoutedEventArgs e)
     {
         new ManagerMainWindow().Show();
+        if (s_bl.GetStartDate() != null)
+            IsSchedule = true;
     }
 
     private void AddYear_Click(object sender, RoutedEventArgs e)

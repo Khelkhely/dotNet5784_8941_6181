@@ -69,4 +69,5 @@ public partial class EngineerListWindow : Window
         EngineerList = (Level == BO.EngineerExperience.None) ? s_bl.Engineer.ReadAll() :
             s_bl.Engineer.ReadAll(x => x.Level == Level); //reload the list according to the chosen level
     }
+
 }

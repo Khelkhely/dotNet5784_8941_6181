@@ -78,5 +78,10 @@ namespace PL
                       select dt.Day;
 
         }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

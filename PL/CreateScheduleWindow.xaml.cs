@@ -32,7 +32,7 @@ public partial class CreateScheduleWindow : Window
 
     // Using a DependencyProperty as the backing store for Starting.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty StartingProperty =
-        DependencyProperty.Register("Starting", typeof(DateTime), typeof(CreateScheduleWindow));
+        DependencyProperty.Register("Starting", typeof(DateTime), typeof(CreateScheduleWindow), new PropertyMetadata(DateTime.Today));
 
 
     public DateTime? Date
@@ -86,7 +86,7 @@ public partial class CreateScheduleWindow : Window
         {
             TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
         }
-        catch (BO.BlDoesNotExistException ex)
+        catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -103,7 +103,7 @@ public partial class CreateScheduleWindow : Window
             if (id != null)
                 MyTask = s_bl.Task.Read((int)id);
         }
-        catch (BO.BlDoesNotExistException ex)
+        catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {
             MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
@@ -112,13 +112,28 @@ public partial class CreateScheduleWindow : Window
 
     private void UpdateButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date!, Starting);
-        TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
-        if (TaskList.Count() == 0)
+
+        if (Date is DateTime)
         {
-            s_bl.CreateSchedule(Starting);
-            Close();
+            try
+            {
+                s_bl.Task.UpdateTaskDate(MyTask!.Id, (DateTime)Date!, Starting);
+                TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
+                if (TaskList.Count() == 0)
+                {
+                    s_bl.CreateSchedule(Starting);
+                    Close();
+                }
+                Date = null;
+                Flag = false;
+            }
+            catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-        Flag = false;
+        else
+            MessageBox.Show("The date entered is incorrect. Pleas try again");
+
     }
 }

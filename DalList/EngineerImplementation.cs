@@ -19,7 +19,10 @@ internal class EngineerImplementation : IEngineer
     public void Delete(int id)
     {
         if (DataSource.Engineers.Exists(x => x.Id == id))
+        {
             DataSource.Engineers.RemoveAll(x => x.Id == id);
+            DataSource.Dependencies.RemoveAll(x => x.DependentTask == id);//delete all the dependencies that the task we deleted is depends on
+        }
         else
             throw new DalDoesNotExistException($"Engineer with ID={id} doesn't exist");
     }

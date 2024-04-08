@@ -1,55 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
-    <Id>1000</Id>
-    <Alias>T0</Alias>
-    <Description>first task</Description>
-    <CreatedAtDate>2024-04-07T00:00:00+03:00</CreatedAtDate>
-    <ScheduledDate>2024-04-16T00:00:00</ScheduledDate>
-    <StartDate xsi:nil="true" />
-    <RequiredEffortTime>P5D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <EngineerId>0</EngineerId>
-    <Complexity>Beginner</Complexity>
-  </Task>
-  <Task>
     <Id>1001</Id>
     <Alias>T1</Alias>
-    <Description>second task</Description>
-    <CreatedAtDate>2024-04-07T00:00:00+03:00</CreatedAtDate>
-    <ScheduledDate>2024-05-01T00:00:00</ScheduledDate>
+    <Description>Writing interfaces for layer 1</Description>
+    <CreatedAtDate>2023-02-27T00:00:00</CreatedAtDate>
+    <ScheduledDate>2024-09-08T00:00:00</ScheduledDate>
     <StartDate xsi:nil="true" />
-    <RequiredEffortTime>P8D</RequiredEffortTime>
+    <RequiredEffortTime xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
-    <EngineerId>0</EngineerId>
-    <Complexity>Beginner</Complexity>
-  </Task>
-  <Task>
-    <Id>1002</Id>
-    <Alias>T32</Alias>
-    <Description>unrelated task</Description>
-    <CreatedAtDate>2024-04-07T00:00:00+03:00</CreatedAtDate>
-    <ScheduledDate>2024-04-15T00:00:00</ScheduledDate>
-    <StartDate xsi:nil="true" />
-    <RequiredEffortTime>P7D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <Deliverables />
-    <Remarks />
+    <Deliverables>Layer 1 interface</Deliverables>
+    <Remarks>Bring more cookies next time</Remarks>
     <EngineerId>0</EngineerId>
     <Complexity>Advanced</Complexity>
   </Task>
   <Task>
-    <Id>1003</Id>
-    <Alias>T6</Alias>
-    <Description>something</Description>
-    <CreatedAtDate>2024-04-07T00:00:00+03:00</CreatedAtDate>
-    <ScheduledDate>2024-04-22T00:00:00</ScheduledDate>
+    <Id>1000</Id>
+    <Alias>T0</Alias>
+    <Description>Planning and distribution of tasks between teams</Description>
+    <CreatedAtDate>2024-01-14T00:00:00</CreatedAtDate>
+    <ScheduledDate>2024-05-08T00:00:00</ScheduledDate>
     <StartDate xsi:nil="true" />
-    <RequiredEffortTime>P3D</RequiredEffortTime>
+    <RequiredEffortTime xsi:nil="true" />
     <CompleteDate xsi:nil="true" />
-    <Deliverables />
-    <Remarks />
-    <EngineerId>0</EngineerId>
-    <Complexity>Intermediate</Complexity>
+    <Deliverables>Work plan</Deliverables>
+    <Remarks>use agile method</Remarks>
+    <EngineerId>220346555</EngineerId>
+    <Complexity>Advanced</Complexity>
   </Task>
 </ArrayOfTask>

@@ -14,5 +14,6 @@
         <local:DateToLengthConverter x:Key="DateToLengthConverterKey"/>
         <local:TimeSpanToLengthConverter x:Key="TimeSpanToLengthConverterKey"/>
         <local:TaskToColorConverter x:Key="TaskToColorConverterKey"/>
+        <local:TrueToFalseConverter x:Key="TrueToFalseConverterKey"/>
     </Application.Resources>
 </Application>
