@@ -112,7 +112,6 @@ namespace PL.Task
         {
             try
             {
-                Close();
                 if (MyTask.Id == 0) //if we want to add a new Task
                 {
                     s_bl.Task.Create(MyTask);
@@ -123,6 +122,7 @@ namespace PL.Task
                     s_bl.Task.Update(MyTask);
                     MessageBox.Show("Task Updated Succesfully"); //If we succeeded, we will notify the user.
                 }
+                Close();
             }
             catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
@@ -136,7 +136,6 @@ namespace PL.Task
             {
                 BO.Task t = MyTask;
                 new AddDependencyWindow(ref t).ShowDialog();
-                //MyTask = t;
                 NewDepList = (from dep in MyTask.Dependencies
                               select dep).ToList();
             }

@@ -39,7 +39,7 @@ namespace PL
             MyTask = task;
             TaskList = s_bl.Task.GetTaskList(x => (x.Id != MyTask.Id) && //not including MyTask itself
                 (!s_bl.Task.Read(x.Id).Dependencies?.Any(t => t.Id == MyTask.Id) ?? true) //tasks that don't depends on this task already
-                && !(MyTask.Dependencies?.Any(t => t.Id == x.Id) ?? true)); //tasks that MyTask doesn't already depend on
+                && (!MyTask.Dependencies?.Any(t => t.Id == x.Id) ?? true)); //tasks that MyTask doesn't already depend on
         }
 
         private void DependendySelected_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -47,7 +47,10 @@ namespace PL
             BO.TaskInList? chosenTask = (sender as ListView)?.SelectedItem as BO.TaskInList;
             if (chosenTask != null)
             {
-                MyTask!.Dependencies?.Add(chosenTask);
+                if (MyTask!.Dependencies != null)
+                    MyTask!.Dependencies.Add(chosenTask);
+                else
+                    MyTask!.Dependencies = new List<BO.TaskInList> { chosenTask };
                 Close();
             }
         }

@@ -30,12 +30,12 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -78,7 +78,8 @@
         <Label Grid.Column="0" Content="Task:" HorizontalAlignment="Left" Margin="65,0,0,0" 
             Grid.Row="5" FontSize="15" VerticalAlignment="Center"/>
         <!--Engineer Task-->
-        <TextBox Grid.Row="4" IsEnabled="False" Text="{Binding Task}" Margin="10,61,283,2" Grid.Column="1" Grid.RowSpan="2"/>
+        <Label Grid.Row="4" Content="{Binding Task}" Margin="10,61,283,2" 
+               Grid.Column="1" Grid.RowSpan="2" />
 
         <!--Add/Update Button-->
         <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="300,18,0,17" Width="200"

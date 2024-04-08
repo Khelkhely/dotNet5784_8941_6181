@@ -30,7 +30,7 @@
         <!--Show engineers Button-->
         <Button Content="Show engineers" HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Height="70" Width="200" Click="Button_Engineer_Click" FontSize="15"
-                Grid.Column="2" Grid.Row="0" IsEnabled="{Binding IsSchedule}"
+                Grid.Column="2" Grid.Row="0"
                 Style="{StaticResource animationAndRound}"/>
         <!--Show tasks Button-->
         <Button Content="show tasks" Click="Button_Task_Click"  FontSize="20"
