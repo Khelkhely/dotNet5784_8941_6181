@@ -36,6 +36,7 @@ namespace PL
 
 
 
+
         public int Length
         {
             get { return (int)GetValue(LengthProperty); }
@@ -66,13 +67,13 @@ namespace PL
         public GanttChartWindow()
         {
             InitializeComponent();
-            TaskList = s_bl.Task.ReadAll();
             DateTime startDate = (DateTime)s_bl.GetStartDate()!;
             DateTime endDate = (DateTime)s_bl.GetEndDate()!;
             Length = (startDate - startDate).Days * 30;
             List<DateTime> dates = new List<DateTime> { };
             for (DateTime d = startDate; d < endDate; d = d.AddDays(1)) 
                 dates.Add(d);
+            TaskList = s_bl.Task.ReadAll();
             MyDates = from dt in dates
                       select dt.Day;
 
