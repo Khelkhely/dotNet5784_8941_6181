@@ -1,5 +1,6 @@
 # dotNet5784_8941_6181
 list of additions:
+	we implemented the ToString
 	Themes:
 		in the MainWindow.xaml file in lines 11-13
 		in the ManagerMainWindow.xaml file in lines 11-13
