@@ -53,6 +53,7 @@ namespace PL
             DependencyProperty.Register("MyDates", typeof(IEnumerable<int>), typeof(GanttChartWindow), new PropertyMetadata(null));
 
 
+
         public GanttChartWindow()
         {
             InitializeComponent();
@@ -65,11 +66,6 @@ namespace PL
             TaskList = s_bl.Task.ReadAll();
             MyDates = from dt in dates
                       select dt.Day;
-
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
         }
 

@@ -41,9 +41,6 @@ namespace PL.Task
         public static readonly DependencyProperty TaskSelectedProperty =
             DependencyProperty.Register("TaskSelected", typeof(bool), typeof(TaskWindow), new PropertyMetadata(false));
 
-
-
-
         public BO.TaskInList MyDependency
         {
             get { return (BO.TaskInList)GetValue(MyDependencyProperty); }
@@ -53,7 +50,6 @@ namespace PL.Task
         // Using a DependencyProperty as the backing store for MyDependency.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyDependencyProperty =
             DependencyProperty.Register("MyDependency", typeof(BO.TaskInList), typeof(TaskWindow), new PropertyMetadata(null));
-
 
         public List<BO.TaskInList> NewDepList
         {
@@ -65,8 +61,6 @@ namespace PL.Task
         public static readonly DependencyProperty NewDepListProperty =
             DependencyProperty.Register("NewDepList", typeof(List<BO.TaskInList>), typeof(TaskWindow), new PropertyMetadata(null));
 
-
-
         public BO.EngineerInTask MyEngineer
         {
             get { return (BO.EngineerInTask)GetValue(MyEngineerProperty); }
@@ -76,8 +70,6 @@ namespace PL.Task
         // Using a DependencyProperty as the backing store for MyEngineer.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyEngineerProperty =
             DependencyProperty.Register("MyEngineer", typeof(BO.EngineerInTask), typeof(TaskWindow), new PropertyMetadata(null));
-
-
 
         public BO.Task MyTask
         {
@@ -100,7 +92,7 @@ namespace PL.Task
                 //if the Id is 0, it means that we want to add a new task, so we will display on the sceen default values.
                     : s_bl.Task.Read(id); //else, we would like to update an existing task so we will display its old data.
                 NewDepList = MyTask.Dependencies ?? new List<BO.TaskInList> { };
-                MyEngineer = MyTask.Engineer;
+                MyEngineer = MyTask.Engineer!;
             }
             catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
@@ -108,6 +100,9 @@ namespace PL.Task
             }
         }
 
+        /// <summary>
+        /// "Add/Update" button click event
+        /// </summary>
         private void Add_Update_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -130,6 +125,9 @@ namespace PL.Task
             }
         }
 
+        /// <summary>
+        /// "Add dependency" button click event
+        /// </summary>
         private void AddDependency(object sender, RoutedEventArgs e)
         {
             try
@@ -145,6 +143,9 @@ namespace PL.Task
             }
         }
 
+        /// <summary>
+        /// "Delete" button click event
+        /// </summary>
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -158,19 +159,26 @@ namespace PL.Task
             }
         }
 
+        /// <summary>
+        /// "Choose engineer" button click event
+        /// </summary>
         private void ChooseEngineer_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 BO.Task t = MyTask;
                 new EngineerListToAssignWindow(ref t).ShowDialog();
-                MyEngineer = MyTask.Engineer;
+                MyEngineer = MyTask.Engineer!;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// "Remove dependency" button click event
+        /// </summary>
         private void RemoveDep_Click(object sender, RoutedEventArgs e)
         {
             if (MyDependency != null)
@@ -183,15 +191,14 @@ namespace PL.Task
             }
         }
 
+        /// <summary>
+        /// Dependency selected event
+        /// </summary>
         private void Dependency_Selected(object sender, MouseButtonEventArgs e)
         {
             TaskSelected = true;
             MyDependency = (sender as ListView)?.SelectedItem as BO.TaskInList;
         }
     }
-
-
-    //
-
 }
 

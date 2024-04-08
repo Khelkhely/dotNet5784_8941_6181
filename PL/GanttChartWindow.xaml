@@ -14,7 +14,7 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <ListView ItemsSource="{Binding MyDates}" Margin="100,0,0,0">
+        <ListView ItemsSource="{Binding MyDates}" Margin="200,0,0,0">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Label Content="{Binding}" Width="30"/>
@@ -41,6 +41,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListView ItemsSource=""/>
+        </Grid>
         
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

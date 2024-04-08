@@ -37,9 +37,16 @@ public partial class EngineerListToAssignWindow : Window
 
     public EngineerListToAssignWindow(ref BO.Task t)
     {
-        task = t;
-        EngineerList = s_bl.Engineer.ReadAll(engineer => !(engineer.Level < task.Copmlexity));
-        InitializeComponent();
+        try
+        {
+            task = t;
+            EngineerList = s_bl.Engineer.ReadAll(engineer => !(engineer.Level < task.Copmlexity));
+            InitializeComponent();
+        }
+        catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     /// <summary>
@@ -47,13 +54,18 @@ public partial class EngineerListToAssignWindow : Window
     /// </summary>
     private void EngineerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        var engineer = (sender as ListView)!.SelectedItem as BO.Engineer;
-        //s_bl.AssignEngineer(engineer!.Id, task.Id);
-        if (engineer != null)
+        try
         {
-            task.Engineer = new BO.EngineerInTask() { Id = engineer.Id, Name = engineer.Name };
-            Close();
+            var engineer = (sender as ListView)!.SelectedItem as BO.Engineer;
+            if (engineer != null)
+            {
+                task.Engineer = new BO.EngineerInTask() { Id = engineer.Id, Name = engineer.Name };
+                Close();
+            }
         }
-        
+        catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }
