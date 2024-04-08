@@ -1,4 +1,4 @@
-﻿namespace BO;
+﻿ namespace BO;
 
 /// <summary>
 /// information about an engineer that is presented inside a task

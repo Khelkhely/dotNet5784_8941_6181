@@ -2,16 +2,14 @@
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
     <Id>1000</Id>
-    <Alias>T0</Alias>
-    <Description>Planning and distribution of tasks between teams</Description>
-    <CreatedAtDate>2023-07-24T00:00:00</CreatedAtDate>
-    <ScheduledDate>2024-01-11T00:00:00</ScheduledDate>
-    <StartDate>2024-04-08T00:00:00+03:00</StartDate>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
-    <CompleteDate>2024-04-08T00:00:00+03:00</CompleteDate>
-    <Deliverables>Work plan</Deliverables>
-    <Remarks>use agile method</Remarks>
-    <EngineerId>0</EngineerId>
+    <Alias>d</Alias>
+    <Description>dow</Description>
+    <CreatedAtDate>2024-04-09T00:00:00+03:00</CreatedAtDate>
+    <ScheduledDate>2024-04-09T00:00:00</ScheduledDate>
+    <StartDate>2024-04-09T00:00:00+03:00</StartDate>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
+    <CompleteDate xsi:nil="true" />
+    <EngineerId>215718405</EngineerId>
     <Complexity>AdvancedBeginner</Complexity>
   </Task>
   <Task>

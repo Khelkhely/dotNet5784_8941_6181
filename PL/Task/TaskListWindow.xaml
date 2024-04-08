@@ -60,7 +60,7 @@
                 </GridView>
             </ListView.View>
 
-            <!--Internal, lowwer Grid-->
+        <!--Internal, lower Grid-->
         </ListView>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="60" Width="100"
                 IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"
