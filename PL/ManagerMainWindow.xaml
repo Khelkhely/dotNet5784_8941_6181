@@ -8,7 +8,19 @@
         Title="ManagerMainWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
 
+    <Window.Resources>
+        <ResourceDictionary Source="Themes/AnimationAndRounded.xaml"/>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FFF9FAFA"/>
@@ -16,28 +28,34 @@
             </LinearGradientBrush>
         </Grid.Background>
         <!--Show engineers Button-->
-        <Button Content="Show engineers" HorizontalAlignment="Left" Margin="490,120,0,0" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Engineer_Click" FontSize="15" Background="White" BorderBrush="Black"
-                IsEnabled="{Binding IsSchedule}"/>
+        <Button Content="Show engineers" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Height="70" Width="200" Click="Button_Engineer_Click" FontSize="15"
+                Grid.Column="2" Grid.Row="0" IsEnabled="{Binding IsSchedule}"
+                Style="{StaticResource animationAndRound}"/>
         <!--Show tasks Button-->
-        <Button Content="show tasks" Click="Button_Task_Click"  FontSize="20" Background="White" BorderBrush="Black"
-        Height="70" Width="130" HorizontalAlignment="Left" Margin="490,230,0,0" VerticalAlignment="Top"/>
+        <Button Content="show tasks" Click="Button_Task_Click"  FontSize="20"
+        Grid.Column="2" Grid.Row="1" Height="70" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Style="{StaticResource animationAndRound}"/>
 
         <!--Initialize Data Button-->
-        <Button Content="Initialize data" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Initialize_Click" FontSize="20" Background="White" BorderBrush="Black" Margin="80,230,0,0"/>
+        <Button Content="Initialize data" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Grid.Column="0" Grid.Row="1" Height="70" Width="200" Click="Button_Initialize_Click" FontSize="20"
+                Style="{StaticResource animationAndRound}"/>
         <!--Reset Data Button-->
-        <Button Content="Reset data" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                Height="70" Width="130" Click="Button_Reset_Click" FontSize="20" Background="White" BorderBrush="Black" Margin="80,120,0,0"/>
+        <Button Content="Reset data" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Grid.Column="0" Grid.Row="0" Height="70" Width="200" Click="Button_Reset_Click" FontSize="20"
+                Style="{StaticResource animationAndRound}"/>
 
         <!--Gantt Chart Button-->
-        <Button Content="Gantt Chart" Click="Button_Gantt_Click"  Width="130" Height="70" Background="White"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,230,0,0"
-                IsEnabled="{Binding IsSchedule}"/>
+        <Button Content="Gantt Chart" Click="Button_Gantt_Click"  Width="200" Height="70"
+                HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"
+                Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsSchedule}"
+                Style="{StaticResource animationAndRound}"/>
         <!--Create a schedule Button-->
-        <Button Content="Create a schedule" Click="Button_CreateSchedule_Click"  Height="70" Width="130" Background="White" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,120,0,0"
-                IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"/>
+        <Button Content="Create a schedule" Click="Button_CreateSchedule_Click"  Height="70" Width="200"
+                HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"
+                Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"
+                Style="{StaticResource animationAndRound}"/>
 
     </Grid>
 </Window>

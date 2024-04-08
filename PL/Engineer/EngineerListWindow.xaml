@@ -7,8 +7,23 @@
         mc:Ignorable="d"
         Title="EngineerListWindow" Height="640" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20" BorderThickness="1" Background="White">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <!--External Grid-->
-    <Grid>
+    <Grid Background="#FFF4CCCC">
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="400*"/>
@@ -45,7 +60,7 @@
             </ListView.View>
 
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="70" Width="100"
                 Click="Add_Engineer_Click" Background="#FFEC6060"/>
     </Grid>
 </Window>

@@ -242,42 +242,28 @@
     <Id>1001</Id>
     <Alias>T1</Alias>
     <Description>Writing interfaces for layer 1</Description>
-    <CreatedAtDate>2023-09-08T00:00:00</CreatedAtDate>
-    <ScheduledDate xsi:nil="true" />
+    <CreatedAtDate>2023-10-18T00:00:00</CreatedAtDate>
+    <ScheduledDate>2024-12-11T00:00:00</ScheduledDate>
     <StartDate xsi:nil="true" />
-    <RequiredEffortTime xsi:nil="true" />
+    <RequiredEffortTime>P7D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <Deliverables>Layer 1 interface</Deliverables>
     <Remarks>Bring more cookies next time</Remarks>
     <EngineerId>0</EngineerId>
+    <Complexity>Expert</Complexity>
+  </Task>
+  <Task>
+    <Id>1000</Id>
+    <Alias>T0</Alias>
+    <Description>Planning and distribution of tasks between teams</Description>
+    <CreatedAtDate>2023-07-24T00:00:00</CreatedAtDate>
+    <ScheduledDate>2024-01-11T00:00:00</ScheduledDate>
+    <StartDate>2024-04-08T00:00:00+03:00</StartDate>
+    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <CompleteDate>2024-04-08T00:00:00+03:00</CompleteDate>
+    <Deliverables>Work plan</Deliverables>
+    <Remarks>use agile method</Remarks>
+    <EngineerId>0</EngineerId>
     <Complexity>AdvancedBeginner</Complexity>
-  </Task>
-  <Task>
-    <Id>1002</Id>
-    <Alias>T2</Alias>
-    <Description>Implement the Layer 1 interfaces</Description>
-    <CreatedAtDate>2023-07-13T00:00:00</CreatedAtDate>
-    <ScheduledDate xsi:nil="true" />
-    <StartDate xsi:nil="true" />
-    <RequiredEffortTime xsi:nil="true" />
-    <CompleteDate xsi:nil="true" />
-    <Deliverables>layer 1 implementation</Deliverables>
-    <Remarks>the temperature is too high</Remarks>
-    <EngineerId>261453236</EngineerId>
-    <Complexity>Advanced</Complexity>
-  </Task>
-  <Task>
-    <Id>1007</Id>
-    <Alias>T7</Alias>
-    <Description>Writing interfaces for layer 2</Description>
-    <CreatedAtDate>2023-10-01T00:00:00</CreatedAtDate>
-    <ScheduledDate xsi:nil="true" />
-    <StartDate xsi:nil="true" />
-    <RequiredEffortTime xsi:nil="true" />
-    <CompleteDate xsi:nil="true" />
-    <Deliverables>Layer 2 interface</Deliverables>
-    <Remarks>switch the pairs because they always fight</Remarks>
-    <EngineerId>392656064</EngineerId>
-    <Complexity>Intermediate</Complexity>
   </Task>
 </ArrayOfTask>

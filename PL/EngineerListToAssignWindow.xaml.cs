@@ -42,6 +42,9 @@ public partial class EngineerListToAssignWindow : Window
         InitializeComponent();
     }
 
+    /// <summary>
+    /// EngineerList selected event
+    /// </summary>
     private void EngineerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         var engineer = (sender as ListView)!.SelectedItem as BO.Engineer;
