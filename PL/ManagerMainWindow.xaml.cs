@@ -63,7 +63,7 @@ namespace PL
 
         private void Button_Gantt_Click(object sender, RoutedEventArgs e)
         {
-            new GanttChartWindow().Show();
+            new GanttChartWindow().ShowDialog();
         }
         private void Button_CreateSchedule_Click(object sender, RoutedEventArgs e)
         {

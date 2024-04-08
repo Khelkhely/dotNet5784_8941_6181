@@ -8,9 +8,26 @@
         Title="GanttChartWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <DataGrid ItemsSource="{Binding Path=TaskList}">
-            
-        </DataGrid>
+        
+
+        <ListView ItemsSource="{Binding TaskList}" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Alias}" Width="100" BorderBrush="Black"/>
+                        <Label Content="" Visibility="Hidden"
+                        Width="{Binding ScheduledDate, Converter={StaticResource DateToLengthConverterKey}}"/>
+                        <Label Content="" Background="Green"
+                        Width="{Binding RequiredEffortTime, Converter={StaticResource TimeSpanToLengthConverterKey}}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
     </Grid>
 </Window>

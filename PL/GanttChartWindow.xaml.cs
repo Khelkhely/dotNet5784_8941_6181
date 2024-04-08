@@ -23,6 +23,7 @@ namespace PL
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
 
+
         public IEnumerable<BO.Task> TaskList
         {
             get { return (IEnumerable<BO.Task>)GetValue(TaskListProperty); }
@@ -34,10 +35,47 @@ namespace PL
             DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.Task>), typeof(GanttChartWindow), new PropertyMetadata(null));
 
 
+
+        public int Length
+        {
+            get { return (int)GetValue(LengthProperty); }
+            set { SetValue(LengthProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Length.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LengthProperty =
+            DependencyProperty.Register("Length", typeof(int), typeof(GanttChartWindow), new PropertyMetadata(0));
+
+
+
+
+
+        public IEnumerable<int> MyDates
+        {
+            get { return (IEnumerable<int>)GetValue(MyDatesProperty); }
+            set { SetValue(MyDatesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyDates.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyDatesProperty =
+            DependencyProperty.Register("MyDates", typeof(IEnumerable<int>), typeof(GanttChartWindow), new PropertyMetadata(null));
+
+
+
+
         public GanttChartWindow()
         {
-            TaskList = s_bl.Task.ReadAll();
             InitializeComponent();
+            TaskList = s_bl.Task.ReadAll();
+            DateTime startDate = (DateTime)s_bl.GetStartDate()!;
+            DateTime endDate = (DateTime)s_bl.GetEndDate()!;
+            Length = (startDate - startDate).Days * 30;
+            List<DateTime> dates = new List<DateTime> { };
+            for (DateTime d = startDate; d < endDate; d = d.AddDays(1)) 
+                dates.Add(d);
+            MyDates = from dt in dates
+                      select dt.Day;
+
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

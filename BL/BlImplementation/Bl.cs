@@ -160,4 +160,14 @@ internal class Bl : IBl
     {
         s_clock = DateTime.Now.Date;
     }
+
+    public DateTime? GetStartDate()
+    {
+        return _dal.StartDate;
+    }
+
+    public DateTime? GetEndDate()
+    {
+        return _dal.EndDate;
+    }
 }

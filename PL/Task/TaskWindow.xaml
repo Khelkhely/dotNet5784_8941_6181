@@ -156,7 +156,7 @@
         HorizontalAlignment="Center" Width="400" MouseDoubleClick="ChooseTask_MouseDoubleClick"
         ItemsSource="{Binding TaskList}" Visibility="{Binding DependenciesToAdd}"/>
         
-        
+        <!-- add / update button-->
         <Button Content="{Binding Path=MyTask.Id, Converter={StaticResource ConverIdToContentKey}}"
                 Grid.ColumnSpan="5" Grid.Row="14" HorizontalAlignment="Center" Height="50"
                 Width="200" Click="Add_Update_Click" VerticalAlignment="Center"/>

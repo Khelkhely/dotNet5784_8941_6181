@@ -54,7 +54,10 @@ public interface IBl
     public void InitializeDB();
     public void ResetDB();
 
-    #region
+    public DateTime? GetStartDate();
+    public DateTime? GetEndDate();
+
+    #region clock
 
     DateTime Clock { get; }
     void AddYear();
