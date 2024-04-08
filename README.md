@@ -1,7 +1,5 @@
 # dotNet5784_8941_6181
-מיני פרוייקט במערכות חלונות
-הייתי כאן ברוך ג'מילי
-hell batata
-
-my change
-no its my change
+list of additions:
+• Using style, triggers and animation:
+in the MainWindow.xaml file in lines 11-63
+in the ManagerMainWindow.xaml file in lines 11-63

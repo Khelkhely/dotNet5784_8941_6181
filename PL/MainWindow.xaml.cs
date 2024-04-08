@@ -62,7 +62,7 @@ public partial class MainWindow : Window
 
     private void ManagerMainWindow_Click(object sender, RoutedEventArgs e)
     {
-        new ManagerMainWindow().Show();
+        new ManagerMainWindow().ShowDialog();
         if (s_bl.GetStartDate() != null)
             IsSchedule = true;
     }

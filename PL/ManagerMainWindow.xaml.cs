@@ -54,6 +54,7 @@ public partial class ManagerMainWindow : Window
         if (MessageBox.Show("Are you sure you want to initialize data?",
             "Initialize data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             s_bl.InitializeDB();
+        IsSchedule = false;
     }
 
     /// <summary>
@@ -65,6 +66,7 @@ public partial class ManagerMainWindow : Window
         if (MessageBox.Show("Are you sure you want to reset data?",
             "Reset data", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             s_bl.ResetDB();
+        IsSchedule = false;
     }
 
     private void Button_Task_Click(object sender, RoutedEventArgs e)

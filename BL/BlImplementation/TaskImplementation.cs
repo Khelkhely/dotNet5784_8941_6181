@@ -11,9 +11,11 @@ internal class TaskImplementation : ITask
     public void Create(BO.Task task)
     {
         if (task.Alias == "")
-            throw new BO.BlInvalidDataException("Alias can't be empty");
+            throw new BO.BlInvalidDataException("Alias can't be empty.");
         if (task.Copmlexity == BO.EngineerExperience.None)
-            throw new BO.BlInvalidDataException("Complexity can't be none");
+            throw new BO.BlInvalidDataException("Complexity can't be none.");
+        if(task.RequiredEffortTime == null)
+            throw new BO.BlInvalidDataException("Required Effort Time can't be empty.");
         if (task.Dependencies != null) //if there are dependencies 
             foreach (var t in task.Dependencies) //complete the data for the dependant tasks
             {
@@ -25,7 +27,7 @@ internal class TaskImplementation : ITask
             }
         //check if the engineer exists
         if (task.Engineer != null && _dal.Engineer.Read(task.Engineer.Id) == null)
-            throw new BO.BlDoesNotExistException($"Engineer with id: {task.Engineer.Id} doesn't exist");
+            throw new BO.BlDoesNotExistException($"Engineer with id: {task.Engineer.Id} doesn't exist.");
         int newId  = _dal.Task.Create(BoToDo(task) with { CreatedAtDate = _bl.Clock }); //doesn't throw exceptions
         if (task.Dependencies != null)
         {
@@ -128,9 +130,11 @@ internal class TaskImplementation : ITask
         if (task.Id <= 0)
             throw new BO.BlInvalidDataException($"Id {task.Id} isn't a positive number");
         if (task.Alias == "")
-            throw new BO.BlInvalidDataException("Alias can't be empty");
+            throw new BO.BlInvalidDataException("Alias can't be empty.");
         if (task.Copmlexity == BO.EngineerExperience.None)
-            throw new BO.BlInvalidDataException("Complexity can't be none");
+            throw new BO.BlInvalidDataException("Complexity can't be none.");
+        if (task.RequiredEffortTime == null)
+            throw new BO.BlInvalidDataException("Required Effort Time can't be empty.");
         if (task.Engineer != null)
         {
             //check that the engineer exists
