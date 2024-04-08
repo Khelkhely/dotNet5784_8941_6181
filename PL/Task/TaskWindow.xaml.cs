@@ -21,18 +21,6 @@ namespace PL.Task
     {
 
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        //private bool flag = false;
-
-        public Visibility DependenciesToAdd
-        {
-            get { return (Visibility)GetValue(DependenciesToAddProperty); }
-            set { SetValue(DependenciesToAddProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for DependenciesToAdd.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DependenciesToAddProperty =
-            DependencyProperty.Register("DependenciesToAdd", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Collapsed));
-
         public bool IsSchedule
         {
             get { return (bool)GetValue(IsScheduleProperty); }
@@ -42,31 +30,54 @@ namespace PL.Task
         // Using a DependencyProperty as the backing store for IsSchedule.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsScheduleProperty =
             DependencyProperty.Register("IsSchedule", typeof(bool), typeof(TaskWindow), new PropertyMetadata(false));
-
-
-
-        public Visibility DependenciesListView
+        
+        public bool TaskSelected
         {
-            get { return (Visibility)GetValue(DependenciesListViewProperty); }
-            set { SetValue(DependenciesListViewProperty, value); }
+            get { return (bool)GetValue(TaskSelectedProperty); }
+            set { SetValue(TaskSelectedProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for DependenciesListView.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DependenciesListViewProperty =
-            DependencyProperty.Register("DependenciesListView", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Visible));
+        // Using a DependencyProperty as the backing store for TaskSelected.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TaskSelectedProperty =
+            DependencyProperty.Register("TaskSelected", typeof(bool), typeof(TaskWindow), new PropertyMetadata(false));
 
 
 
 
-        public List<BO.TaskInList> TaskList
+        public BO.TaskInList MyDependency
         {
-            get { return (List<BO.TaskInList>)GetValue(TaskListProperty); }
-            set { SetValue(TaskListProperty, value); }
+            get { return (BO.TaskInList)GetValue(MyDependencyProperty); }
+            set { SetValue(MyDependencyProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TaskList.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TaskListProperty =
-            DependencyProperty.Register("TaskList", typeof(List<BO.TaskInList>), typeof(TaskWindow), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for MyDependency.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyDependencyProperty =
+            DependencyProperty.Register("MyDependency", typeof(BO.TaskInList), typeof(TaskWindow), new PropertyMetadata(null));
+
+
+        public List<BO.TaskInList> NewDepList
+        {
+            get { return (List<BO.TaskInList>)GetValue(NewDepListProperty); }
+            set { SetValue(NewDepListProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for NewDepList.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NewDepListProperty =
+            DependencyProperty.Register("NewDepList", typeof(List<BO.TaskInList>), typeof(TaskWindow), new PropertyMetadata(null));
+
+
+
+        public BO.EngineerInTask MyEngineer
+        {
+            get { return (BO.EngineerInTask)GetValue(MyEngineerProperty); }
+            set { SetValue(MyEngineerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyEngineer.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyEngineerProperty =
+            DependencyProperty.Register("MyEngineer", typeof(BO.EngineerInTask), typeof(TaskWindow), new PropertyMetadata(null));
+
+
 
         public BO.Task MyTask
         {
@@ -81,15 +92,15 @@ namespace PL.Task
 
         public TaskWindow(int id = 0)
         {
-            if (s_bl.GetStartDate() != null)
-                IsSchedule = true;
-            InitializeComponent();
             try
             {
-                //add = id == 0; // add = true if id is 0.
+                IsSchedule = s_bl.IsScheduled();
+                InitializeComponent();
                 MyTask = (id == 0) ? new BO.Task() { Id = 0, CreatedAtDate = s_bl.Clock }
                 //if the Id is 0, it means that we want to add a new task, so we will display on the sceen default values.
-                    : s_bl.Task.Read(id); //else, we would like to update an existing engineer so we will display his old data.
+                    : s_bl.Task.Read(id); //else, we would like to update an existing task so we will display its old data.
+                NewDepList = MyTask.Dependencies ?? new List<BO.TaskInList> { };
+                MyEngineer = MyTask.Engineer;
             }
             catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
@@ -121,44 +132,17 @@ namespace PL.Task
 
         private void AddDependency(object sender, RoutedEventArgs e)
         {
-            if (DependenciesListView == Visibility.Visible)
+            try
             {
-                TaskList = s_bl.Task.GetTaskList(x => (x.Id != MyTask.Id)
-                                             && (!s_bl.Task.Read(x.Id).Dependencies?.Any(t => t.Id == MyTask.Id) ?? true))//shows only the tasks that don't depends on this task already
-                                                .ToList();
-                //remove all the tasks that MyTask is already dependant on
-                if (MyTask.Dependencies != null)
-                    foreach (var task in MyTask.Dependencies)
-                    {
-                        TaskList.RemoveAll(x => x.Id == task.Id);
-                    }
-
-                DependenciesToAdd = Visibility.Visible;
-                DependenciesListView = Visibility.Collapsed;
+                BO.Task t = MyTask;
+                new AddDependencyWindow(ref t).ShowDialog();
+                //MyTask = t;
+                NewDepList = (from dep in MyTask.Dependencies
+                              select dep).ToList();
             }
-            else
+            catch(Exception ex)
             {
-                //return to view the dependencies
-                DependenciesToAdd = Visibility.Collapsed;
-                DependenciesListView = Visibility.Visible;
-            }
-        }
-
-        private void ChooseTask_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            BO.TaskInList? task = (sender as ListView)?.SelectedItem as BO.TaskInList;
-            if (task != null)
-            {
-                if (MyTask.Dependencies != null) //add the task to the dependencies               
-                    MyTask.Dependencies.Add(task);
-                else
-                    MyTask.Dependencies = new List<BO.TaskInList> { task };
-
-                //return to view the dependencies
-                DependenciesToAdd = Visibility.Collapsed;
-                DependenciesListView = Visibility.Visible;
-
-                
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -177,8 +161,33 @@ namespace PL.Task
 
         private void ChooseEngineer_Click(object sender, RoutedEventArgs e)
         {
-            new EngineerListToAssignWindow(MyTask.Id).Show();
-            Close();
+            try
+            {
+                BO.Task t = MyTask;
+                new EngineerListToAssignWindow(ref t).ShowDialog();
+                MyEngineer = MyTask.Engineer;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void RemoveDep_Click(object sender, RoutedEventArgs e)
+        {
+            if (MyDependency != null)
+            {
+                MyTask.Dependencies?.RemoveAll(x => x.Id == MyDependency.Id);
+                NewDepList = (from dep in MyTask.Dependencies
+                              select dep).ToList();
+                TaskSelected = false;
+                MyDependency = null;
+            }
+        }
+
+        private void Dependency_Selected(object sender, MouseButtonEventArgs e)
+        {
+            TaskSelected = true;
+            MyDependency = (sender as ListView)?.SelectedItem as BO.TaskInList;
         }
     }
 

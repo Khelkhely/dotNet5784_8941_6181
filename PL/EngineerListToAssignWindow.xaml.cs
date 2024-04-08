@@ -35,9 +35,9 @@ public partial class EngineerListToAssignWindow : Window
 
     BO.Task task = new BO.Task();
 
-    public EngineerListToAssignWindow(int tId)
+    public EngineerListToAssignWindow(ref BO.Task t)
     {
-        task = s_bl.Task.Read(tId);
+        task = t;
         EngineerList = s_bl.Engineer.ReadAll(engineer => !(engineer.Level < task.Copmlexity));
         InitializeComponent();
     }
@@ -45,7 +45,12 @@ public partial class EngineerListToAssignWindow : Window
     private void EngineerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         var engineer = (sender as ListView)!.SelectedItem as BO.Engineer;
-        s_bl.AssignEngineer(engineer!.Id, task.Id);
-        Close();
+        //s_bl.AssignEngineer(engineer!.Id, task.Id);
+        if (engineer != null)
+        {
+            task.Engineer = new BO.EngineerInTask() { Id = engineer.Id, Name = engineer.Name };
+            Close();
+        }
+        
     }
 }
