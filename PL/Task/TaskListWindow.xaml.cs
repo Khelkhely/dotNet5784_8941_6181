@@ -22,6 +22,15 @@ namespace PL.Task
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
 
+        public bool IsSchedule
+        {
+            get { return (bool)GetValue(IsScheduleProperty); }
+            set { SetValue(IsScheduleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsSchedule.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsScheduleProperty =
+            DependencyProperty.Register("IsSchedule", typeof(bool), typeof(TaskListWindow), new PropertyMetadata(false));
 
         public IEnumerable<BO.TaskInList> TaskList
         {
@@ -37,6 +46,8 @@ namespace PL.Task
         {
             InitializeComponent();
             TaskList = s_bl.Task.GetTaskList();
+            if (s_bl.GetStartDate() != null)
+                IsSchedule = true;
         }
 
         public BO.EngineerExperience MyLevel

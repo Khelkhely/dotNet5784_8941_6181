@@ -31,7 +31,7 @@ public partial class EngineerMainWindow : Window
 
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty myTaskProperty =
-        DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(EngineerMainWindow));
+        DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(EngineerMainWindow), new PropertyMetadata(null));
 
     public IEnumerable<BO.TaskInList> TaskList
     {
@@ -44,6 +44,19 @@ public partial class EngineerMainWindow : Window
         DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(EngineerMainWindow));
 
 
+
+    public bool IsEmpty
+    {
+        get { return (bool)GetValue(IsEmptyProperty); }
+        set { SetValue(IsEmptyProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for IsEmpty.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty IsEmptyProperty =
+        DependencyProperty.Register("IsEmpty", typeof(bool), typeof(EngineerMainWindow), new PropertyMetadata(false));
+
+
+
     BO.Engineer myEng = new BO.Engineer();
 
     public EngineerMainWindow(int engineerId = 0)
@@ -52,18 +65,24 @@ public partial class EngineerMainWindow : Window
         if (myEng.Task != null) MyTask = s_bl.Task.Read(myEng.Task.Id);
         else
         {
-
-            TaskList = s_bl.Task.GetTaskList(task => task.Engineer == null
+            TaskList = s_bl.Task.GetTaskList(task => (task.Engineer == null || task.Engineer.Id == engineerId)
                                                      && !(task.Copmlexity > myEng.Level)
                                                      && !s_bl.HasPrevTask(task.Id)
                                                      && task.CompleteDate == null);
             //לא מבוצעות על ידי מהנדס אחרV
             //אין משימות קודמות שלא הסתיימוV
             //אותה רמה או רמה נמוכה יותרV
-       
-            
-            if (!TaskList.Any()) MessageBox.Show("There is no available task for this engineer");
-            //if (TaskList.Count() == 0) MessageBox.Show("There is no available task for this engineer");
+
+
+            /*if (!TaskList.Any())
+            {
+                MessageBox.Show("There is no available task for this engineer");
+                //Close(); return;
+            }*/
+            if (TaskList.Count() == 0)
+            {
+                IsEmpty = true;
+            }
         }
 
         InitializeComponent();
@@ -77,6 +96,10 @@ public partial class EngineerMainWindow : Window
                                                         && !(task.Copmlexity > myEng.Level)
                                                         && !s_bl.HasPrevTask(task.Id)
                                                         && task.CompleteDate == null);
+        if (TaskList.Count() == 0)
+        {
+            IsEmpty = true;
+        }
     }
     private void UpdateTaskButton_Click(object sender, RoutedEventArgs e)
     {
@@ -91,5 +114,7 @@ public partial class EngineerMainWindow : Window
         MyTask = s_bl.Task.Read(id);
         s_bl.AssignEngineer(myEng.Id, MyTask!.Id);
         s_bl.StartNewTask(myEng.Id, MyTask!.Id);
+        MyTask = s_bl.Task.Read(id);//כדי שתאריך ההתחלה יתעדכן
+
     }
 }

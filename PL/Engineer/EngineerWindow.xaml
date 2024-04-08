@@ -5,22 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="450" Width="800"
+        Title="EngineerWindow" Height="500" Width="800"
         DataContext="{Binding MyEngineer, RelativeSource={RelativeSource self}, Mode=TwoWay}">
     <Grid Margin="10,10,10,10">
         <Grid.Background>
-            <RadialGradientBrush>
-                <RadialGradientBrush.RelativeTransform>
-                    <TransformGroup>
-                        <ScaleTransform CenterY="0" CenterX="0"/>
-                        <SkewTransform CenterX="0" CenterY="0"/>
-                        <RotateTransform CenterX="0" CenterY="0"/>
-                        <TranslateTransform Y="0" X="0"/>
-                    </TransformGroup>
-                </RadialGradientBrush.RelativeTransform>
-                <GradientStop Color="#FF8EED8B" Offset="1"/>
-                <GradientStop Color="#FFB6F3CA" Offset="0"/>
-            </RadialGradientBrush>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFAFF8BA" Offset="1"/>
+                <GradientStop Color="White" Offset="0"/>
+            </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -29,6 +21,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -56,7 +49,7 @@
         <Label Grid.Column="0" Content="Level:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
         <!--Engineer Level ComboBox-->
         <ComboBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"
-                  Width="290" Margin="10,20,10,20" 
+                  Height="25" Width="290" Margin="10,15,0,20" 
                   ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
                   SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
@@ -67,9 +60,19 @@
                  Width="290" Margin="10,20,10,20"
                  Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
+        <Label Grid.Column="0" Content="Task:" HorizontalAlignment="Left" Margin="65,0,0,0" 
+            Grid.Row="5" FontSize="15" VerticalAlignment="Center"/>
+        <!--Engineer Task-->
+        <TextBox Grid.Row="4" IsEnabled="False" Text="{Binding Task}" Margin="10,61,283,2" Grid.Column="1" Grid.RowSpan="2"/>
+
         <!--Add/Update Button-->
-        <Button Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Margin="172,0,0,10" Grid.RowSpan="1" Width="200"
+        <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="300,18,0,17" Width="200"
                 Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" FontSize="20"
                 Padding="5" Click="AddUpdate_Click" IsEnabled="True" Background="White" BorderBrush="Black"/>
+        <!--Delete Button-->
+        <Button Grid.Row="6" HorizontalAlignment="Left" Margin="20,18,0,17"
+        Content="Delete Engineer" FontSize="20" Width="200"
+        Click="Delete_Click" Background="White" Grid.Column="1"/>
+
     </Grid>
 </Window>

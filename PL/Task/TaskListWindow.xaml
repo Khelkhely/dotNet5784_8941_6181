@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="400*"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
@@ -22,8 +22,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--Engineer List Filter Label-->
-            <Label Content="Filter by complexity level:" HorizontalAlignment="Center"
-               Margin="170,10,0,0" VerticalAlignment="Top" Background="#FFF8EEEE" Width="134"/>
+            <Label Content="Filter by complexity level:" HorizontalAlignment="Left"
+               Margin="200,3,0,0" VerticalAlignment="Top" Background="#FFF8EEEE" Width="147"/>
             <!--Engineer List Filter ComboBox-->
             <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
                   SelectedValue="{Binding Path=MyLevel, Mode=TwoWay}"
@@ -44,10 +44,11 @@
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
-            
-        <!--Internal, lowwer Grid-->
+
+            <!--Internal, lowwer Grid-->
         </ListView>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"
-            Click="Add_Task_Click"  Background="#FFEC6060"/>
+                IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"
+                Click="Add_Task_Click"  Background="#FFEC6060"/>
     </Grid>
 </Window>

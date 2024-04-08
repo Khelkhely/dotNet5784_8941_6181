@@ -88,36 +88,36 @@
             <!-- task scheduled date -->
             <Label Grid.Row="5" Grid.Column="1" Content="Scheduled Starting Date:" 
                HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <TextBox  Grid.Row="5" Grid.Column="3" 
-                 HorizontalAlignment="Left" VerticalAlignment="Center"
+            <TextBox Grid.Row="5" Grid.Column="3" 
+                 IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center"
                  Text="{Binding Path=MyTask.ScheduledDate, Mode=TwoWay}" Width="200"/>
 
             <!-- task start date  -->
             <Label Grid.Row="6" Grid.Column="1" Content="Starting Date:" 
                HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <TextBox Grid.Row="6" Grid.Column="3"
-                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center"
                  Text="{Binding Path=MyTask.StartDate, Mode=TwoWay}"  Width="200"/>
 
             <!-- task forcast date -->
             <Label Grid.Row="7" Grid.Column="1" Content="Forcast Completion Date:" 
                HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <TextBox Grid.Row="7" Grid.Column="3" 
-                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center"
                  Text="{Binding Path=MyTask.ForecastDate, Mode=TwoWay}" Width="200"/>
 
             <!-- task end date -->
             <Label Grid.Row="8" Grid.Column="1" Content="Completion Date:" 
                HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <TextBox Grid.Row="8" Grid.Column="3" Width="200"
-                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center"
                  Text="{Binding Path=MyTask.CompleteDate, Mode=TwoWay}" />
 
             <!-- task effort time -->
             <Label Grid.Row="9" Grid.Column="1" Content="Required Effort Time:" 
                HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <TextBox Grid.Row="9" Grid.Column="3" Width="200"
-                 HorizontalAlignment="Left" VerticalAlignment="Center"
+                 IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center"
                  Text="{Binding Path=MyTask.RequiredEffortTime, Mode=TwoWay}" />
 
             <!-- task deliverables -->
@@ -142,13 +142,17 @@
         </Grid>
 
         <!--Right Column-->
-        <Grid Grid.Column="1" Visibility="{Binding MyTask, Mode=OneWay,
+        <Grid Grid.Column="1" Visibility="{Binding MyTask,
                                 Converter={StaticResource VisibilityNullConverterKey}}">
 
-            <ListView ItemsSource="{Binding TaskList}" Height="600" Width="500"
-                      MouseDoubleClick="TaskSelected_MouseDoubleClick">
-            </ListView>
+            <ListView ItemsSource="{Binding TaskList}" Width="500"
+                      MouseDoubleClick="TaskSelected_MouseDoubleClick" Margin="50,76,50,32"
+                      Visibility="{Binding IsEmpty, Converter={StaticResource FalseToVisibilityConverterKey}}"/>
+            <Label Content="Choose a task to work on:" HorizontalAlignment="Left" Margin="50,45,0,0" VerticalAlignment="Top"
+                   Visibility="{Binding IsEmpty, Converter={StaticResource FalseToVisibilityConverterKey}}"/>
         </Grid>
+        <Label Content="There is no available tasks for this engineer!" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24"
+               Visibility="{Binding IsEmpty, Converter={StaticResource TrueToVisibilityConverterKey}}" Margin="0,30,0,0"/>
 
     </Grid>
 </Window>

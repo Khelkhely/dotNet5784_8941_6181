@@ -33,6 +33,15 @@ namespace PL.Task
         public static readonly DependencyProperty DependenciesToAddProperty =
             DependencyProperty.Register("DependenciesToAdd", typeof(Visibility), typeof(TaskWindow), new PropertyMetadata(Visibility.Hidden));
 
+        public bool IsSchedule
+        {
+            get { return (bool)GetValue(IsScheduleProperty); }
+            set { SetValue(IsScheduleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsSchedule.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsScheduleProperty =
+            DependencyProperty.Register("IsSchedule", typeof(bool), typeof(TaskWindow), new PropertyMetadata(false));
 
 
 
@@ -72,6 +81,8 @@ namespace PL.Task
 
         public TaskWindow(int id = 0)
         {
+            if (s_bl.GetStartDate() != null)
+                IsSchedule = true;
             InitializeComponent();
             try
             {
@@ -112,7 +123,9 @@ namespace PL.Task
         {
             if (DependenciesListView == Visibility.Visible)
             {
-                TaskList = s_bl.Task.GetTaskList(x => x.Id != MyTask.Id).ToList();
+                TaskList = s_bl.Task.GetTaskList(x => (x.Id != MyTask.Id)
+                                             && (!s_bl.Task.Read(x.Id).Dependencies?.Any(t => t.Id == MyTask.Id) ?? true))//shows only the tasks that don't depends on this task already
+                                                .ToList();
                 //remove all the tasks that MyTask is already dependant on
                 if (MyTask.Dependencies != null)
                     foreach (var task in MyTask.Dependencies)
@@ -136,7 +149,7 @@ namespace PL.Task
             BO.TaskInList? task = (sender as ListView)?.SelectedItem as BO.TaskInList;
             if (task != null)
             {
-                if (MyTask.Dependencies != null) //add the task to the dependencies
+                if (MyTask.Dependencies != null) //add the task to the dependencies               
                     MyTask.Dependencies.Add(task);
                 else
                     MyTask.Dependencies = new List<BO.TaskInList> { task };
@@ -147,6 +160,25 @@ namespace PL.Task
 
                 
             }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                s_bl.Task.Delete(MyTask.Id);
+                Close();
+            }
+            catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ChooseEngineer_Click(object sender, RoutedEventArgs e)
+        {
+            new EngineerListToAssignWindow(MyTask.Id).Show();
+            Close();
         }
     }
 
