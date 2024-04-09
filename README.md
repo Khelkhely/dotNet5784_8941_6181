@@ -4,7 +4,7 @@ list of additions:
 	we implemented the ToStringProperty in Tools.cs file
 	different color in Gantt chart for complete tasks in GanttChartWindow.xaml
 	Themes:
-		in the MainWindow.xaml file in lines 11-13
+		in the MainWindow.xaml file in lines 11-13 
 		in the ManagerMainWindow.xaml file in lines 11-13
 		in the EngineerMainWindow.xaml file in lines lines 10-12
 		in the CreateScheduleWindow.xaml file in lines 10-12
