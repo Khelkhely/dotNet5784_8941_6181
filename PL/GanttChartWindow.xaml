@@ -9,59 +9,79 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <ListView ItemsSource="{Binding MyDates}" Margin="200,0,0,0">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding}" Width="30"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
 
-        <ListView ItemsSource="{Binding TaskList}" Grid.Row="1" SelectionChanged="TaskList_SelectionChanged">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding Alias}" Width="50" BorderBrush="Black"/>
-                        <Label Content="{Binding Id}" Width="50" BorderBrush="Black"/>
-                        <Label Content="" Visibility="Hidden"
-                        Width="{Binding ScheduledDate, Converter={StaticResource DateToLengthConverterKey}}"/>
-                        <Label Content="" Background="{Binding Converter={StaticResource TaskToColorConverterKey}}"
-                        Width="{Binding RequiredEffortTime, Converter={StaticResource TimeSpanToLengthConverterKey}}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <!-- the gantt chart -->
+        <ScrollViewer Grid.Column="1"
+                      HorizontalScrollBarVisibility="Visible">
+            <StackPanel>
+                <!-- the dates at the top of the chart -->
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Alias" Width="43" HorizontalContentAlignment="Center"
+                           BorderThickness="0.5" BorderBrush="Black"/>
+                    <Label Content="Id" Width="43" HorizontalContentAlignment="Center"
+                           BorderThickness="0.5" BorderBrush="Black"/>
+                    <ListView ItemsSource="{Binding MyDates}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding}" Width="30"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </StackPanel>
+                
+                <!-- the tasks -->
+                <ListView ItemsSource="{Binding TaskList}" Grid.Row="1" Grid.Column="1"
+                        SelectionChanged="TaskList_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Alias}" Width="40" FontWeight="Bold"/>
+                                <Label Content="{Binding Id}" Width="40" FontWeight="Bold"/>
+                                <Rectangle Visibility="Hidden"
+                                Width="{Binding ScheduledDate, Converter={StaticResource DateToLengthConverterKey}}"/>
+                                <Label Background="{Binding Converter={StaticResource TaskToColorConverterKey}}"
+                                Width="{Binding RequiredEffortTime, Converter={StaticResource TimeSpanToLengthConverterKey}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+
         
-        <Grid Grid.Row="1">
+
+        <!-- display the dependencies of the selected task -->
+        <Label Content="Task Dependencies:" Height="30" BorderThickness="0.5" Margin="0,20,0,0" Background="Beige"
+               VerticalAlignment="Top" HorizontalAlignment="Stretch" BorderBrush="Black"/>
+        <ListView ItemsSource="{Binding Dependencies}" Margin="0,50,0,20" Background="Beige"/>
+        
+
+        <!-- color explanation -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListView ItemsSource=""/>
-        </Grid>
-        
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <Label Content="The task is delayed" Background="red" FontSize="20"
+            <Label Content="The task is delayed" Background="Red" FontSize="20"
                    Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Label Content="The task is on track" Background="Green" FontSize="20"
                    Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Label Content="The task accomplished" Background="Blue" FontSize="20"
+            <Label Content="The task is complete" Background="Blue" FontSize="20"
                    Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         </Grid>

@@ -20,8 +20,10 @@ namespace PL.Engineer;
 public partial class EngineerWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-    static bool add;
-    
+
+    public bool Add = true;
+
+
     public BO.Engineer MyEngineer
     {
         get { return (BO.Engineer)GetValue(MyEngineerProperty); }
@@ -38,7 +40,7 @@ public partial class EngineerWindow : Window
         InitializeComponent();
         try
         {
-            add = id == 0; // add = true if id is 0.
+            Add = id == 0; // add is true if id is 0.
             MyEngineer = (id == 0) ? new BO.Engineer() { Id = 0, Cost = 0, Level = BO.EngineerExperience.None }
             //if the Id is 0, it means that we want to add a new engineer, so we will display on the sceen default values.
                 : s_bl.Engineer.Read(id); //else, we would like to update an existing engineer so we will display his old data.
@@ -58,7 +60,7 @@ public partial class EngineerWindow : Window
         try
         {
             Close();
-            if (add) //if we want to add a new engineer
+            if (Add) //if we want to add a new engineer
             {
                 s_bl.Engineer.Create(MyEngineer);
                 MessageBox.Show("Engineer Added Succesfully"); //If we succeeded, we will notify the user.

@@ -118,7 +118,7 @@ internal class DateToLengthConverter : IValueConverter
     {
         if (s_bl.IsScheduled() == false || value == null)
             throw new Exception();
-        return ((DateTime)value - s_bl.GetStartDate()!).Value.Days * 30;
+        return ((DateTime)value - s_bl.GetStartDate()!).Value.Days * 40;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -131,7 +131,7 @@ internal class TimeSpanToLengthConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return ((TimeSpan)value).Days * 30;
+        return ((TimeSpan)value).Days * 40;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

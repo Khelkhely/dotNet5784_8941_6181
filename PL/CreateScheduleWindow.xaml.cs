@@ -80,6 +80,7 @@ public partial class CreateScheduleWindow : Window
         try
         {
             TaskList = s_bl.Task.GetTaskList(task => task.ScheduledDate is null);
+            Starting = s_bl.Clock;
         }
         catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {
@@ -100,6 +101,7 @@ public partial class CreateScheduleWindow : Window
             int? id = ((sender as ListView)!.SelectedItem as BO.TaskInList)?.Id;
             if (id != null)
                 MyTask = s_bl.Task.Read((int)id);
+            Date = s_bl.EarliestStartDate(MyTask);
         }
         catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {

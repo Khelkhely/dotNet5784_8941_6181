@@ -16,6 +16,7 @@
         <Style.Triggers>
             <!--Trigger that will start the storyBoard and the animation when the mouse is enter the button:-->
             <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -23,12 +24,12 @@
                             <DoubleAnimation
                                 From="200" To="230"
                                 Storyboard.TargetProperty="Width"
-                                Duration="0:0:0.4"/>
+                                Duration="0:0:0.3"/>
                             <!--Animates the button height:-->
                             <DoubleAnimation
                                 From="70" To="100"
                                 Storyboard.TargetProperty="Height"
-                                Duration="0:0:0.4"/>
+                                Duration="0:0:0.3"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>

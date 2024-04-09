@@ -57,14 +57,14 @@ public partial class EngineerMainWindow : Window
 
     public EngineerMainWindow(int engineerId = 0)
     {
-        myEng = s_bl.Engineer.Read(engineerId);//if an exception is thrown, it will be catched in the EngineerIdWindow.
+        myEng = s_bl.Engineer.Read(engineerId);//if an exception is thrown, it will be caught in the EngineerIdWindow.
         try
         {
             if (myEng.Task != null) MyTask = s_bl.Task.Read(myEng.Task.Id);
             else
             {
-                TaskList = s_bl.Task.GetTaskList(task => (task.Engineer == null || task.Engineer.Id == engineerId)//does not belong to enother engineer
-                                                         && !(task.Copmlexity > myEng.Level)//the level of the engineer is not smaller then the complexity
+                TaskList = s_bl.Task.GetTaskList(task => (task.Engineer == null || task.Engineer.Id == engineerId)//does not belong to another engineer
+                                                         && !(task.Copmlexity > myEng.Level)//the level of the engineer is not lower then the complexity
                                                          && !s_bl.HasPrevTask(task.Id)//there is not previouse tasks that didn't complete
                                                          && task.CompleteDate == null);
 

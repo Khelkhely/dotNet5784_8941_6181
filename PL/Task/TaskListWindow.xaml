@@ -25,25 +25,38 @@
     <!--External Grid-->
     <Grid Background="#FFFAE0E0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="40*"/>
-            <RowDefinition Height="400*"/>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
           VerticalAlignment="Stretch" Width="auto">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <!--Engineer List Filter Label-->
-            <Label Content="Filter by complexity level:" HorizontalAlignment="Left"
-               Margin="200,3,0,0" VerticalAlignment="Top" Background="#FFF8EEEE" Width="147"/>
-            <!--Engineer List Filter ComboBox-->
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--Task Complexity Filter Label-->
+            <Label Content="Filter by max complexity level:" HorizontalAlignment="Right"
+               VerticalAlignment="Center"/>
+            <!--Task Complexity Filter ComboBox-->
             <ComboBox ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
                   SelectedValue="{Binding Path=MyLevel, Mode=TwoWay}"
-                  SelectionChanged="Task_Filter_Changed"
-                  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                  SelectionChanged="Task_Filter_Changed" Width="300"
+                  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <!--Task Status Filter Label-->
+            <Label Content="Filter by task status:" HorizontalAlignment="Right" Grid.Row="1"
+                 VerticalAlignment="Center"/>
+            <!--Task Status Filter ComboBox-->
+            <ComboBox ItemsSource="{Binding Source={StaticResource TaskStatusKey}}"
+                SelectedValue="{Binding Path=MyStatus, Mode=TwoWay}"
+                SelectionChanged="Task_Filter_Changed" Grid.Row="1" Width="300"
+                Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <!--Internal, middle Grid-->
         <ListView Grid.Row="1" ItemsSource="{Binding TaskList}" Margin="-5,0,5,0"
@@ -59,9 +72,8 @@
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
-
-        <!--Internal, lower Grid-->
         </ListView>
+        
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="60" Width="100"
                 IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"
                 Click="Add_Task_Click"/>

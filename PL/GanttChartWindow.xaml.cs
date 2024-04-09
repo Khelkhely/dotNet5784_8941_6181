@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,24 +55,47 @@ namespace PL
 
 
 
+
+
+        public IEnumerable<TaskInEngineer> Dependencies
+        {
+            get { return (IEnumerable<TaskInEngineer>)GetValue(DependenciesProperty); }
+            set { SetValue(DependenciesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Dependencies.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DependenciesProperty =
+            DependencyProperty.Register("Dependencies", typeof(IEnumerable<TaskInEngineer>), typeof(GanttChartWindow), new PropertyMetadata(null));
+
+
+
+
         public GanttChartWindow()
         {
             InitializeComponent();
             DateTime startDate = (DateTime)s_bl.GetStartDate()!;
             DateTime endDate = (DateTime)s_bl.GetEndDate()!;
-            Length = (startDate - startDate).Days * 30;
+            Length = (startDate - startDate).Days * 40;
             List<DateTime> dates = new List<DateTime> { };
-            for (DateTime d = startDate; d < endDate; d = d.AddDays(1)) 
+            for (DateTime d = startDate; d <= endDate; d = d.AddDays(1)) 
                 dates.Add(d);
             TaskList = s_bl.Task.ReadAll();
             MyDates = from dt in dates
                       select dt.Day;
-
         }
 
         private void TaskList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //להראות את התלויות של המשימה
+            BO.Task? task = (sender as ListView)?.SelectedItem as BO.Task;
+            if (task != null)
+            {
+                Dependencies = from t in task.Dependencies
+                               select new TaskInEngineer
+                               {
+                                   Alias = t.Alias,
+                                   Id = t.Id
+                               };
+            }
         }
     }
 }

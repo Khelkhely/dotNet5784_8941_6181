@@ -13,4 +13,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="Label">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
 </ResourceDictionary>
