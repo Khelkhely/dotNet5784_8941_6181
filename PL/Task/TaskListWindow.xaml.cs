@@ -21,7 +21,10 @@ public partial class TaskListWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-    public bool IsSchedule
+    /// <summary>
+    /// a flag that signals if the project is already after the scheduling
+    /// </summary>
+    public bool IsSchedule 
     {
         get { return (bool)GetValue(IsScheduleProperty); }
         set { SetValue(IsScheduleProperty, value); }
@@ -31,6 +34,9 @@ public partial class TaskListWindow : Window
     public static readonly DependencyProperty IsScheduleProperty =
         DependencyProperty.Register("IsSchedule", typeof(bool), typeof(TaskListWindow), new PropertyMetadata(false));
 
+    /// <summary>
+    /// the lists of tasks that is displayed 
+    /// </summary>
     public IEnumerable<BO.TaskInList> TaskList
     {
         get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
@@ -40,6 +46,10 @@ public partial class TaskListWindow : Window
     // Using a DependencyProperty as the backing store for TaskList.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty TaskListProperty =
         DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
+    
+    /// <summary>
+    /// the EngineerExperience level chosen for the filter
+    /// </summary>
     public BO.EngineerExperience MyLevel
     {
         get { return (BO.EngineerExperience)GetValue(MyLevelProperty); }
@@ -51,14 +61,28 @@ public partial class TaskListWindow : Window
         DependencyProperty.Register("MyLevel", typeof(BO.EngineerExperience), typeof(TaskListWindow), new PropertyMetadata(BO.EngineerExperience.None));
 
 
+    /// <summary>
+    /// the task status that is chosen for the filtering
+    /// </summary>
+    public BO.Status MyStatus
+    {
+        get { return (BO.Status)GetValue(MyStatusProperty); }
+        set { SetValue(MyStatusProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for MyStatus.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty MyStatusProperty =
+        DependencyProperty.Register("MyStatus", typeof(BO.Status), typeof(TaskListWindow), new PropertyMetadata(BO.Status.All));
+
+
+
     public TaskListWindow()
     {
         try
         {
             InitializeComponent();
             TaskList = s_bl.Task.GetTaskList();
-            if (s_bl.IsScheduled())
-                IsSchedule = true;
+            IsSchedule = s_bl.IsScheduled();
         }
         catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {
@@ -74,8 +98,8 @@ public partial class TaskListWindow : Window
     {
         try
         {
-            TaskList = (MyLevel == BO.EngineerExperience.None) ? s_bl.Task.GetTaskList() :
-                       s_bl.Task.GetTaskList(x => x.Copmlexity == MyLevel);
+            TaskList = (MyStatus == BO.Status.All) ? s_bl.Task.GetTaskList(x => x.Copmlexity <= MyLevel) :
+                        s_bl.Task.GetTaskList(x => x.Status == MyStatus && x.Copmlexity <= MyLevel);
         }
         catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {

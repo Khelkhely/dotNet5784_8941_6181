@@ -170,4 +170,15 @@ internal class Bl : IBl
     {
         return _dal.EndDate;
     }
+
+    public DateTime? EarliestStartDate(BO.Task task)
+    {
+        if (task.Dependencies == null || task.Dependencies.Count() == 0)
+            return _dal.StartDate; //if the task isn't dependant on any tasks, it can start when the project starts
+        var deps = from t in task.Dependencies
+                   select Task.Read(t.Id); 
+        if (deps.Any(x => x.ForecastDate == null))
+            return null; //can't calculate the earliest date if not all previous tasks have a forcast date
+        return deps.MaxBy(x => x.ForecastDate)?.ForecastDate ?? null;
+    }
 }

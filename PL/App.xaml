@@ -5,6 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <local:EngineerExperienceLevel x:Key="EngineerExperienceLevelKey"/>
+        <local:TaskStatus x:Key="TaskStatusKey"/>
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToBoolean x:Key="ConvertIdToBooleanKey"/>
         <local:VisibilityNullConverter x:Key="VisibilityNullConverterKey"/>

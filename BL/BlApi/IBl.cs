@@ -51,11 +51,35 @@ public interface IBl
     /// <param name="engineerId"></param>
     /// <param name="taskId"></param>
     void AssignEngineer(int engineerId, int taskId);
+
+    /// <summary>
+    /// initializes database
+    /// </summary>
     public void InitializeDB();
+
+    /// <summary>
+    /// resets database
+    /// </summary>
     public void ResetDB();
 
+    /// <summary>
+    /// retrurns the project's scheduled starting date
+    /// </summary>
+    /// <returns></returns>
     public DateTime? GetStartDate();
+
+    /// <summary>
+    /// returns the project's forcasted completion date
+    /// </summary>
+    /// <returns></returns>
     public DateTime? GetEndDate();
+
+    /// <summary>
+    /// returns the earliest scheduled date possible for the task
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns>the earliest date or null if the previous tasks aren't scheduled or there is no project start date</returns>
+    public DateTime? EarliestStartDate(BO.Task task);
 
     #region clock
 

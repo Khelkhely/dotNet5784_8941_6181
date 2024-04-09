@@ -91,4 +91,13 @@ public partial class MainWindow : Window
         s_bl.AddDay();
         MyClock = s_bl.Clock;
     }
+
+    /// <summary>
+    /// "reset clock" button click event
+    /// </summary>
+    private void ResetClock_Click(object sender, RoutedEventArgs e)
+    {
+        s_bl.ResetTime();
+        MyClock = s_bl.Clock;
+    }
 }
