@@ -44,15 +44,22 @@
 
         <!--clock-->
         <Label Grid.Column="1" Grid.Row="0" Content="{Binding Path=MyClock}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="70" Width="200" FontSize="30" FontFamily="Segoe UI Black"/>
+        <!-- add year button -->
         <Button Content="add year" Click="AddYear_Click" FontSize="20" Height="70" Width="100"
                 HorizontalAlignment="Right" VerticalAlignment="Top" Background="White"
                 Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsSchedule}"/>
+        <!-- add month button -->
         <Button Content="add month" Click="AddMonth_Click" FontSize="20" Height="70" Width="120" 
                 HorizontalAlignment="Center" VerticalAlignment="Top" Background="White"
                 Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsSchedule}"/>
+        <!-- add day button -->
         <Button Content="add day" Click="AddDay_Click" FontSize="20" Height="70" Width="100" 
                 HorizontalAlignment="Left" VerticalAlignment="Top" Background="White"
                 Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsSchedule}"/>
+        <!-- reset clock button -->
+        <Button Content="reset clock" Click="ResetClock_Click"  FontSize="20" Height="50" Width="200" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Background="White"
+                Grid.Column="1" Grid.Row="2" IsEnabled="{Binding IsSchedule}"/>
 
     </Grid>
 </Window>
