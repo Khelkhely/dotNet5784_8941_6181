@@ -14,6 +14,6 @@ list of additions:
 		in the EngineerWindow.xaml file
 		in the EngineerListWindow.xaml file
 	DataTemplate:
-		in the GanttChartWindow.xaml file
+		in the GanttChartWindow.xaml file 
 
 

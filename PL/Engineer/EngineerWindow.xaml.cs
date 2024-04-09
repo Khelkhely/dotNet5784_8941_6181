@@ -81,8 +81,12 @@ public partial class EngineerWindow : Window
     {
         try
         {
-            s_bl.Engineer.Delete(MyEngineer.Id);
-            Close();
+            if (MessageBox.Show("Are you sure you want to delete the engineer?",
+                    "Delete engineer", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                s_bl.Engineer.Delete(MyEngineer.Id);
+                Close();
+            }
         }
         catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
         {

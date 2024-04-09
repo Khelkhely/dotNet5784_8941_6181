@@ -36,11 +36,12 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.25*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="133*"/>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="352*"/>
+            <ColumnDefinition Width="48*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -63,67 +64,67 @@
         </Grid.RowDefinitions>
 
         <!-- task id -->
-        <Label Grid.Row="0" Grid.Column="1" Content="Id:" 
-               HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="3" 
+        <Label Grid.Column="1" Content="Id:" 
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="111,0,0,0"/>
+        <TextBox Grid.Column="3" 
                  HorizontalAlignment="Left" VerticalAlignment="Center"
                  Text="{Binding Path=MyTask.Id}" IsEnabled="False" Width="200"/>
 
         <!-- task alias -->
         <Label Grid.Row="1" Grid.Column="1" Content="Alias:" 
-       HorizontalAlignment="Right" VerticalAlignment="Center"/>
+       HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="96,0,0,0"/>
         <TextBox Grid.Row="1" Grid.Column="3" 
          HorizontalAlignment="Left" VerticalAlignment="Center"
          Text="{Binding Path=MyTask.Alias, Mode=TwoWay}" Width="200"/>
 
         <!-- task description -->
         <Label Grid.Row="2" Grid.Column="1" Content="Description:" 
-       HorizontalAlignment="Right" VerticalAlignment="Center"/>
+       HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="61,0,0,0"/>
         <TextBox Grid.Row="2" Grid.Column="3" 
          HorizontalAlignment="Left" VerticalAlignment="Center"
          Text="{Binding Path=MyTask.Description, Mode=TwoWay}" Width="300"/>
 
         <!-- task status -->
         <Label Grid.Row="3" Grid.Column="1" Content="Status:" 
-       HorizontalAlignment="Right" VerticalAlignment="Center"/>
+       HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="89,0,0,0"/>
         <Label Grid.Row="3" Grid.Column="3" 
          Style="{StaticResource DataLabel}" VerticalAlignment="Center"
          Content="{Binding Path=MyTask.Status}"/>
 
         <!-- task creation date -->
         <Label Grid.Row="4" Grid.Column="1" Content="Creation Date:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="48,0,0,0"/>
         <Label Grid.Row="4" Grid.Column="3" 
         Style="{StaticResource DataLabel}" VerticalAlignment="Center"
         Content="{Binding Path=MyTask.CreatedAtDate}"/>
 
         <!-- task scheduled date -->
         <Label Grid.Row="5" Grid.Column="1" Content="Scheduled Starting Date:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="{Binding Path=MyTask.ScheduledDate}"  Style="{StaticResource DataLabel}"
                  Grid.Row="5" Grid.Column="3" VerticalAlignment="Center"/>
 
         <!-- task start date  -->
         <Label Grid.Row="6" Grid.Column="1" Content="Starting Date:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="52,0,0,0"/>
         <Label Content="{Binding Path=MyTask.StartDate}" Style="{StaticResource DataLabel}"
          Grid.Row="6" Grid.Column="3" VerticalAlignment="Center"/>
 
         <!-- task forcast date -->
         <Label Grid.Row="7" Grid.Column="1" Content="Forcast Completion Date:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label Content="{Binding Path=MyTask.ForecastDate}" Grid.Row="7" Grid.Column="3" 
           VerticalAlignment="Center" Style="{StaticResource DataLabel}"/>
 
         <!-- task end date -->
         <Label Grid.Row="8" Grid.Column="1" Content="Completion Date:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="31,0,0,0"/>
         <Label Content="{Binding Path=MyTask.CompleteDate}" Style="{StaticResource DataLabel}"
          Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" />
 
         <!-- task effort time -->
         <Label Grid.Row="9" Grid.Column="1" Content="Required Effort Time:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="12,0,0,0"/>
         <TextBox Text="{Binding Path=MyTask.RequiredEffortTime, Mode=TwoWay}" 
                  IsEnabled="{Binding IsSchedule, Converter={StaticResource TrueToFalseConverterKey}}"
                  Grid.Row="9" Grid.Column="3" Width="200"
@@ -131,7 +132,7 @@
 
         <!-- task complexity -->
         <Label Grid.Row="10" Grid.Column="1" Content="Complexity:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="62,0,0,0"/>
         <ComboBox Grid.Row="10" Grid.Column="3" HorizontalAlignment="Left" 
           Width="200" VerticalAlignment="Center"
           ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
@@ -140,14 +141,14 @@
 
         <!-- task deliverables -->
         <Label Grid.Row="11" Grid.Column="1" Content="Deliverables:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="57,0,0,0"/>
         <TextBox Grid.Row="11" Grid.Column="3" HorizontalAlignment="Left"
          VerticalAlignment="Center" Width="370"
          Text="{Binding Path=MyTask.Deliverables, Mode=TwoWay}"/>
 
         <!-- task remarks -->
         <Label Grid.Row="12" Grid.Column="1" Content="Remarks:" 
-        HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="76,0,0,0"/>
         <TextBox Grid.Row="12" Grid.Column="3" HorizontalAlignment="Left"
                  VerticalAlignment="Center" Width="370"
                  Text="{Binding Path=MyTask.Remarks, Mode=TwoWay}"/>
@@ -156,40 +157,47 @@
         <Label Grid.Row="13" Grid.Column="1" Content="Assigned Engineer:" 
                HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,6,33,0"/>
         <!-- button for choosing an enginner -->
-        <Button Content="Choose from list" Grid.Row="13" Grid.Column="3" HorizontalAlignment="Right"
-                Width="100" Click="ChooseEngineer_Click" Margin="0,0,10,0" Height="25"
-                Visibility="{Binding MyTask.Engineer, Converter={StaticResource VisibilityNullConverterKey}}"/> 
+        <Button Content="Choose from list" Grid.Row="13" Grid.Column="3" HorizontalAlignment="Left"
+                Width="100" Click="ChooseEngineer_Click" Margin="290,19,0,18" Height="25"
+                Visibility="{Binding MyTask.Engineer, Converter={StaticResource VisibilityNullConverterKey}}"/>
         <Label Grid.Row="13" Grid.Column="3" Content="{Binding MyEngineer}" Width="200" 
                HorizontalAlignment="Left" Background="White"/>
 
 
         <!-- task dependencies -->
-        <Label Grid.Row="0" Grid.Column="4" Content="Dependencies:" 
+        <Label Grid.Column="4" Content="Dependencies:" 
         HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <!-- listview of the dependencies -->
-        <ListView Grid.Column="4" Grid.RowSpan="12" Grid.Row="1" MouseDoubleClick="Dependency_Selected"
-           HorizontalAlignment="Center" Width="400"
-           ItemsSource="{Binding Path=NewDepList}"/>
+        <ListView Grid.Column="4" Grid.RowSpan="14" MouseDoubleClick="Dependency_Selected"
+           HorizontalAlignment="Left" Width="400"
+           ItemsSource="{Binding Path=NewDepList}" Grid.ColumnSpan="2" Margin="0,41,0,62">
+            <ListView.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFF0D5F9"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </ListView.Background>
+        </ListView>
         <!-- button to open a window for adding a dependency -->
-        <Button Content="Add Dependant Task" HorizontalAlignment="Left" Margin="10,0,0,0"
+        <Button Content="Add Dependant Task" HorizontalAlignment="Left" Margin="20,0,0,0"
                 Grid.Column="4" Grid.Row="13" Click="AddDependency" Width="150" Height="20"
                 VerticalAlignment="Center" Background="White"/>
         <!-- button to remove a dependency -->
-        <Button Content="Remove Dependant Task" HorizontalAlignment="Right" Margin="0,0,10,0"
+        <Button Content="Remove Dependant Task" HorizontalAlignment="Left" Margin="230,0,0,0"
         Grid.Column="4" Grid.Row="13" Click="RemoveDep_Click" VerticalAlignment="Center" 
         Width="150" Height="20"
         Visibility="{Binding TaskSelected, Converter={StaticResource TrueToVisibilityConverterKey}}"
-        IsEnabled="{Binding MyDependency, Converter={StaticResource NullToFalseConverterKey}}"/>
+        IsEnabled="{Binding MyDependency, Converter={StaticResource NullToFalseConverterKey}}" Grid.ColumnSpan="2"/>
 
 
 
         <!-- add / update button-->
         <Button Content="{Binding Path=MyTask.Id, Converter={StaticResource ConverIdToContentKey}}"
-                Grid.ColumnSpan="3" Grid.Column="2" Grid.Row="14" HorizontalAlignment="Center" Height="50"
-                Width="200" Click="Add_Update_Click" VerticalAlignment="Center" Background="#FFFFFEFE"/>
+                Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="14" HorizontalAlignment="Left" Height="50"
+                Width="200" Click="Add_Update_Click" VerticalAlignment="Center" Background="#FFFFFEFE" Margin="283,0,0,0"/>
         <!--delete button-->
         <Button Content="Delete task" Grid.Row="14" HorizontalAlignment="Center" Height="50" 
                 Visibility="{Binding Path=MyTask.Id, Converter={StaticResource IdToVisibilityConverterKey}}"
-                Width="115" Click="Delete_Click"  VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3"/>
+                Width="115" Click="Delete_Click"  VerticalAlignment="Center" Grid.Column="3"/>
     </Grid>
 </Window>

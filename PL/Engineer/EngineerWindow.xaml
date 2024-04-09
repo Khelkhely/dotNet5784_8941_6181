@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="500" Width="800"
+        Title="EngineerWindow" Height="500" Width="600"
         DataContext="{Binding MyEngineer, RelativeSource={RelativeSource self}, Mode=TwoWay}">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -22,7 +23,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Margin="10,10,10,10">
+    <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FFAFF8BA" Offset="1"/>
@@ -39,57 +40,58 @@
             <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Content="Id:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="0" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Id:" FontSize="15" HorizontalAlignment="Right" Grid.Row="0" 
+               VerticalAlignment="Center" Width="80"/>
         <!--Engineer Id TextBox-->
         <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"
-                 MaxLength="9" Width="300" Margin="10,20,10,20"
+                 MaxLength="9" Width="300" Height="25"
                  IsEnabled="{Binding Id, Converter={StaticResource ConvertIdToBooleanKey}}"
                  Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
 
-        <Label Grid.Column="0" Content="Name:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="1" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Name:" FontSize="15" HorizontalAlignment="Right" Width="80" Grid.Row="1" VerticalAlignment="Center"/>
         <!--Engineer Name TextBox-->
         <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"
-                 Width="300" Margin="10,20,10,20"
+                 Width="300" Height="25"
                  Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Email:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Email:" FontSize="15" HorizontalAlignment="Right" Width="80" Grid.Row="2" VerticalAlignment="Center"/>
         <!--Engineer Email TextBox-->
         <TextBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"
-                 Width="300" Margin="10,20,10,20"
+                 Width="300" Height="25"
                  Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Level:" FontSize="15" HorizontalAlignment="Left" Margin="65,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
+        <Label Grid.Column="0" Content="Level:" FontSize="15" HorizontalAlignment="Right" Width="80" Grid.Row="3" VerticalAlignment="Center"/>
         <!--Engineer Level ComboBox-->
         <ComboBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left"
-                  Height="25" Width="300" Margin="10,15,0,20" 
+                  Height="25" Width="300" 
                   ItemsSource="{Binding Source={StaticResource EngineerExperienceLevelKey}}"
                   SelectedValue="{Binding Level, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Cost:" HorizontalAlignment="Left" Margin="65,0,0,0" 
+        <Label Grid.Column="0" Content="Cost:" HorizontalAlignment="Right" Width="80" 
                Grid.Row="4" FontSize="15" VerticalAlignment="Center"/>
         <!--Engineer Cost TextBox-->
         <TextBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left"
-                 Width="300" Margin="10,20,10,20"
+                 Width="300" Height="25"
                  Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" BorderBrush="White"/>
 
-        <Label Grid.Column="0" Content="Task:" HorizontalAlignment="Left" Margin="65,0,0,0" 
+        <Label Grid.Column="0" Content="Task:" HorizontalAlignment="Right" Width="80" 
             Grid.Row="5" FontSize="15" VerticalAlignment="Center"/>
         <!--Engineer Task-->
         <Label Grid.Row="5" Content="{Binding Task}" Width="300" HorizontalAlignment="Left" Background="White" Height="70"  
                Grid.Column="1"/>
 
         <!--Add/Update Button-->
-        <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="300,18,0,17" Width="200"
-                Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" FontSize="20"
-                Padding="5" Click="AddUpdate_Click" IsEnabled="True" Background="White" BorderBrush="Black"/>
+        <Button Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Margin="25,0,0,0" Width="250" Grid.ColumnSpan="2" VerticalAlignment="Center"
+                Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}"
+                Padding="5" Click="AddUpdate_Click" IsEnabled="True" Height="50"/>
         <!--Delete Button-->
-        <Button Grid.Row="6" HorizontalAlignment="Left" Margin="20,18,0,17"
-        Content="Delete Engineer" FontSize="20" Width="200" 
+        <Button Grid.Row="6" HorizontalAlignment="Center" 
+        Content="Delete Engineer" FontSize="20" Width="200" Height="40" 
         Visibility="{Binding Id, Converter={StaticResource IdToVisibilityConverterKey}, Mode=OneTime}"
-        Click="Delete_Click" Background="White" Grid.Column="1"/>
+        Click="Delete_Click"/>
 
     </Grid>
 </Window>

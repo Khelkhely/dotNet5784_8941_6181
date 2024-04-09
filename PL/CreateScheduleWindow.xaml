@@ -32,8 +32,8 @@
                      Grid.Row="1" VerticalAlignment="Top"/>
 
             <ListView ItemsSource="{Binding TaskList, Mode=TwoWay}" Grid.Row="2" Grid.RowSpan="3"
-                      MouseDoubleClick="TaskSelected_MouseDoubleClick" Height="300" Width="260"
-                      HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                      MouseDoubleClick="TaskSelected_MouseDoubleClick" Width="260"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,0,0,30"/>
         </Grid>
 
         <!-- right half of the window -->

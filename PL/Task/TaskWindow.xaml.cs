@@ -152,8 +152,12 @@ namespace PL.Task
         {
             try
             {
-                s_bl.Task.Delete(MyTask.Id);
-                Close();
+                if (MessageBox.Show("Are you sure you want to delete the task?",
+                    "Delete task", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    s_bl.Task.Delete(MyTask.Id);
+                    Close();
+                }
             }
             catch (Exception ex)//If an exception is thrown, it will be displayed on the screen in a message box.
             {
