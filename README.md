@@ -1,7 +1,7 @@
 # dotNet5784_8941_6181
-list of additions:
-	use of tryParse in DalTest and BlTest
-	we implemented the ToStringProperty in Tools.cs file
+list of additions:\
+	use of tryParse in DalTest and BlTest\
+	we implemented the ToStringProperty in Tools.cs file\
 	different color in Gantt chart for complete tasks in GanttChartWindow.xaml
 	Themes:
 		in the MainWindow.xaml file in lines 11-13 
